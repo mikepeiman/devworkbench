@@ -1,5 +1,7 @@
 <script>
-  import FS from "./filesystem/fs.svelte";
+  import { storeCurrentPath } from "./db/stores.js"
+    import FS from "./filesystem/fs.svelte";
+
   export let name;
 </script>
 

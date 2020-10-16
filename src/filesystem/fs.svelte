@@ -31,7 +31,7 @@
   }
 
   const isFile = fileName => {
-    console.log(fs.lstatSync(fileName));
+    // console.log(fs.lstatSync(fileName));
     if (fs.lstatSync(fileName).isFile()) {
       currentFiles = [...currentFiles, fileName];
       // console.log(`currentFiles: `, currentFiles);
