@@ -354,48 +354,141 @@ var app = (function () {
 
     const file$1 = "src\\filesystem\\navigation.svelte";
 
-    function create_fragment(ctx) {
-    	let div1;
-    	let div0;
-    	let i;
+    function get_each_context(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[6] = list[i];
+    	return child_ctx;
+    }
+
+    // (93:4) {#each breadcrumbs as crumb}
+    function create_each_block(ctx) {
+    	let span;
+    	let t0_value = /*crumb*/ ctx[6] + "";
     	let t0;
-    	let p;
+    	let t1;
     	let dispose;
 
     	const block = {
     		c: function create() {
+    			span = element("span");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			attr_dev(span, "class", "breadcrumb svelte-zfxjrj");
+    			add_location(span, file$1, 93, 6, 1850);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, span, anchor);
+    			append_dev(span, t0);
+    			insert_dev(target, t1, anchor);
+    			dispose = listen_dev(span, "click", /*click_handler_1*/ ctx[5], false, false, false);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(span);
+    			if (detaching) detach_dev(t1);
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block.name,
+    		type: "each",
+    		source: "(93:4) {#each breadcrumbs as crumb}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment(ctx) {
+    	let div3;
+    	let div1;
+    	let div0;
+    	let i;
+    	let t;
+    	let div2;
+    	let dispose;
+    	let each_value = /*breadcrumbs*/ ctx[0];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			div3 = element("div");
     			div1 = element("div");
     			div0 = element("div");
     			i = element("i");
-    			t0 = space();
-    			p = element("p");
-    			p.textContent = "UP";
+    			t = space();
+    			div2 = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
     			attr_dev(i, "id", "navUp");
-    			attr_dev(i, "class", "svelte-gv16uw");
-    			add_location(i, file$1, 50, 4, 1017);
-    			attr_dev(p, "class", "svelte-gv16uw");
-    			add_location(p, file$1, 51, 4, 1039);
-    			attr_dev(div0, "class", "icon-container svelte-gv16uw");
-    			add_location(div0, file$1, 49, 2, 960);
-    			attr_dev(div1, "class", "nav svelte-gv16uw");
-    			add_location(div1, file$1, 48, 0, 939);
+    			attr_dev(i, "class", "svelte-zfxjrj");
+    			add_location(i, file$1, 87, 6, 1698);
+    			attr_dev(div0, "class", "icon-container svelte-zfxjrj");
+    			add_location(div0, file$1, 86, 4, 1637);
+    			attr_dev(div1, "class", "nav svelte-zfxjrj");
+    			add_location(div1, file$1, 85, 2, 1614);
+    			attr_dev(div2, "class", "breadcrumbs svelte-zfxjrj");
+    			add_location(div2, file$1, 91, 2, 1783);
+    			attr_dev(div3, "class", "nav-wrapper svelte-zfxjrj");
+    			add_location(div3, file$1, 84, 0, 1585);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div1, anchor);
+    			insert_dev(target, div3, anchor);
+    			append_dev(div3, div1);
     			append_dev(div1, div0);
     			append_dev(div0, i);
-    			append_dev(div0, t0);
-    			append_dev(div0, p);
-    			dispose = listen_dev(div0, "click", /*click_handler*/ ctx[1], false, false, false);
+    			append_dev(div3, t);
+    			append_dev(div3, div2);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div2, null);
+    			}
+
+    			dispose = listen_dev(div0, "click", /*click_handler*/ ctx[4], false, false, false);
     		},
-    		p: noop,
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*navigate, breadcrumbs*/ 1) {
+    				each_value = /*breadcrumbs*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div2, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
+    		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div1);
+    			if (detaching) detach_dev(div3);
+    			destroy_each(each_blocks, detaching);
     			dispose();
     		}
     	};
@@ -411,17 +504,46 @@ var app = (function () {
     	return block;
     }
 
-    function navUp(e) {
-    	console.log(`navUp clicked, `, e.target);
-    	let newDir = e.target;
+    function navigate(e) {
+    	console.log(e.target.textContent);
     }
 
     function instance($$self, $$props, $$invalidate) {
+    	const fs = require("fs");
     	const cwd = process.cwd();
     	console.log(`accessing assets: ${cwd}`);
-    	const click_handler = () => navUp;
-    	$$self.$capture_state = () => ({ cwd, navUp, process, console });
-    	return [cwd, click_handler];
+    	let breadcrumbs = cwd.split("\\");
+
+    	function navUp(e) {
+    		console.log(`navUp clicked, `, cwd, `${e}`);
+    		console.log(e);
+    		let newDir = e.target;
+    		console.log(breadcrumbs);
+    	}
+
+    	const click_handler = e => navUp(e);
+    	const click_handler_1 = e => navigate(e);
+
+    	$$self.$capture_state = () => ({
+    		fs,
+    		cwd,
+    		breadcrumbs,
+    		navUp,
+    		navigate,
+    		require,
+    		process,
+    		console
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ("breadcrumbs" in $$props) $$invalidate(0, breadcrumbs = $$props.breadcrumbs);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [breadcrumbs, navUp, fs, cwd, click_handler, click_handler_1];
     }
 
     class Navigation extends SvelteComponentDev {
@@ -441,7 +563,7 @@ var app = (function () {
     /* src\filesystem\fs.svelte generated by Svelte v3.19.1 */
     const file_1 = "src\\filesystem\\fs.svelte";
 
-    function get_each_context(ctx, list, i) {
+    function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[11] = list[i];
     	return child_ctx;
@@ -498,7 +620,7 @@ var app = (function () {
     }
 
     // (110:4) {#each currentFiles as file}
-    function create_each_block(ctx) {
+    function create_each_block$1(ctx) {
     	let div;
     	let t_value = /*file*/ ctx[11] + "";
     	let t;
@@ -532,7 +654,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block.name,
+    		id: create_each_block$1.name,
     		type: "each",
     		source: "(110:4) {#each currentFiles as file}",
     		ctx
@@ -568,7 +690,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
     	}
 
     	const block = {
@@ -666,12 +788,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
+    					const child_ctx = get_each_context$1(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i] = create_each_block$1(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(div1, null);
     					}
