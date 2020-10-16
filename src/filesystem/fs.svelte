@@ -55,8 +55,7 @@
   function navDown(e) {
     console.log(`navDown clicked here: ${e}`);
     folderPath = e;
-    let fullPath = `${folderPath}\\${e}`;
-    console.log(`fullpath: ${fullPath}`);
+    storeCurrentPath.set(e)
     navigate();
   }
 </script>

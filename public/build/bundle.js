@@ -440,7 +440,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (153:4) {#each navCrumbs as crumb}
+    // (161:4) {#each navCrumbs as crumb}
     function create_each_block(ctx) {
     	let span;
     	let t0_value = /*crumb*/ ctx[13] + "";
@@ -454,7 +454,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(span, "class", "breadcrumb svelte-sh8obx");
-    			add_location(span, file$1, 153, 6, 3726);
+    			add_location(span, file$1, 161, 6, 3914);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -476,7 +476,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(153:4) {#each navCrumbs as crumb}",
+    		source: "(161:4) {#each navCrumbs as crumb}",
     		ctx
     	});
 
@@ -528,23 +528,23 @@ var app = (function () {
     			t3 = text(/*currentPath*/ ctx[0]);
     			attr_dev(i0, "id", "openDirectory");
     			attr_dev(i0, "class", "svelte-sh8obx");
-    			add_location(i0, file$1, 143, 6, 3481);
+    			add_location(i0, file$1, 151, 6, 3669);
     			attr_dev(div0, "class", "icon-container svelte-sh8obx");
-    			add_location(div0, file$1, 142, 4, 3421);
+    			add_location(div0, file$1, 150, 4, 3609);
     			attr_dev(div1, "class", "nav svelte-sh8obx");
-    			add_location(div1, file$1, 141, 2, 3398);
+    			add_location(div1, file$1, 149, 2, 3586);
     			attr_dev(i1, "id", "upDirectory");
     			attr_dev(i1, "class", "svelte-sh8obx");
-    			add_location(i1, file$1, 148, 6, 3613);
+    			add_location(i1, file$1, 156, 6, 3801);
     			attr_dev(div2, "class", "icon-container svelte-sh8obx");
-    			add_location(div2, file$1, 147, 4, 3554);
+    			add_location(div2, file$1, 155, 4, 3742);
     			attr_dev(div3, "class", "nav svelte-sh8obx");
-    			add_location(div3, file$1, 146, 2, 3531);
+    			add_location(div3, file$1, 154, 2, 3719);
     			attr_dev(div4, "class", "breadcrumbs svelte-sh8obx");
-    			add_location(div4, file$1, 151, 2, 3661);
+    			add_location(div4, file$1, 159, 2, 3849);
     			attr_dev(div5, "class", "nav-wrapper svelte-sh8obx");
-    			add_location(div5, file$1, 140, 0, 3369);
-    			add_location(h1, file$1, 159, 0, 3875);
+    			add_location(div5, file$1, 148, 0, 3557);
+    			add_location(h1, file$1, 167, 0, 4063);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -631,9 +631,14 @@ var app = (function () {
     	const electron = require("electron");
     	const BrowserWindow = electron.remote.BrowserWindow;
     	const dialog = electron.remote.dialog;
-    	const currentPath = $storeCurrentPath;
-    	console.log(`accessing assets: ${currentPath}`);
-    	let navCrumbs = currentPath.split("\\");
+
+    	// console.log(`accessing assets: ${currentPath}`);
+    	onMount(() => {
+    		storeCurrentPath.subscribe(val => {
+    			$$invalidate(0, currentPath = val);
+    		});
+    	});
+
     	let breadcrumbs = [];
     	let lsCurrentPath;
 
@@ -641,8 +646,9 @@ var app = (function () {
     		console.log(`navUp clicked, `, currentPath);
     		console.log("navCrumbs ", navCrumbs);
     		navCrumbs.pop();
-    		$$invalidate(1, navCrumbs);
+    		(($$invalidate(1, navCrumbs), $$invalidate(0, currentPath)), $$invalidate(7, $storeCurrentPath));
     		let newPath = navCrumbs.join("\\");
+    		console.log("newpath ", newPath);
     		storeCurrentPath.set(newPath);
     	}
 
@@ -675,14 +681,14 @@ var app = (function () {
     	function navigate(e) {
     		breadcrumbs = [];
     		console.log(e.target.textContent);
-    		console.log(breadcrumbs);
+    		console.log($storeCurrentPath);
     		lsCurrentPath = JSON.parse(localStorage.getItem("currentPath"));
 
     		if (lsCurrentPath) {
     			$$invalidate(0, currentPath = lsCurrentPath);
     			set_store_value(storeCurrentPath, $storeCurrentPath = lsCurrentPath);
     		} else {
-    			$$invalidate(0, currentPath);
+    			($$invalidate(0, currentPath), $$invalidate(7, $storeCurrentPath));
     			set_store_value(storeCurrentPath, $storeCurrentPath = currentPath);
     		}
 
@@ -695,33 +701,48 @@ var app = (function () {
 
     	$$self.$capture_state = () => ({
     		storeCurrentPath,
+    		onMount,
     		fs,
     		electron,
     		BrowserWindow,
     		dialog,
-    		currentPath,
-    		navCrumbs,
     		breadcrumbs,
     		lsCurrentPath,
     		upDirectory,
     		selectFolder,
     		navigate,
     		require,
+    		currentPath,
     		$storeCurrentPath,
+    		navCrumbs,
     		console,
     		JSON,
     		localStorage
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("navCrumbs" in $$props) $$invalidate(1, navCrumbs = $$props.navCrumbs);
     		if ("breadcrumbs" in $$props) breadcrumbs = $$props.breadcrumbs;
     		if ("lsCurrentPath" in $$props) lsCurrentPath = $$props.lsCurrentPath;
+    		if ("currentPath" in $$props) $$invalidate(0, currentPath = $$props.currentPath);
+    		if ("navCrumbs" in $$props) $$invalidate(1, navCrumbs = $$props.navCrumbs);
     	};
+
+    	let currentPath;
+    	let navCrumbs;
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*$storeCurrentPath*/ 128) {
+    			 $$invalidate(0, currentPath = $storeCurrentPath);
+    		}
+
+    		if ($$self.$$.dirty & /*currentPath*/ 1) {
+    			 $$invalidate(1, navCrumbs = currentPath.split("\\"));
+    		}
+    	};
 
     	return [
     		currentPath,
@@ -769,7 +790,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (111:4) {#each currentDirs as dir}
+    // (110:4) {#each currentDirs as dir}
     function create_each_block_1(ctx) {
     	let div;
     	let t_value = /*dir*/ ctx[14] + "";
@@ -785,7 +806,7 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "dir svelte-jmica1");
-    			add_location(div, file_1, 111, 6, 2766);
+    			add_location(div, file_1, 110, 6, 2709);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -806,14 +827,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(111:4) {#each currentDirs as dir}",
+    		source: "(110:4) {#each currentDirs as dir}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (117:4) {#each currentFiles as file}
+    // (116:4) {#each currentFiles as file}
     function create_each_block$1(ctx) {
     	let div;
     	let t_value = /*file*/ ctx[11] + "";
@@ -829,7 +850,7 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "file svelte-jmica1");
-    			add_location(div, file_1, 117, 6, 2938);
+    			add_location(div, file_1, 116, 6, 2881);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -850,7 +871,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(117:4) {#each currentFiles as file}",
+    		source: "(116:4) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -914,14 +935,14 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h1, file_1, 105, 2, 2605);
-    			add_location(h20, file_1, 107, 2, 2641);
+    			add_location(h1, file_1, 104, 2, 2548);
+    			add_location(h20, file_1, 106, 2, 2584);
     			attr_dev(div0, "class", "dirs-listing svelte-jmica1");
-    			add_location(div0, file_1, 108, 2, 2665);
-    			add_location(h21, file_1, 114, 2, 2851);
+    			add_location(div0, file_1, 107, 2, 2608);
+    			add_location(h21, file_1, 113, 2, 2794);
     			attr_dev(div1, "class", "files-listing svelte-jmica1");
-    			add_location(div1, file_1, 115, 2, 2869);
-    			add_location(main, file_1, 104, 0, 2595);
+    			add_location(div1, file_1, 114, 2, 2812);
+    			add_location(main, file_1, 103, 0, 2538);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1076,8 +1097,7 @@ var app = (function () {
     	function navDown(e) {
     		console.log(`navDown clicked here: ${e}`);
     		$$invalidate(3, folderPath = e);
-    		let fullPath = `${folderPath}\\${e}`;
-    		console.log(`fullpath: ${fullPath}`);
+    		storeCurrentPath.set(e);
     		navigate();
     	}
 

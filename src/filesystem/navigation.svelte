@@ -1,24 +1,32 @@
 <script>
   import { storeCurrentPath } from "./../db/stores.js";
+  import { onMount } from "svelte";
   const fs = require("fs");
 
   const electron = require("electron");
   const BrowserWindow = electron.remote.BrowserWindow;
   const dialog = electron.remote.dialog;
 
-  const currentPath = $storeCurrentPath;
-  console.log(`accessing assets: ${currentPath}`);
+  $: currentPath = $storeCurrentPath;
+  // console.log(`accessing assets: ${currentPath}`);
 
-  let navCrumbs = currentPath.split("\\");
+  onMount(() => {
+    storeCurrentPath.subscribe(val => {
+      currentPath = val;
+    });
+  });
+
+  $: navCrumbs = currentPath.split("\\");
   let breadcrumbs = [];
   let lsCurrentPath;
 
   function upDirectory() {
     console.log(`navUp clicked, `, currentPath);
-    console.log('navCrumbs ', navCrumbs);
-    navCrumbs.pop()
-    navCrumbs = navCrumbs
-    let newPath = navCrumbs.join("\\")
+    console.log("navCrumbs ", navCrumbs);
+    navCrumbs.pop();
+    navCrumbs = navCrumbs;
+    let newPath = navCrumbs.join("\\");
+    console.log("newpath ", newPath);
     storeCurrentPath.set(newPath);
   }
 
@@ -49,7 +57,7 @@
   function navigate(e) {
     breadcrumbs = [];
     console.log(e.target.textContent);
-    console.log(breadcrumbs);
+    console.log($storeCurrentPath);
     lsCurrentPath = JSON.parse(localStorage.getItem("currentPath"));
     if (lsCurrentPath) {
       currentPath = lsCurrentPath;
