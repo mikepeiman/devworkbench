@@ -436,14 +436,14 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[16] = list[i];
+    	child_ctx[13] = list[i];
     	return child_ctx;
     }
 
-    // (184:4) {#each navCrumbs as crumb}
+    // (153:4) {#each navCrumbs as crumb}
     function create_each_block(ctx) {
     	let span;
-    	let t0_value = /*crumb*/ ctx[16] + "";
+    	let t0_value = /*crumb*/ ctx[13] + "";
     	let t0;
     	let t1;
     	let dispose;
@@ -454,15 +454,17 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(span, "class", "breadcrumb svelte-sh8obx");
-    			add_location(span, file$1, 184, 6, 4709);
+    			add_location(span, file$1, 153, 6, 3726);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
     			append_dev(span, t0);
     			insert_dev(target, t1, anchor);
-    			dispose = listen_dev(span, "click", /*click_handler_1*/ ctx[15], false, false, false);
+    			dispose = listen_dev(span, "click", /*click_handler*/ ctx[12], false, false, false);
     		},
-    		p: noop,
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*navCrumbs*/ 2 && t0_value !== (t0_value = /*crumb*/ ctx[13] + "")) set_data_dev(t0, t0_value);
+    		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(span);
     			if (detaching) detach_dev(t1);
@@ -474,7 +476,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(184:4) {#each navCrumbs as crumb}",
+    		source: "(153:4) {#each navCrumbs as crumb}",
     		ctx
     	});
 
@@ -526,23 +528,23 @@ var app = (function () {
     			t3 = text(/*currentPath*/ ctx[0]);
     			attr_dev(i0, "id", "openDirectory");
     			attr_dev(i0, "class", "svelte-sh8obx");
-    			add_location(i0, file$1, 174, 6, 4462);
+    			add_location(i0, file$1, 143, 6, 3481);
     			attr_dev(div0, "class", "icon-container svelte-sh8obx");
-    			add_location(div0, file$1, 173, 4, 4402);
+    			add_location(div0, file$1, 142, 4, 3421);
     			attr_dev(div1, "class", "nav svelte-sh8obx");
-    			add_location(div1, file$1, 172, 2, 4379);
+    			add_location(div1, file$1, 141, 2, 3398);
     			attr_dev(i1, "id", "upDirectory");
     			attr_dev(i1, "class", "svelte-sh8obx");
-    			add_location(i1, file$1, 179, 6, 4596);
+    			add_location(i1, file$1, 148, 6, 3613);
     			attr_dev(div2, "class", "icon-container svelte-sh8obx");
-    			add_location(div2, file$1, 178, 4, 4535);
+    			add_location(div2, file$1, 147, 4, 3554);
     			attr_dev(div3, "class", "nav svelte-sh8obx");
-    			add_location(div3, file$1, 177, 2, 4512);
+    			add_location(div3, file$1, 146, 2, 3531);
     			attr_dev(div4, "class", "breadcrumbs svelte-sh8obx");
-    			add_location(div4, file$1, 182, 2, 4644);
+    			add_location(div4, file$1, 151, 2, 3661);
     			attr_dev(div5, "class", "nav-wrapper svelte-sh8obx");
-    			add_location(div5, file$1, 171, 0, 4350);
-    			add_location(h1, file$1, 190, 0, 4858);
+    			add_location(div5, file$1, 140, 0, 3369);
+    			add_location(h1, file$1, 159, 0, 3875);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -569,7 +571,7 @@ var app = (function () {
 
     			dispose = [
     				listen_dev(div0, "click", /*selectFolder*/ ctx[3], false, false, false),
-    				listen_dev(div2, "click", /*click_handler*/ ctx[14], false, false, false)
+    				listen_dev(div2, "click", /*upDirectory*/ ctx[2], false, false, false)
     			];
     		},
     		p: function update(ctx, [dirty]) {
@@ -624,48 +626,37 @@ var app = (function () {
     function instance($$self, $$props, $$invalidate) {
     	let $storeCurrentPath;
     	validate_store(storeCurrentPath, "storeCurrentPath");
-    	component_subscribe($$self, storeCurrentPath, $$value => $$invalidate(8, $storeCurrentPath = $$value));
+    	component_subscribe($$self, storeCurrentPath, $$value => $$invalidate(7, $storeCurrentPath = $$value));
     	const fs = require("fs");
     	const electron = require("electron");
     	const BrowserWindow = electron.remote.BrowserWindow;
     	const dialog = electron.remote.dialog;
-    	const cwd = process.cwd();
-    	console.log(`accessing assets: ${cwd}`);
-    	let navCrumbs = cwd.split("\\");
+    	const currentPath = $storeCurrentPath;
+    	console.log(`accessing assets: ${currentPath}`);
+    	let navCrumbs = currentPath.split("\\");
     	let breadcrumbs = [];
     	let lsCurrentPath;
-    	let test = "";
 
-    	function navUp(e) {
-    		console.log(`navUp clicked, `, cwd, `${e}`);
-    		console.log(e);
-    		let newDir = e.target;
-    		console.log(navCrumbs);
-    		test += "test ... ";
-    		storeCurrentPath.set(test);
+    	function upDirectory() {
+    		console.log(`navUp clicked, `, currentPath);
+    		console.log("navCrumbs ", navCrumbs);
+    		navCrumbs.pop();
+    		$$invalidate(1, navCrumbs);
+    		let newPath = navCrumbs.join("\\");
+    		storeCurrentPath.set(newPath);
     	}
 
     	function selectFolder() {
-    		//main.js - the main process
-    		// const WIN = new BrowserWindow({ width: 800, height: 600 });
     		//renderer.js - a renderer process
     		const { remote } = require("electron"),
     			dialog = remote.dialog,
     			WIN = remote.getCurrentWindow();
 
     		let options = {
-    			// See place holder 1 in above image
     			title: "Select Folder",
-    			// See place holder 2 in above image
     			defaultPath: "C:\\Users\\Mike\\Desktop\\WEB DEV",
-    			// See place holder 3 in above image
     			buttonLabel: "Select Folder",
-    			// See place holder 4 in above image
-    			filters: [], // { name: "Images", extensions: ["jpg", "png", "gif"] },
-    			// { name: "Movies", extensions: ["mkv", "avi", "mp4"] },
-    			// { name: "Custom File Type", extensions: ["as"] },
-    			// { name: "All Files", extensions: ["*"] }
-    			// properties: ["openFile", "multiSelections"]
+    			filters: [],
     			properties: ["openDirectory"]
     		};
 
@@ -677,26 +668,13 @@ var app = (function () {
     		filePaths.then(res => {
     			set_store_value(storeCurrentPath, $storeCurrentPath = res.filePaths[0]);
     			$$invalidate(0, currentPath = res.filePaths[0]);
-
-    			// fs.readdirSync(currentPath)
     			console.log("currentPath: ", currentPath);
     		});
-    	} // $storeCurrentPath = filePaths
-    	// dialog.showOpenDialog(WIN, options, dir => {
+    	}
 
-    	//   console.log(dir);
-    	//   currentPath = dir
-    	// });
     	function navigate(e) {
     		breadcrumbs = [];
     		console.log(e.target.textContent);
-
-    		for (let i = 0; i < navCrumbs.length; i++) {
-    			console.log("breadcrumbs current iteration: ", i);
-    			console.log(breadcrumbs);
-    			breadcrumbs = [...breadcrumbs, navCrumbs[i - 1] + navCrumbs[i]];
-    		}
-
     		console.log(breadcrumbs);
     		lsCurrentPath = JSON.parse(localStorage.getItem("currentPath"));
 
@@ -704,8 +682,8 @@ var app = (function () {
     			$$invalidate(0, currentPath = lsCurrentPath);
     			set_store_value(storeCurrentPath, $storeCurrentPath = lsCurrentPath);
     		} else {
-    			$$invalidate(0, currentPath = cwd);
-    			set_store_value(storeCurrentPath, $storeCurrentPath = cwd);
+    			$$invalidate(0, currentPath);
+    			set_store_value(storeCurrentPath, $storeCurrentPath = currentPath);
     		}
 
     		console.log("local currentPath: ", currentPath);
@@ -713,8 +691,7 @@ var app = (function () {
     		console.log("localStorage currentPath: ", lsCurrentPath);
     	}
 
-    	const click_handler = e => navUp(e);
-    	const click_handler_1 = e => navigate(e);
+    	const click_handler = e => navigate(e);
 
     	$$self.$capture_state = () => ({
     		storeCurrentPath,
@@ -722,19 +699,16 @@ var app = (function () {
     		electron,
     		BrowserWindow,
     		dialog,
-    		cwd,
+    		currentPath,
     		navCrumbs,
     		breadcrumbs,
     		lsCurrentPath,
-    		test,
-    		navUp,
+    		upDirectory,
     		selectFolder,
     		navigate,
     		require,
-    		process,
-    		console,
-    		currentPath,
     		$storeCurrentPath,
+    		console,
     		JSON,
     		localStorage
     	});
@@ -743,35 +717,26 @@ var app = (function () {
     		if ("navCrumbs" in $$props) $$invalidate(1, navCrumbs = $$props.navCrumbs);
     		if ("breadcrumbs" in $$props) breadcrumbs = $$props.breadcrumbs;
     		if ("lsCurrentPath" in $$props) lsCurrentPath = $$props.lsCurrentPath;
-    		if ("test" in $$props) test = $$props.test;
-    		if ("currentPath" in $$props) $$invalidate(0, currentPath = $$props.currentPath);
     	};
-
-    	let currentPath;
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	 $$invalidate(0, currentPath = "");
-
     	return [
     		currentPath,
     		navCrumbs,
-    		navUp,
+    		upDirectory,
     		selectFolder,
     		navigate,
     		breadcrumbs,
     		lsCurrentPath,
-    		test,
     		$storeCurrentPath,
     		fs,
     		electron,
     		BrowserWindow,
     		dialog,
-    		cwd,
-    		click_handler,
-    		click_handler_1
+    		click_handler
     	];
     }
 

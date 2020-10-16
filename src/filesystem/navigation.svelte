@@ -6,52 +6,33 @@
   const BrowserWindow = electron.remote.BrowserWindow;
   const dialog = electron.remote.dialog;
 
-  const cwd = process.cwd();
-  console.log(`accessing assets: ${cwd}`);
+  const currentPath = $storeCurrentPath;
+  console.log(`accessing assets: ${currentPath}`);
 
-  let navCrumbs = cwd.split("\\");
+  let navCrumbs = currentPath.split("\\");
   let breadcrumbs = [];
   let lsCurrentPath;
-  $: currentPath = "";
-  let test = "";
 
-  function navUp(e) {
-    console.log(`navUp clicked, `, cwd, `${e}`);
-    console.log(e);
-    let newDir = e.target;
-    console.log(navCrumbs);
-    test += "test ... ";
-
-    storeCurrentPath.set(test);
+  function upDirectory() {
+    console.log(`navUp clicked, `, currentPath);
+    console.log('navCrumbs ', navCrumbs);
+    navCrumbs.pop()
+    navCrumbs = navCrumbs
+    let newPath = navCrumbs.join("\\")
+    storeCurrentPath.set(newPath);
   }
 
   function selectFolder() {
-    //main.js - the main process
-    // const WIN = new BrowserWindow({ width: 800, height: 600 });
-
     //renderer.js - a renderer process
     const { remote } = require("electron"),
       dialog = remote.dialog,
       WIN = remote.getCurrentWindow();
 
     let options = {
-      // See place holder 1 in above image
       title: "Select Folder",
-
-      // See place holder 2 in above image
       defaultPath: "C:\\Users\\Mike\\Desktop\\WEB DEV",
-
-      // See place holder 3 in above image
       buttonLabel: "Select Folder",
-
-      // See place holder 4 in above image
-      filters: [
-        // { name: "Images", extensions: ["jpg", "png", "gif"] },
-        // { name: "Movies", extensions: ["mkv", "avi", "mp4"] },
-        // { name: "Custom File Type", extensions: ["as"] },
-        // { name: "All Files", extensions: ["*"] }
-      ],
-      // properties: ["openFile", "multiSelections"]
+      filters: [],
       properties: ["openDirectory"]
     };
 
@@ -61,33 +42,21 @@
     filePaths.then(res => {
       $storeCurrentPath = res.filePaths[0];
       currentPath = res.filePaths[0];
-      // fs.readdirSync(currentPath)
       console.log("currentPath: ", currentPath);
     });
-    // $storeCurrentPath = filePaths
-
-    // dialog.showOpenDialog(WIN, options, dir => {
-    //   console.log(dir);
-    //   currentPath = dir
-    // });
   }
 
   function navigate(e) {
     breadcrumbs = [];
     console.log(e.target.textContent);
-    for (let i = 0; i < navCrumbs.length; i++) {
-      console.log("breadcrumbs current iteration: ", i);
-      console.log(breadcrumbs);
-      breadcrumbs = [...breadcrumbs, navCrumbs[i - 1] + navCrumbs[i]];
-    }
     console.log(breadcrumbs);
     lsCurrentPath = JSON.parse(localStorage.getItem("currentPath"));
     if (lsCurrentPath) {
       currentPath = lsCurrentPath;
       $storeCurrentPath = lsCurrentPath;
     } else {
-      currentPath = cwd;
-      $storeCurrentPath = cwd;
+      currentPath = currentPath;
+      $storeCurrentPath = currentPath;
     }
     console.log("local currentPath: ", currentPath);
     console.log("global store currentPath: ", $storeCurrentPath);
@@ -190,7 +159,7 @@
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={e => navUp(e)}>
+    <div class="icon-container" on:click={upDirectory}>
       <i id="upDirectory" />
     </div>
   </div>
