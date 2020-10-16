@@ -55,20 +55,23 @@
   }
 
   function navigate(e) {
-    breadcrumbs = [];
-    console.log(e.target.textContent);
-    console.log($storeCurrentPath);
-    lsCurrentPath = JSON.parse(localStorage.getItem("currentPath"));
-    if (lsCurrentPath) {
-      currentPath = lsCurrentPath;
-      $storeCurrentPath = lsCurrentPath;
-    } else {
-      currentPath = currentPath;
-      $storeCurrentPath = currentPath;
+    console.log(`navigate clicked, `, currentPath);
+    console.log(`navigate clicked, `, e.target.textContent);
+    let i = navCrumbs.indexOf(e.target.textContent);
+    console.log("index of clicked crumb ", i);
+    console.log("navCrumbs ", navCrumbs);
+    console.log("navCrumbs.length ", navCrumbs.length);
+    let dif = navCrumbs.length - i
+
+    if (dif > 1) {
+      for(let x = 1; x < dif; x++) {
+        navCrumbs.pop();
+      }
     }
-    console.log("local currentPath: ", currentPath);
-    console.log("global store currentPath: ", $storeCurrentPath);
-    console.log("localStorage currentPath: ", lsCurrentPath);
+    navCrumbs = navCrumbs;
+    let newPath = navCrumbs.join("\\");
+    console.log("newpath ", newPath);
+    storeCurrentPath.set(newPath);
   }
 </script>
 
