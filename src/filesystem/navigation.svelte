@@ -59,8 +59,9 @@
     let filePaths = dialog.showOpenDialog(WIN, options);
     console.log(filePaths);
     filePaths.then(res => {
-      $storeCurrentPath = res.filePaths;
-      currentPath = res.filePaths;
+      $storeCurrentPath = res.filePaths[0];
+      currentPath = res.filePaths[0];
+      // fs.readdirSync(currentPath)
       console.log("currentPath: ", currentPath);
     });
     // $storeCurrentPath = filePaths

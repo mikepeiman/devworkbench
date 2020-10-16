@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-let currentPath = writable({})
+let currentPath = writable("C:\\Users\\Mike\\Desktop\\WEB DEV\\devworkbench")
 
 export const storeCurrentPath = {
   subscribe: currentPath.subscribe,

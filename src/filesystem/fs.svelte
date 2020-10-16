@@ -1,13 +1,14 @@
 <script>
   import Nav from "./navigation.svelte";
   import { onMount } from "svelte";
-
+  import { storeCurrentPath } from "./../db/stores.js";
   const fs = require("fs");
   const path = require("path");
 
   let currentFiles = [];
   let currentDirs = [];
   $: folderPath = process.cwd();
+  // $: folderPath = process.cwd();
   $: root = fs.readdirSync(folderPath);
   onMount(() => {
     const dir1 = __dirname;
@@ -16,10 +17,16 @@
     console.log("__dirname: ", dir1);
     console.log("cwd: ", cwd);
 
-    navigate();
+    storeCurrentPath.subscribe(path => {
+      console.log("subscription path ", path);
+      folderPath = path;
+      navigate();
+    });
   });
 
   function navigate() {
+    console.log("navigate() path ", folderPath);
+    console.log("navigate() path ", typeof folderPath);
     currentFiles = [];
     currentDirs = [];
     fs.readdirSync(folderPath)

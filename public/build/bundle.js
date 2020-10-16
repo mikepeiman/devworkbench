@@ -421,7 +421,7 @@ var app = (function () {
         return { set, update, subscribe };
     }
 
-    let currentPath = writable({});
+    let currentPath = writable("C:\\Users\\Mike\\Desktop\\WEB DEV\\devworkbench");
 
     const storeCurrentPath = {
       subscribe: currentPath.subscribe,
@@ -440,7 +440,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (183:4) {#each navCrumbs as crumb}
+    // (184:4) {#each navCrumbs as crumb}
     function create_each_block(ctx) {
     	let span;
     	let t0_value = /*crumb*/ ctx[16] + "";
@@ -454,7 +454,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(span, "class", "breadcrumb svelte-sh8obx");
-    			add_location(span, file$1, 183, 6, 4665);
+    			add_location(span, file$1, 184, 6, 4709);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -474,7 +474,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(183:4) {#each navCrumbs as crumb}",
+    		source: "(184:4) {#each navCrumbs as crumb}",
     		ctx
     	});
 
@@ -526,23 +526,23 @@ var app = (function () {
     			t3 = text(/*currentPath*/ ctx[0]);
     			attr_dev(i0, "id", "openDirectory");
     			attr_dev(i0, "class", "svelte-sh8obx");
-    			add_location(i0, file$1, 173, 6, 4418);
+    			add_location(i0, file$1, 174, 6, 4462);
     			attr_dev(div0, "class", "icon-container svelte-sh8obx");
-    			add_location(div0, file$1, 172, 4, 4358);
+    			add_location(div0, file$1, 173, 4, 4402);
     			attr_dev(div1, "class", "nav svelte-sh8obx");
-    			add_location(div1, file$1, 171, 2, 4335);
+    			add_location(div1, file$1, 172, 2, 4379);
     			attr_dev(i1, "id", "upDirectory");
     			attr_dev(i1, "class", "svelte-sh8obx");
-    			add_location(i1, file$1, 178, 6, 4552);
+    			add_location(i1, file$1, 179, 6, 4596);
     			attr_dev(div2, "class", "icon-container svelte-sh8obx");
-    			add_location(div2, file$1, 177, 4, 4491);
+    			add_location(div2, file$1, 178, 4, 4535);
     			attr_dev(div3, "class", "nav svelte-sh8obx");
-    			add_location(div3, file$1, 176, 2, 4468);
+    			add_location(div3, file$1, 177, 2, 4512);
     			attr_dev(div4, "class", "breadcrumbs svelte-sh8obx");
-    			add_location(div4, file$1, 181, 2, 4600);
+    			add_location(div4, file$1, 182, 2, 4644);
     			attr_dev(div5, "class", "nav-wrapper svelte-sh8obx");
-    			add_location(div5, file$1, 170, 0, 4306);
-    			add_location(h1, file$1, 189, 0, 4814);
+    			add_location(div5, file$1, 171, 0, 4350);
+    			add_location(h1, file$1, 190, 0, 4858);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -675,8 +675,10 @@ var app = (function () {
     		console.log(filePaths);
 
     		filePaths.then(res => {
-    			set_store_value(storeCurrentPath, $storeCurrentPath = res.filePaths);
-    			$$invalidate(0, currentPath = res.filePaths);
+    			set_store_value(storeCurrentPath, $storeCurrentPath = res.filePaths[0]);
+    			$$invalidate(0, currentPath = res.filePaths[0]);
+
+    			// fs.readdirSync(currentPath)
     			console.log("currentPath: ", currentPath);
     		});
     	} // $storeCurrentPath = filePaths
@@ -802,7 +804,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (104:4) {#each currentDirs as dir}
+    // (111:4) {#each currentDirs as dir}
     function create_each_block_1(ctx) {
     	let div;
     	let t_value = /*dir*/ ctx[14] + "";
@@ -818,7 +820,7 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "dir svelte-jmica1");
-    			add_location(div, file_1, 104, 6, 2440);
+    			add_location(div, file_1, 111, 6, 2766);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -839,14 +841,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(104:4) {#each currentDirs as dir}",
+    		source: "(111:4) {#each currentDirs as dir}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (110:4) {#each currentFiles as file}
+    // (117:4) {#each currentFiles as file}
     function create_each_block$1(ctx) {
     	let div;
     	let t_value = /*file*/ ctx[11] + "";
@@ -862,7 +864,7 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "file svelte-jmica1");
-    			add_location(div, file_1, 110, 6, 2612);
+    			add_location(div, file_1, 117, 6, 2938);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -883,7 +885,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(110:4) {#each currentFiles as file}",
+    		source: "(117:4) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -947,14 +949,14 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h1, file_1, 98, 2, 2279);
-    			add_location(h20, file_1, 100, 2, 2315);
+    			add_location(h1, file_1, 105, 2, 2605);
+    			add_location(h20, file_1, 107, 2, 2641);
     			attr_dev(div0, "class", "dirs-listing svelte-jmica1");
-    			add_location(div0, file_1, 101, 2, 2339);
-    			add_location(h21, file_1, 107, 2, 2525);
+    			add_location(div0, file_1, 108, 2, 2665);
+    			add_location(h21, file_1, 114, 2, 2851);
     			attr_dev(div1, "class", "files-listing svelte-jmica1");
-    			add_location(div1, file_1, 108, 2, 2543);
-    			add_location(main, file_1, 97, 0, 2269);
+    			add_location(div1, file_1, 115, 2, 2869);
+    			add_location(main, file_1, 104, 0, 2595);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1077,10 +1079,17 @@ var app = (function () {
     		console.log("ROOT:", root);
     		console.log("__dirname: ", dir1);
     		console.log("cwd: ", cwd);
-    		navigate();
+
+    		storeCurrentPath.subscribe(path => {
+    			console.log("subscription path ", path);
+    			$$invalidate(3, folderPath = path);
+    			navigate();
+    		});
     	});
 
     	function navigate() {
+    		console.log("navigate() path ", folderPath);
+    		console.log("navigate() path ", typeof folderPath);
     		$$invalidate(0, currentFiles = []);
     		$$invalidate(1, currentDirs = []);
 
@@ -1113,6 +1122,7 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		Nav: Navigation,
     		onMount,
+    		storeCurrentPath,
     		fs,
     		path,
     		currentFiles,
@@ -1146,6 +1156,7 @@ var app = (function () {
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*folderPath*/ 8) {
+    			// $: folderPath = process.cwd();
     			 root = fs.readdirSync(folderPath);
     		}
     	};
