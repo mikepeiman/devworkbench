@@ -20,14 +20,9 @@
   let breadcrumbs = [];
   let lsCurrentPath;
 
-  function upDirectory() {
-    console.log(`navUp clicked, `, currentPath);
-    console.log("navCrumbs ", navCrumbs);
-    navCrumbs.pop();
-    navCrumbs = navCrumbs;
-    let newPath = navCrumbs.join("\\");
-    console.log("newpath ", newPath);
-    storeCurrentPath.set(newPath);
+  let navHistory = [];
+  function addNavHistory() {
+    navHistory = [...navHistory, currentPath];
   }
 
   function selectFolder() {
@@ -57,10 +52,19 @@
   function navigate(e) {
     if (e === "back") {
       console.log("back");
-      return
+      return;
     }
     if (e === "forward") {
       console.log("forward");
+      return;
+    }
+    if (e === "up") {
+      console.log("up");
+      navCrumbs.pop();
+      navCrumbs = navCrumbs;
+      let newPath = navCrumbs.join("\\");
+      console.log("newpath ", newPath);
+      storeCurrentPath.set(newPath);
       return;
     }
     console.log(`navigate clicked, `, currentPath);
@@ -98,6 +102,7 @@
     justify-content: center;
     align-items: center;
     margin: 1rem;
+    border-radius: 5px;
   }
 
   .breadcrumb {
@@ -115,6 +120,12 @@
       background: #22c5ffaa;
       color: #225599;
       cursor: pointer;
+    }
+    &:first-child {
+      border-radius: 5px 0 0 5px;
+    }
+    &:last-child {
+      border-radius: 0 5px 5px 0;
     }
   }
 
@@ -194,17 +205,17 @@
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={upDirectory}>
+    <div class="icon-container" on:click={() => navigate('up')}>
       <i id="upDirectory" />
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={navigate('back')}>
+    <div class="icon-container" on:click={() => navigate('back')}>
       <i id="backNavigate" />
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={navigate('forward')}>
+    <div class="icon-container" on:click={() => navigate('forward')}>
       <i id="forwardNavigate" />
     </div>
   </div>

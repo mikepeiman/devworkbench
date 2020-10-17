@@ -436,14 +436,14 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[13] = list[i];
+    	child_ctx[17] = list[i];
     	return child_ctx;
     }
 
-    // (198:4) {#each navCrumbs as crumb}
+    // (207:4) {#each navCrumbs as crumb}
     function create_each_block(ctx) {
     	let span;
-    	let t0_value = /*crumb*/ ctx[13] + "";
+    	let t0_value = /*crumb*/ ctx[17] + "";
     	let t0;
     	let t1;
     	let dispose;
@@ -453,17 +453,17 @@ var app = (function () {
     			span = element("span");
     			t0 = text(t0_value);
     			t1 = space();
-    			attr_dev(span, "class", "breadcrumb svelte-e9p8ay");
-    			add_location(span, file$1, 198, 6, 4789);
+    			attr_dev(span, "class", "breadcrumb svelte-6jomup");
+    			add_location(span, file$1, 207, 6, 5018);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
     			append_dev(span, t0);
     			insert_dev(target, t1, anchor);
-    			dispose = listen_dev(span, "click", /*click_handler*/ ctx[12], false, false, false);
+    			dispose = listen_dev(span, "click", /*click_handler_3*/ ctx[16], false, false, false);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*navCrumbs*/ 1 && t0_value !== (t0_value = /*crumb*/ ctx[13] + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*navCrumbs*/ 1 && t0_value !== (t0_value = /*crumb*/ ctx[17] + "")) set_data_dev(t0, t0_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(span);
@@ -476,7 +476,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(198:4) {#each navCrumbs as crumb}",
+    		source: "(207:4) {#each navCrumbs as crumb}",
     		ctx
     	});
 
@@ -537,37 +537,37 @@ var app = (function () {
     			}
 
     			attr_dev(i0, "id", "openDirectory");
-    			attr_dev(i0, "class", "svelte-e9p8ay");
-    			add_location(i0, file$1, 178, 6, 4266);
-    			attr_dev(div0, "class", "icon-container svelte-e9p8ay");
-    			add_location(div0, file$1, 177, 4, 4206);
-    			attr_dev(div1, "class", "nav svelte-e9p8ay");
-    			add_location(div1, file$1, 176, 2, 4183);
+    			attr_dev(i0, "class", "svelte-6jomup");
+    			add_location(i0, file$1, 187, 6, 4474);
+    			attr_dev(div0, "class", "icon-container svelte-6jomup");
+    			add_location(div0, file$1, 186, 4, 4414);
+    			attr_dev(div1, "class", "nav svelte-6jomup");
+    			add_location(div1, file$1, 185, 2, 4391);
     			attr_dev(i1, "id", "upDirectory");
-    			attr_dev(i1, "class", "svelte-e9p8ay");
-    			add_location(i1, file$1, 183, 6, 4398);
-    			attr_dev(div2, "class", "icon-container svelte-e9p8ay");
-    			add_location(div2, file$1, 182, 4, 4339);
-    			attr_dev(div3, "class", "nav svelte-e9p8ay");
-    			add_location(div3, file$1, 181, 2, 4316);
+    			attr_dev(i1, "class", "svelte-6jomup");
+    			add_location(i1, file$1, 192, 6, 4615);
+    			attr_dev(div2, "class", "icon-container svelte-6jomup");
+    			add_location(div2, file$1, 191, 4, 4547);
+    			attr_dev(div3, "class", "nav svelte-6jomup");
+    			add_location(div3, file$1, 190, 2, 4524);
     			attr_dev(i2, "id", "backNavigate");
-    			attr_dev(i2, "class", "svelte-e9p8ay");
-    			add_location(i2, file$1, 188, 6, 4533);
-    			attr_dev(div4, "class", "icon-container svelte-e9p8ay");
-    			add_location(div4, file$1, 187, 4, 4469);
-    			attr_dev(div5, "class", "nav svelte-e9p8ay");
-    			add_location(div5, file$1, 186, 2, 4446);
+    			attr_dev(i2, "class", "svelte-6jomup");
+    			add_location(i2, file$1, 197, 6, 4756);
+    			attr_dev(div4, "class", "icon-container svelte-6jomup");
+    			add_location(div4, file$1, 196, 4, 4686);
+    			attr_dev(div5, "class", "nav svelte-6jomup");
+    			add_location(div5, file$1, 195, 2, 4663);
     			attr_dev(i3, "id", "forwardNavigate");
-    			attr_dev(i3, "class", "svelte-e9p8ay");
-    			add_location(i3, file$1, 193, 6, 4672);
-    			attr_dev(div6, "class", "icon-container svelte-e9p8ay");
-    			add_location(div6, file$1, 192, 4, 4605);
-    			attr_dev(div7, "class", "nav svelte-e9p8ay");
-    			add_location(div7, file$1, 191, 2, 4582);
-    			attr_dev(div8, "class", "breadcrumbs svelte-e9p8ay");
-    			add_location(div8, file$1, 196, 2, 4724);
-    			attr_dev(div9, "class", "nav-wrapper svelte-e9p8ay");
-    			add_location(div9, file$1, 175, 0, 4154);
+    			attr_dev(i3, "class", "svelte-6jomup");
+    			add_location(i3, file$1, 202, 6, 4901);
+    			attr_dev(div6, "class", "icon-container svelte-6jomup");
+    			add_location(div6, file$1, 201, 4, 4828);
+    			attr_dev(div7, "class", "nav svelte-6jomup");
+    			add_location(div7, file$1, 200, 2, 4805);
+    			attr_dev(div8, "class", "breadcrumbs svelte-6jomup");
+    			add_location(div8, file$1, 205, 2, 4953);
+    			attr_dev(div9, "class", "nav-wrapper svelte-6jomup");
+    			add_location(div9, file$1, 184, 0, 4362);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -597,14 +597,14 @@ var app = (function () {
     			}
 
     			dispose = [
-    				listen_dev(div0, "click", /*selectFolder*/ ctx[2], false, false, false),
-    				listen_dev(div2, "click", /*upDirectory*/ ctx[1], false, false, false),
-    				listen_dev(div4, "click", /*navigate*/ ctx[3]("back"), false, false, false),
-    				listen_dev(div6, "click", /*navigate*/ ctx[3]("forward"), false, false, false)
+    				listen_dev(div0, "click", /*selectFolder*/ ctx[1], false, false, false),
+    				listen_dev(div2, "click", /*click_handler*/ ctx[13], false, false, false),
+    				listen_dev(div4, "click", /*click_handler_1*/ ctx[14], false, false, false),
+    				listen_dev(div6, "click", /*click_handler_2*/ ctx[15], false, false, false)
     			];
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*navigate, navCrumbs*/ 9) {
+    			if (dirty & /*navigate, navCrumbs*/ 5) {
     				each_value = /*navCrumbs*/ ctx[0];
     				validate_each_argument(each_value);
     				let i;
@@ -666,15 +666,10 @@ var app = (function () {
 
     	let breadcrumbs = [];
     	let lsCurrentPath;
+    	let navHistory = [];
 
-    	function upDirectory() {
-    		console.log(`navUp clicked, `, currentPath);
-    		console.log("navCrumbs ", navCrumbs);
-    		navCrumbs.pop();
-    		(($$invalidate(0, navCrumbs), $$invalidate(4, currentPath)), $$invalidate(5, $storeCurrentPath));
-    		let newPath = navCrumbs.join("\\");
-    		console.log("newpath ", newPath);
-    		storeCurrentPath.set(newPath);
+    	function addNavHistory() {
+    		navHistory = [...navHistory, currentPath];
     	}
 
     	function selectFolder() {
@@ -714,6 +709,16 @@ var app = (function () {
     			return;
     		}
 
+    		if (e === "up") {
+    			console.log("up");
+    			navCrumbs.pop();
+    			(($$invalidate(0, navCrumbs), $$invalidate(4, currentPath)), $$invalidate(5, $storeCurrentPath));
+    			let newPath = navCrumbs.join("\\");
+    			console.log("newpath ", newPath);
+    			storeCurrentPath.set(newPath);
+    			return;
+    		}
+
     		console.log(`navigate clicked, `, currentPath);
     		console.log(`navigate clicked, `, e.target.textContent);
     		let i = navCrumbs.indexOf(e.target.textContent);
@@ -734,7 +739,10 @@ var app = (function () {
     		storeCurrentPath.set(newPath);
     	}
 
-    	const click_handler = e => navigate(e);
+    	const click_handler = () => navigate("up");
+    	const click_handler_1 = () => navigate("back");
+    	const click_handler_2 = () => navigate("forward");
+    	const click_handler_3 = e => navigate(e);
 
     	$$self.$capture_state = () => ({
     		storeCurrentPath,
@@ -745,7 +753,8 @@ var app = (function () {
     		dialog,
     		breadcrumbs,
     		lsCurrentPath,
-    		upDirectory,
+    		navHistory,
+    		addNavHistory,
     		selectFolder,
     		navigate,
     		require,
@@ -758,6 +767,7 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ("breadcrumbs" in $$props) breadcrumbs = $$props.breadcrumbs;
     		if ("lsCurrentPath" in $$props) lsCurrentPath = $$props.lsCurrentPath;
+    		if ("navHistory" in $$props) navHistory = $$props.navHistory;
     		if ("currentPath" in $$props) $$invalidate(4, currentPath = $$props.currentPath);
     		if ("navCrumbs" in $$props) $$invalidate(0, navCrumbs = $$props.navCrumbs);
     	};
@@ -781,9 +791,9 @@ var app = (function () {
 
     	return [
     		navCrumbs,
-    		upDirectory,
     		selectFolder,
     		navigate,
+    		navHistory,
     		currentPath,
     		$storeCurrentPath,
     		fs,
@@ -792,7 +802,11 @@ var app = (function () {
     		dialog,
     		breadcrumbs,
     		lsCurrentPath,
-    		click_handler
+    		addNavHistory,
+    		click_handler,
+    		click_handler_1,
+    		click_handler_2,
+    		click_handler_3
     	];
     }
 
