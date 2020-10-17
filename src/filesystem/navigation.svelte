@@ -85,11 +85,12 @@
       }
       // addNavHistory()
       navHistoryTracker = navHistoryTracker + 1;
-      console.log(`navHistoryTracker: ${navHistoryTracker}`);
-      console.log(`navHistoryIndex: ${navHistoryIndex}`);
-      console.log(
-        `navHistory[navHistoryIndex]: ${navHistory[navHistoryIndex]}`
-      );
+      if (!navHistory[navHistoryIndex]) {
+        console.log("!no more history!");
+        navHistoryTracker = navHistoryTracker - 1;
+        navHistoryIndex = navHistoryLength - navHistoryTracker;
+        return;
+      }
       dispatchNavHistoryTracker();
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
@@ -104,11 +105,12 @@
       }
       navHistoryTracker = navHistoryTracker - 1;
       navHistoryIndex = navHistoryLength - navHistoryTracker;
-      if (navHistory[navHistoryIndex] === "undefined") {
-        alert("no more history!");
+      if (!navHistory[navHistoryIndex]) {
+        console.log("!no more history!");
+        navHistoryTracker = navHistoryTracker + 1;
+        navHistoryIndex = navHistoryLength - navHistoryTracker;
         return;
       }
-
       console.log(`navHistoryTracker: ${navHistoryTracker}`);
       console.log(`navHistoryIndex: ${navHistoryIndex}`);
       console.log(

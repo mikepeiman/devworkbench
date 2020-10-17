@@ -463,7 +463,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (269:4) {#each navCrumbs as crumb}
+    // (271:4) {#each navCrumbs as crumb}
     function create_each_block(ctx) {
     	let span;
     	let t0_value = /*crumb*/ ctx[22] + "";
@@ -477,7 +477,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(span, "class", "breadcrumb svelte-6jomup");
-    			add_location(span, file$1, 269, 6, 7171);
+    			add_location(span, file$1, 271, 6, 7284);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -499,7 +499,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(269:4) {#each navCrumbs as crumb}",
+    		source: "(271:4) {#each navCrumbs as crumb}",
     		ctx
     	});
 
@@ -561,36 +561,36 @@ var app = (function () {
 
     			attr_dev(i0, "id", "openDirectory");
     			attr_dev(i0, "class", "svelte-6jomup");
-    			add_location(i0, file$1, 249, 6, 6627);
+    			add_location(i0, file$1, 251, 6, 6740);
     			attr_dev(div0, "class", "icon-container svelte-6jomup");
-    			add_location(div0, file$1, 248, 4, 6567);
+    			add_location(div0, file$1, 250, 4, 6680);
     			attr_dev(div1, "class", "nav svelte-6jomup");
-    			add_location(div1, file$1, 247, 2, 6544);
+    			add_location(div1, file$1, 249, 2, 6657);
     			attr_dev(i1, "id", "upDirectory");
     			attr_dev(i1, "class", "svelte-6jomup");
-    			add_location(i1, file$1, 254, 6, 6768);
+    			add_location(i1, file$1, 256, 6, 6881);
     			attr_dev(div2, "class", "icon-container svelte-6jomup");
-    			add_location(div2, file$1, 253, 4, 6700);
+    			add_location(div2, file$1, 255, 4, 6813);
     			attr_dev(div3, "class", "nav svelte-6jomup");
-    			add_location(div3, file$1, 252, 2, 6677);
+    			add_location(div3, file$1, 254, 2, 6790);
     			attr_dev(i2, "id", "backNavigate");
     			attr_dev(i2, "class", "svelte-6jomup");
-    			add_location(i2, file$1, 259, 6, 6909);
+    			add_location(i2, file$1, 261, 6, 7022);
     			attr_dev(div4, "class", "icon-container svelte-6jomup");
-    			add_location(div4, file$1, 258, 4, 6839);
+    			add_location(div4, file$1, 260, 4, 6952);
     			attr_dev(div5, "class", "nav svelte-6jomup");
-    			add_location(div5, file$1, 257, 2, 6816);
+    			add_location(div5, file$1, 259, 2, 6929);
     			attr_dev(i3, "id", "forwardNavigate");
     			attr_dev(i3, "class", "svelte-6jomup");
-    			add_location(i3, file$1, 264, 6, 7054);
+    			add_location(i3, file$1, 266, 6, 7167);
     			attr_dev(div6, "class", "icon-container svelte-6jomup");
-    			add_location(div6, file$1, 263, 4, 6981);
+    			add_location(div6, file$1, 265, 4, 7094);
     			attr_dev(div7, "class", "nav svelte-6jomup");
-    			add_location(div7, file$1, 262, 2, 6958);
+    			add_location(div7, file$1, 264, 2, 7071);
     			attr_dev(div8, "class", "breadcrumbs svelte-6jomup");
-    			add_location(div8, file$1, 267, 2, 7106);
+    			add_location(div8, file$1, 269, 2, 7219);
     			attr_dev(div9, "class", "nav-wrapper svelte-6jomup");
-    			add_location(div9, file$1, 246, 0, 6515);
+    			add_location(div9, file$1, 248, 0, 6628);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -739,9 +739,13 @@ var app = (function () {
     			// addNavHistory()
     			$$invalidate(4, navHistoryTracker = navHistoryTracker + 1);
 
-    			console.log(`navHistoryTracker: ${navHistoryTracker}`);
-    			console.log(`navHistoryIndex: ${navHistoryIndex}`);
-    			console.log(`navHistory[navHistoryIndex]: ${navHistory[navHistoryIndex]}`);
+    			if (!navHistory[navHistoryIndex]) {
+    				console.log("!no more history!");
+    				$$invalidate(4, navHistoryTracker = navHistoryTracker - 1);
+    				$$invalidate(6, navHistoryIndex = navHistoryLength - navHistoryTracker);
+    				return;
+    			}
+
     			dispatchNavHistoryTracker();
     			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryIndex]);
     			$$invalidate(7, currentPath = navHistory[navHistoryIndex]);
@@ -759,8 +763,10 @@ var app = (function () {
     			$$invalidate(4, navHistoryTracker = navHistoryTracker - 1);
     			$$invalidate(6, navHistoryIndex = navHistoryLength - navHistoryTracker);
 
-    			if (navHistory[navHistoryIndex] === "undefined") {
-    				alert("no more history!");
+    			if (!navHistory[navHistoryIndex]) {
+    				console.log("!no more history!");
+    				$$invalidate(4, navHistoryTracker = navHistoryTracker + 1);
+    				$$invalidate(6, navHistoryIndex = navHistoryLength - navHistoryTracker);
     				return;
     			}
 
@@ -831,8 +837,7 @@ var app = (function () {
     		currentPath,
     		$storeCurrentPath,
     		window,
-    		navCrumbs,
-    		alert
+    		navCrumbs
     	});
 
     	$$self.$inject_state = $$props => {
