@@ -10,6 +10,7 @@
   let navHistory = [];
   let navHistoryTracker = 1;
   $: currentPath = process.cwd();
+  let oldPath = "";
   // $: currentPath = process.cwd();
   $: root = fs.readdirSync(currentPath);
 
@@ -54,13 +55,20 @@
     // console.log("readDirectory() path ", typeof currentPath);
     currentFiles = [];
     currentDirs = [];
-    fs.readdirSync(currentPath)
-      .map(fileName => {
-        // console.log(`inside currentPath.map: `, fileName);
-        return path.join(currentPath, fileName);
-        // return fileName
-      })
-      .filter(isFile);
+
+    try {
+      fs.readdirSync(currentPath)
+        .map(fileName => {
+          // console.log(`inside currentPath.map: `, fileName);
+          return path.join(currentPath, fileName);
+          // return fileName
+        })
+        .filter(isFile);
+    } catch (err) {
+      console.log("node fs readdirSync error!!! Cannot access this folder");
+      currentPath = oldPath;
+      storeCurrentPath.set(currentPath);
+    }
   }
 
   function cropFileName(name) {
@@ -85,6 +93,7 @@
   }
 
   function navigate(dir, type) {
+    oldPath = currentPath;
     console.log(`navigate clicked here: ${dir}, currentPath: ${currentPath}`);
     if (currentPath === "undefined") {
       currentPath = navHistory[navHistory.length - 1];
@@ -179,7 +188,6 @@
     <div>
       <h2>DIRECTORIES</h2>
       <div class="dirs-listing">
-        <!-- {#await currentDirs} -->
         {#each currentDirs as dir}
           <div
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
@@ -190,7 +198,7 @@
       </div>
     </div>
     <div>.</div>
-    <!-- <div>
+    <div>
       <h2>FILES</h2>
       <div class="files-listing">
         {#each currentFiles as file}
@@ -198,10 +206,9 @@
         {/each}
       </div>
     </div>
-  </div> -->
-    <div>
+  </div>
+  <!-- <div>
       {#each navHistory as dir, i}
-        i: {i} navHistoryTracker: {navHistoryTracker} navHistory.length: {navHistory.length}
         <div
           class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
           on:click={() => navigate(dir, 'full')}>
@@ -209,6 +216,5 @@
         </div>
       {/each}
     </div>
-    <!-- {/await} -->
-  </div>
+  </div> -->
 </main>

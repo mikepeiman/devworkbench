@@ -49,6 +49,10 @@
     storeNavHistory.set(navHistory);
   }
 
+  function showHistory() {
+    console.log('show history from back button')
+  }
+
   function selectFolder() {
     //renderer.js - a renderer process
     const { remote } = require("electron"),
@@ -274,7 +278,7 @@
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={() => navigate('back')}>
+    <div class="icon-container" on:click={() => navigate('back')} on:mouseover={() => showHistory()}>
       <i id="backNavigate" />
     </div>
   </div>
