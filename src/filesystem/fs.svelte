@@ -1,38 +1,60 @@
 <script>
   import Nav from "./navigation.svelte";
   import { onMount } from "svelte";
-  import { storeCurrentPath } from "./../db/stores.js";
+  import { storeCurrentPath, storeNavHistory } from "./../db/stores.js";
   const fs = require("fs");
   const path = require("path");
 
   let currentFiles = [];
   let currentDirs = [];
-  $: folderPath = process.cwd();
-  // $: folderPath = process.cwd();
-  $: root = fs.readdirSync(folderPath);
+  let navHistory = [];
+  let navHistoryTracker = 0;
+  $: currentPath = process.cwd();
+  // $: currentPath = process.cwd();
+  $: root = fs.readdirSync(currentPath);
+
+  $: if (typeof window !== "undefined") {
+    storeCurrentPath.subscribe(path => {
+      console.log("subscription path ", path);
+      currentPath = path;
+      navigate();
+    });
+    storeNavHistory.subscribe(history => {
+      console.log("navHistory ", history);
+      navHistory = history;
+      // navigate();
+    });
+  }
+
   onMount(() => {
     const dir1 = __dirname;
     const cwd = process.cwd();
     console.log("ROOT:", root);
     console.log("__dirname: ", dir1);
     console.log("cwd: ", cwd);
-
-    storeCurrentPath.subscribe(path => {
-      console.log("subscription path ", path);
-      folderPath = path;
-      navigate();
-    });
   });
 
+  function receiveNavHistoryTracker(e) {
+    console.log("function receiveNavHistoryTracker");
+    console.log(e);
+    navHistoryTracker = e.detail.data;
+  }
+
+  function addNavHistory() {
+    navHistory = [...navHistory, currentPath];
+    navHistoryTracker = 0;
+    storeNavHistory.set(navHistory);
+  }
+
   function navigate() {
-    console.log("navigate() path ", folderPath);
-    console.log("navigate() path ", typeof folderPath);
+    // console.log("navigate() path ", currentPath);
+    // console.log("navigate() path ", typeof currentPath);
     currentFiles = [];
     currentDirs = [];
-    fs.readdirSync(folderPath)
+    fs.readdirSync(currentPath)
       .map(fileName => {
-        // console.log(`inside folderPath.map: `, fileName);
-        return path.join(folderPath, fileName);
+        // console.log(`inside currentPath.map: `, fileName);
+        return path.join(currentPath, fileName);
         // return fileName
       })
       .filter(isFile);
@@ -41,13 +63,6 @@
   function cropFileName(name) {
     let split = name.split("\\");
     let tail = split.pop();
-    console.log("the tail of the name split: ", tail);
-    // if (tail[0] === ".") {
-    //   if(tail == ".git") {
-    //     return ".git"
-    //   } else {
-    //   return "...";
-    // }
     return tail;
   }
 
@@ -67,10 +82,11 @@
   }
 
   function navDown(e) {
-    console.log(`navDown clicked here: ${e}, folderPath: ${folderPath}`);
-    folderPath = folderPath + "\\" + e;
-    console.log("folderPath ", folderPath);
-    storeCurrentPath.set(folderPath);
+        addNavHistory();
+    console.log(`navDown clicked here: ${e}, currentPath: ${currentPath}`);
+    currentPath = currentPath + "\\" + e;
+    console.log("currentPath ", currentPath);
+    storeCurrentPath.set(currentPath);
     navigate();
   }
 </script>
@@ -137,10 +153,14 @@
     display: grid;
     grid-template-columns: 5fr 2fr;
   }
+
+  .special {
+    background: rgba(255, 100, 155, 0.2);
+  }
 </style>
 
 <main>
-  <Nav />
+  <Nav on:nav={receiveNavHistoryTracker} />
   <div class="file-system">
     <div>
       <h2>DIRECTORIES</h2>
@@ -155,7 +175,8 @@
         {/each}
       </div>
     </div>
-    <div>
+    <div>.</div>
+    <!-- <div>
       <h2>FILES</h2>
       <div class="files-listing">
         {#each currentFiles as file}
@@ -163,6 +184,15 @@
         {/each}
       </div>
     </div>
+  </div> -->
+  <div> 
+    {#each navHistory as dir, i}
+      <div
+        class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
+        on:click={() => navDown(dir)}>
+        {dir}
+      </div>
+    {/each}
   </div>
   <!-- {/await} -->
 </main>

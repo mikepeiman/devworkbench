@@ -1,28 +1,51 @@
 <script>
-  import { storeCurrentPath } from "./../db/stores.js";
+  import { storeCurrentPath, storeNavHistory } from "./../db/stores.js";
   import { onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   const fs = require("fs");
-
   const electron = require("electron");
   const BrowserWindow = electron.remote.BrowserWindow;
   const dialog = electron.remote.dialog;
+  let breadcrumbs = [];
+  let lsCurrentPath;
+  let navHistory = [];
+  $: navHistoryIndex = navHistoryLength - navHistoryTracker - 1;
+  $: navHistoryTracker = 0;
+  $: navHistoryLength = navHistory.length;
+  $: console.log(
+    `reactive navHistory length: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}, navHistoryIndex: ${navHistoryIndex}  `
+  );
 
   $: currentPath = $storeCurrentPath;
   // console.log(`accessing assets: ${currentPath}`);
-
-  onMount(() => {
-    storeCurrentPath.subscribe(val => {
-      currentPath = val;
+  $: if (typeof window !== "undefined") {
+    storeCurrentPath.subscribe(path => {
+      console.log("subscription path ", path);
+      currentPath = path;
+      // navigate();
     });
-  });
-
+    storeNavHistory.subscribe(history => {
+      console.log("navHistory ", history);
+      navHistoryTracker = 0;
+      navHistory = history;
+      // navigate();
+    });
+  }
   $: navCrumbs = currentPath.split("\\");
-  let breadcrumbs = [];
-  let lsCurrentPath;
 
-  let navHistory = [];
+  onMount(() => {});
+
+  function dispatchNavHistoryTracker() {
+    console.log("function dispatchNavHistoryTracker");
+    dispatch("nav", {
+      data: navHistoryTracker
+    });
+  }
+
   function addNavHistory() {
     navHistory = [...navHistory, currentPath];
+    storeNavHistory.set(navHistory);
   }
 
   function selectFolder() {
@@ -41,8 +64,11 @@
 
     //Synchronous
     let filePaths = dialog.showOpenDialog(WIN, options);
-    console.log(filePaths);
+    console.log("filePaths, ", filePaths);
     filePaths.then(res => {
+      if (res.canceled) {
+        return;
+      }
       $storeCurrentPath = res.filePaths[0];
       currentPath = res.filePaths[0];
       console.log("currentPath: ", currentPath);
@@ -51,15 +77,41 @@
 
   function navigate(e) {
     if (e === "back") {
-      console.log("back");
+      console.log("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n");
+      if (navHistoryLength < 1) {
+        console.log("no history, exit");
+        return;
+      }
+      // addNavHistory()
+      navHistoryTracker = navHistoryTracker + 1;
+      dispatchNavHistoryTracker();
+      $storeCurrentPath = navHistory[navHistoryIndex];
+      currentPath = navHistory[navHistoryIndex];
+
       return;
     }
+
     if (e === "forward") {
-      console.log("forward");
+      console.log("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> forward\n");
+      if (navHistoryLength < 1) {
+        console.log("no history, exit");
+        return;
+      }
+      if (navHistory[navHistoryIndex] === "undefined") {
+        alert("no more history!");
+        return;
+      }
+      navHistoryTracker = navHistoryTracker - 1;
+      dispatchNavHistoryTracker();
+
+      $storeCurrentPath = navHistory[navHistoryIndex];
+      currentPath = navHistory[navHistoryIndex];
       return;
     }
+
     if (e === "up") {
       console.log("up");
+      addNavHistory();
       navCrumbs.pop();
       navCrumbs = navCrumbs;
       let newPath = navCrumbs.join("\\");
@@ -67,12 +119,9 @@
       storeCurrentPath.set(newPath);
       return;
     }
-    console.log(`navigate clicked, `, currentPath);
-    console.log(`navigate clicked, `, e.target.textContent);
+
+    addNavHistory();
     let i = navCrumbs.indexOf(e.target.textContent);
-    console.log("index of clicked crumb ", i);
-    console.log("navCrumbs ", navCrumbs);
-    console.log("navCrumbs.length ", navCrumbs.length);
     let dif = navCrumbs.length - i;
 
     if (dif > 1) {
@@ -84,6 +133,7 @@
     let newPath = navCrumbs.join("\\");
     console.log("newpath ", newPath);
     storeCurrentPath.set(newPath);
+    currentPath = newPath;
   }
 </script>
 
@@ -227,4 +277,3 @@
   </div>
 
 </div>
-<!-- <h1>{currentPath}</h1> -->
