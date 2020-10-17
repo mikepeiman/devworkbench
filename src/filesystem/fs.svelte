@@ -92,7 +92,7 @@
     display: grid;
     grid-auto-flow: row;
     max-width: 100vw;
-    grid-template-columns: repeat(6, auto);
+    grid-template-columns: repeat(5, auto);
 
     // flex-direction: row;
     // flex-wrap: wrap;
@@ -107,9 +107,9 @@
     border-bottom: 1px solid rgba(40, 155, 255, 1);
     border-right: 1px solid rgba(40, 155, 255, 1);
     box-shadow: 1px 1px 3px 0px rgba(40, 155, 255, 0.5);
-    min-width: 20ch;
+    min-width: 12ch;
     display: flex;
-  
+
     &:hover {
       color: rgba(140, 215, 255, 1);
       background: rgba(0, 55, 155, 0.75);
@@ -117,8 +117,8 @@
     }
   }
   .dot-dir {
-      background: rgba(0, 55, 155, 0.25);
-    }
+    background: rgba(0, 55, 155, 0.25);
+  }
 
   .file {
     padding: 0.5rem;
@@ -132,23 +132,37 @@
       cursor: pointer;
     }
   }
+
+  .file-system {
+    display: grid;
+    grid-template-columns: 5fr 2fr;
+  }
 </style>
 
 <main>
-  <h1>FS component</h1>
   <Nav />
-  <h2>DIRECTORIES</h2>
-  <div class="dirs-listing">
-    <!-- {#await currentDirs} -->
-    {#each currentDirs as dir}
-      <div class="dir {dir[0] == "." ? "dot-dir" : "reg-dir"}" on:click={() => navDown(dir)}>{dir}</div>
-    {/each}
-  </div>
-  <h2>FILES</h2>
-  <div class="files-listing">
-    {#each currentFiles as file}
-      <div class="file" on:click={() => fileInfo(file)}>{file}</div>
-    {/each}
+  <div class="file-system">
+    <div>
+      <h2>DIRECTORIES</h2>
+      <div class="dirs-listing">
+        <!-- {#await currentDirs} -->
+        {#each currentDirs as dir}
+          <div
+            class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
+            on:click={() => navDown(dir)}>
+            {dir}
+          </div>
+        {/each}
+      </div>
+    </div>
+    <div>
+      <h2>FILES</h2>
+      <div class="files-listing">
+        {#each currentFiles as file}
+          <div class="file" on:click={() => fileInfo(file)}>{file}</div>
+        {/each}
+      </div>
+    </div>
   </div>
   <!-- {/await} -->
 </main>

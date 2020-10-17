@@ -463,7 +463,7 @@ var app = (function () {
     			dispose = listen_dev(span, "click", /*click_handler*/ ctx[12], false, false, false);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*navCrumbs*/ 2 && t0_value !== (t0_value = /*crumb*/ ctx[13] + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*navCrumbs*/ 1 && t0_value !== (t0_value = /*crumb*/ ctx[13] + "")) set_data_dev(t0, t0_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(span);
@@ -494,11 +494,8 @@ var app = (function () {
     	let i1;
     	let t1;
     	let div4;
-    	let t2;
-    	let h1;
-    	let t3;
     	let dispose;
-    	let each_value = /*navCrumbs*/ ctx[1];
+    	let each_value = /*navCrumbs*/ ctx[0];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -523,9 +520,6 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			t2 = space();
-    			h1 = element("h1");
-    			t3 = text(/*currentPath*/ ctx[0]);
     			attr_dev(i0, "id", "openDirectory");
     			attr_dev(i0, "class", "svelte-sh8obx");
     			add_location(i0, file$1, 154, 6, 3715);
@@ -544,7 +538,6 @@ var app = (function () {
     			add_location(div4, file$1, 162, 2, 3895);
     			attr_dev(div5, "class", "nav-wrapper svelte-sh8obx");
     			add_location(div5, file$1, 151, 0, 3603);
-    			add_location(h1, file$1, 170, 0, 4109);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -565,18 +558,14 @@ var app = (function () {
     				each_blocks[i].m(div4, null);
     			}
 
-    			insert_dev(target, t2, anchor);
-    			insert_dev(target, h1, anchor);
-    			append_dev(h1, t3);
-
     			dispose = [
-    				listen_dev(div0, "click", /*selectFolder*/ ctx[3], false, false, false),
-    				listen_dev(div2, "click", /*upDirectory*/ ctx[2], false, false, false)
+    				listen_dev(div0, "click", /*selectFolder*/ ctx[2], false, false, false),
+    				listen_dev(div2, "click", /*upDirectory*/ ctx[1], false, false, false)
     			];
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*navigate, navCrumbs*/ 18) {
-    				each_value = /*navCrumbs*/ ctx[1];
+    			if (dirty & /*navigate, navCrumbs*/ 9) {
+    				each_value = /*navCrumbs*/ ctx[0];
     				validate_each_argument(each_value);
     				let i;
 
@@ -598,16 +587,12 @@ var app = (function () {
 
     				each_blocks.length = each_value.length;
     			}
-
-    			if (dirty & /*currentPath*/ 1) set_data_dev(t3, /*currentPath*/ ctx[0]);
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div5);
     			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(t2);
-    			if (detaching) detach_dev(h1);
     			run_all(dispose);
     		}
     	};
@@ -635,7 +620,7 @@ var app = (function () {
     	// console.log(`accessing assets: ${currentPath}`);
     	onMount(() => {
     		storeCurrentPath.subscribe(val => {
-    			$$invalidate(0, currentPath = val);
+    			$$invalidate(4, currentPath = val);
     		});
     	});
 
@@ -646,7 +631,7 @@ var app = (function () {
     		console.log(`navUp clicked, `, currentPath);
     		console.log("navCrumbs ", navCrumbs);
     		navCrumbs.pop();
-    		(($$invalidate(1, navCrumbs), $$invalidate(0, currentPath)), $$invalidate(5, $storeCurrentPath));
+    		(($$invalidate(0, navCrumbs), $$invalidate(4, currentPath)), $$invalidate(5, $storeCurrentPath));
     		let newPath = navCrumbs.join("\\");
     		console.log("newpath ", newPath);
     		storeCurrentPath.set(newPath);
@@ -673,7 +658,7 @@ var app = (function () {
 
     		filePaths.then(res => {
     			set_store_value(storeCurrentPath, $storeCurrentPath = res.filePaths[0]);
-    			$$invalidate(0, currentPath = res.filePaths[0]);
+    			$$invalidate(4, currentPath = res.filePaths[0]);
     			console.log("currentPath: ", currentPath);
     		});
     	}
@@ -693,7 +678,7 @@ var app = (function () {
     			}
     		}
 
-    		(($$invalidate(1, navCrumbs), $$invalidate(0, currentPath)), $$invalidate(5, $storeCurrentPath));
+    		(($$invalidate(0, navCrumbs), $$invalidate(4, currentPath)), $$invalidate(5, $storeCurrentPath));
     		let newPath = navCrumbs.join("\\");
     		console.log("newpath ", newPath);
     		storeCurrentPath.set(newPath);
@@ -723,8 +708,8 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ("breadcrumbs" in $$props) breadcrumbs = $$props.breadcrumbs;
     		if ("lsCurrentPath" in $$props) lsCurrentPath = $$props.lsCurrentPath;
-    		if ("currentPath" in $$props) $$invalidate(0, currentPath = $$props.currentPath);
-    		if ("navCrumbs" in $$props) $$invalidate(1, navCrumbs = $$props.navCrumbs);
+    		if ("currentPath" in $$props) $$invalidate(4, currentPath = $$props.currentPath);
+    		if ("navCrumbs" in $$props) $$invalidate(0, navCrumbs = $$props.navCrumbs);
     	};
 
     	let currentPath;
@@ -736,20 +721,20 @@ var app = (function () {
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*$storeCurrentPath*/ 32) {
-    			 $$invalidate(0, currentPath = $storeCurrentPath);
+    			 $$invalidate(4, currentPath = $storeCurrentPath);
     		}
 
-    		if ($$self.$$.dirty & /*currentPath*/ 1) {
-    			 $$invalidate(1, navCrumbs = currentPath.split("\\"));
+    		if ($$self.$$.dirty & /*currentPath*/ 16) {
+    			 $$invalidate(0, navCrumbs = currentPath.split("\\"));
     		}
     	};
 
     	return [
-    		currentPath,
     		navCrumbs,
     		upDirectory,
     		selectFolder,
     		navigate,
+    		currentPath,
     		$storeCurrentPath,
     		fs,
     		electron,
@@ -790,11 +775,12 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (132:4) {#each currentDirs as dir}
+    // (137:8) {#each currentDirs as dir}
     function create_each_block_1(ctx) {
     	let div;
-    	let t_value = /*dir*/ ctx[14] + "";
-    	let t;
+    	let t0_value = /*dir*/ ctx[14] + "";
+    	let t0;
+    	let t1;
     	let div_class_value;
     	let dispose;
 
@@ -805,20 +791,22 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			t = text(t_value);
-    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[14][0] == "." ? "dot-dir" : "reg-dir") + " svelte-3xj6b3");
-    			add_location(div, file_1, 132, 6, 3391);
+    			t0 = text(t0_value);
+    			t1 = space();
+    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[14][0] == "." ? "dot-dir" : "reg-dir") + " svelte-nqtn2f");
+    			add_location(div, file_1, 137, 10, 3495);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
-    			append_dev(div, t);
+    			append_dev(div, t0);
+    			append_dev(div, t1);
     			dispose = listen_dev(div, "click", click_handler, false, false, false);
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*currentDirs*/ 2 && t_value !== (t_value = /*dir*/ ctx[14] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*currentDirs*/ 2 && t0_value !== (t0_value = /*dir*/ ctx[14] + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[14][0] == "." ? "dot-dir" : "reg-dir") + " svelte-3xj6b3")) {
+    			if (dirty & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[14][0] == "." ? "dot-dir" : "reg-dir") + " svelte-nqtn2f")) {
     				attr_dev(div, "class", div_class_value);
     			}
     		},
@@ -832,14 +820,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(132:4) {#each currentDirs as dir}",
+    		source: "(137:8) {#each currentDirs as dir}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (138:4) {#each currentFiles as file}
+    // (149:8) {#each currentFiles as file}
     function create_each_block$1(ctx) {
     	let div;
     	let t_value = /*file*/ ctx[11] + "";
@@ -854,8 +842,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			t = text(t_value);
-    			attr_dev(div, "class", "file svelte-3xj6b3");
-    			add_location(div, file_1, 138, 6, 3603);
+    			attr_dev(div, "class", "file svelte-nqtn2f");
+    			add_location(div, file_1, 149, 10, 3806);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -876,7 +864,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(138:4) {#each currentFiles as file}",
+    		source: "(149:8) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -885,16 +873,17 @@ var app = (function () {
 
     function create_fragment$1(ctx) {
     	let main;
-    	let h1;
-    	let t1;
-    	let t2;
-    	let h20;
-    	let t4;
-    	let div0;
-    	let t5;
-    	let h21;
-    	let t7;
+    	let t0;
+    	let div4;
     	let div1;
+    	let h20;
+    	let t2;
+    	let div0;
+    	let t3;
+    	let div3;
+    	let h21;
+    	let t5;
+    	let div2;
     	let current;
     	const nav = new Navigation({ $$inline: true });
     	let each_value_1 = /*currentDirs*/ ctx[1];
@@ -916,63 +905,67 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			main = element("main");
-    			h1 = element("h1");
-    			h1.textContent = "FS component";
-    			t1 = space();
     			create_component(nav.$$.fragment);
-    			t2 = space();
+    			t0 = space();
+    			div4 = element("div");
+    			div1 = element("div");
     			h20 = element("h2");
     			h20.textContent = "DIRECTORIES";
-    			t4 = space();
+    			t2 = space();
     			div0 = element("div");
 
     			for (let i = 0; i < each_blocks_1.length; i += 1) {
     				each_blocks_1[i].c();
     			}
 
-    			t5 = space();
+    			t3 = space();
+    			div3 = element("div");
     			h21 = element("h2");
     			h21.textContent = "FILES";
-    			t7 = space();
-    			div1 = element("div");
+    			t5 = space();
+    			div2 = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			add_location(h1, file_1, 126, 2, 3230);
-    			add_location(h20, file_1, 128, 2, 3266);
-    			attr_dev(div0, "class", "dirs-listing svelte-3xj6b3");
-    			add_location(div0, file_1, 129, 2, 3290);
-    			add_location(h21, file_1, 135, 2, 3516);
-    			attr_dev(div1, "class", "files-listing svelte-3xj6b3");
-    			add_location(div1, file_1, 136, 2, 3534);
-    			add_location(main, file_1, 125, 0, 3220);
+    			add_location(h20, file_1, 133, 6, 3354);
+    			attr_dev(div0, "class", "dirs-listing svelte-nqtn2f");
+    			add_location(div0, file_1, 134, 6, 3382);
+    			add_location(div1, file_1, 132, 4, 3341);
+    			add_location(h21, file_1, 146, 6, 3707);
+    			attr_dev(div2, "class", "files-listing svelte-nqtn2f");
+    			add_location(div2, file_1, 147, 6, 3729);
+    			add_location(div3, file_1, 145, 4, 3694);
+    			attr_dev(div4, "class", "file-system svelte-nqtn2f");
+    			add_location(div4, file_1, 131, 2, 3310);
+    			add_location(main, file_1, 129, 0, 3289);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, main, anchor);
-    			append_dev(main, h1);
-    			append_dev(main, t1);
     			mount_component(nav, main, null);
-    			append_dev(main, t2);
-    			append_dev(main, h20);
-    			append_dev(main, t4);
-    			append_dev(main, div0);
+    			append_dev(main, t0);
+    			append_dev(main, div4);
+    			append_dev(div4, div1);
+    			append_dev(div1, h20);
+    			append_dev(div1, t2);
+    			append_dev(div1, div0);
 
     			for (let i = 0; i < each_blocks_1.length; i += 1) {
     				each_blocks_1[i].m(div0, null);
     			}
 
-    			append_dev(main, t5);
-    			append_dev(main, h21);
-    			append_dev(main, t7);
-    			append_dev(main, div1);
+    			append_dev(div4, t3);
+    			append_dev(div4, div3);
+    			append_dev(div3, h21);
+    			append_dev(div3, t5);
+    			append_dev(div3, div2);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div1, null);
+    				each_blocks[i].m(div2, null);
     			}
 
     			current = true;
@@ -1015,7 +1008,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block$1(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(div1, null);
+    						each_blocks[i].m(div2, null);
     					}
     				}
 
@@ -1204,15 +1197,7 @@ var app = (function () {
     function create_fragment$2(ctx) {
     	let main;
     	let h1;
-    	let t0;
     	let t1;
-    	let t2;
-    	let t3;
-    	let p;
-    	let t4;
-    	let a;
-    	let t6;
-    	let t7;
     	let current;
     	const fs = new Fs({ $$inline: true });
 
@@ -1220,22 +1205,11 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			h1 = element("h1");
-    			t0 = text("Hello ");
-    			t1 = text(/*name*/ ctx[0]);
-    			t2 = text("!");
-    			t3 = space();
-    			p = element("p");
-    			t4 = text("Visit the\r\n    ");
-    			a = element("a");
-    			a.textContent = "Svelte tutorial";
-    			t6 = text("\r\n    to learn how to build Svelte apps.");
-    			t7 = space();
+    			h1.textContent = "Dev Workbench";
+    			t1 = space();
     			create_component(fs.$$.fragment);
     			attr_dev(h1, "class", "svelte-19xyxbs");
     			add_location(h1, file$2, 28, 2, 467);
-    			attr_dev(a, "href", "https://svelte.dev/tutorial");
-    			add_location(a, file$2, 31, 4, 517);
-    			add_location(p, file$2, 29, 2, 493);
     			attr_dev(main, "class", "svelte-19xyxbs");
     			add_location(main, file$2, 27, 0, 457);
     		},
@@ -1245,21 +1219,11 @@ var app = (function () {
     		m: function mount(target, anchor) {
     			insert_dev(target, main, anchor);
     			append_dev(main, h1);
-    			append_dev(h1, t0);
-    			append_dev(h1, t1);
-    			append_dev(h1, t2);
-    			append_dev(main, t3);
-    			append_dev(main, p);
-    			append_dev(p, t4);
-    			append_dev(p, a);
-    			append_dev(p, t6);
-    			append_dev(main, t7);
+    			append_dev(main, t1);
     			mount_component(fs, main, null);
     			current = true;
     		},
-    		p: function update(ctx, [dirty]) {
-    			if (!current || dirty & /*name*/ 1) set_data_dev(t1, /*name*/ ctx[0]);
-    		},
+    		p: noop,
     		i: function intro(local) {
     			if (current) return;
     			transition_in(fs.$$.fragment, local);
