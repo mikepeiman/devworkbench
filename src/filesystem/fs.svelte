@@ -8,7 +8,7 @@
   let currentFiles = [];
   let currentDirs = [];
   let navHistory = [];
-  let navHistoryTracker = 0;
+  let navHistoryTracker = 1;
   $: currentPath = process.cwd();
   // $: currentPath = process.cwd();
   $: root = fs.readdirSync(currentPath);
@@ -32,17 +32,18 @@
     console.log("ROOT:", root);
     console.log("__dirname: ", dir1);
     console.log("cwd: ", cwd);
+    addNavHistory();
   });
 
   function receiveNavHistoryTracker(e) {
-    console.log("function receiveNavHistoryTracker");
+    console.log("function receiveNavHistoryTracker", e.detail.data);
     console.log(e);
     navHistoryTracker = e.detail.data;
   }
 
   function addNavHistory() {
     navHistory = [...navHistory, currentPath];
-    navHistoryTracker = 0;
+    navHistoryTracker = 1;
     storeNavHistory.set(navHistory);
   }
 
@@ -82,12 +83,16 @@
   }
 
   function navDown(e) {
-        addNavHistory();
     console.log(`navDown clicked here: ${e}, currentPath: ${currentPath}`);
-    currentPath = currentPath + "\\" + e;
-    console.log("currentPath ", currentPath);
-    storeCurrentPath.set(currentPath);
-    navigate();
+    if (currentPath === "undefined") {
+      currentPath = navHistory[navHistory.length - 1];
+    } else {
+      currentPath = currentPath + "\\" + e;
+      console.log("currentPath ", currentPath);
+      storeCurrentPath.set(currentPath);
+      navigate();
+      addNavHistory();
+    }
   }
 </script>
 
@@ -185,14 +190,18 @@
       </div>
     </div>
   </div> -->
-  <div> 
-    {#each navHistory as dir, i}
-      <div
-        class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
-        on:click={() => navDown(dir)}>
-        {dir}
-      </div>
-    {/each}
+    <div>
+      {#each navHistory as dir, i}
+      i: {i}
+      navHistoryTracker: {navHistoryTracker}
+      navHistory.length: {navHistory.length}
+        <div
+          class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
+          on:click={() => navDown(dir)}>
+          {dir}
+        </div>
+      {/each}
+    </div>
+    <!-- {/await} -->
   </div>
-  <!-- {/await} -->
 </main>

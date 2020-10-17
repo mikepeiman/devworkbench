@@ -9,10 +9,11 @@
   const dialog = electron.remote.dialog;
   let breadcrumbs = [];
   let lsCurrentPath;
-  let navHistory = [];
-  $: navHistoryIndex = navHistoryLength - navHistoryTracker - 1;
-  $: navHistoryTracker = 0;
+
+  $: navHistory = [];
+  $: navHistoryTracker = 1;
   $: navHistoryLength = navHistory.length;
+  $: navHistoryIndex = navHistoryLength - navHistoryTracker - 1;
   $: console.log(
     `reactive navHistory length: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}, navHistoryIndex: ${navHistoryIndex}  `
   );
@@ -27,7 +28,7 @@
     });
     storeNavHistory.subscribe(history => {
       console.log("navHistory ", history);
-      navHistoryTracker = 0;
+      navHistoryTracker = 1;
       navHistory = history;
       // navigate();
     });
@@ -37,7 +38,7 @@
   onMount(() => {});
 
   function dispatchNavHistoryTracker() {
-    console.log("function dispatchNavHistoryTracker");
+    console.log("function dispatchNavHistoryTracker ", navHistoryTracker);
     dispatch("nav", {
       data: navHistoryTracker
     });
@@ -84,10 +85,14 @@
       }
       // addNavHistory()
       navHistoryTracker = navHistoryTracker + 1;
+      console.log(`navHistoryTracker: ${navHistoryTracker}`);
+      console.log(`navHistoryIndex: ${navHistoryIndex}`);
+      console.log(
+        `navHistory[navHistoryIndex]: ${navHistory[navHistoryIndex]}`
+      );
       dispatchNavHistoryTracker();
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
-
       return;
     }
 
@@ -97,13 +102,19 @@
         console.log("no history, exit");
         return;
       }
+      navHistoryTracker = navHistoryTracker - 1;
+      navHistoryIndex = navHistoryLength - navHistoryTracker;
       if (navHistory[navHistoryIndex] === "undefined") {
         alert("no more history!");
         return;
       }
-      navHistoryTracker = navHistoryTracker - 1;
-      dispatchNavHistoryTracker();
 
+      console.log(`navHistoryTracker: ${navHistoryTracker}`);
+      console.log(`navHistoryIndex: ${navHistoryIndex}`);
+      console.log(
+        `navHistory[navHistoryIndex]: ${navHistory[navHistoryIndex]}`
+      );
+      dispatchNavHistoryTracker();
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
       return;
@@ -111,16 +122,16 @@
 
     if (e === "up") {
       console.log("up");
-      addNavHistory();
+
       navCrumbs.pop();
       navCrumbs = navCrumbs;
       let newPath = navCrumbs.join("\\");
       console.log("newpath ", newPath);
       storeCurrentPath.set(newPath);
+      addNavHistory();
       return;
     }
 
-    addNavHistory();
     let i = navCrumbs.indexOf(e.target.textContent);
     let dif = navCrumbs.length - i;
 
@@ -134,6 +145,7 @@
     console.log("newpath ", newPath);
     storeCurrentPath.set(newPath);
     currentPath = newPath;
+    addNavHistory();
   }
 </script>
 
