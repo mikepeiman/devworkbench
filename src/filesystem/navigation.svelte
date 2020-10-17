@@ -1,5 +1,6 @@
 <script>
   import { storeCurrentPath, storeNavHistory } from "./../db/stores.js";
+  import generateColors from "./../utils/gradients.js";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
@@ -10,6 +11,8 @@
   let breadcrumbs = [];
   let lsCurrentPath;
 
+
+  let navCrumbObjects = []
   $: navHistory = [];
   $: navHistoryTracker = 1;
   $: navHistoryLength = navHistory.length;
@@ -24,7 +27,6 @@
     storeCurrentPath.subscribe(path => {
       console.log("subscription path ", path);
       currentPath = path;
-      // navigate();
     });
     storeNavHistory.subscribe(history => {
       console.log("navHistory ", history);
@@ -35,7 +37,26 @@
   }
   $: navCrumbs = currentPath.split("\\");
 
-  onMount(() => {});
+  onMount(() => {navCrumbObjects = generateColors(navCrumbs)});
+
+  // function generateColors() {
+  //   navCrumbObjects = []
+  //   let hueOffset = 222;
+  //   // let hueInterval = 3; * navCrumbs.length;
+  //   let hueInterval = 6;
+  //   let brightnessInterval = 30 / navCrumbs.length;
+  //   console.log("generateColors");
+  //   for (let i = 0; i < navCrumbs.length; i++) {
+  //     console.log("navCrumbObjects: ", navCrumbObjects);
+  //     navCrumbObjects = [
+  //       ...navCrumbObjects,
+  //       {
+  //         name: navCrumbs[i],
+  //         color: `--breadcrumb-color: hsla(${hueOffset}, 40%, ${60 + (brightnessInterval * i)}%, 1)`
+  //       }
+  //     ];
+  //   }
+  // }
 
   function dispatchNavHistoryTracker() {
     console.log("function dispatchNavHistoryTracker ", navHistoryTracker);
@@ -50,7 +71,7 @@
   }
 
   function showHistory() {
-    console.log('show history from back button')
+    console.log("show history from back button");
   }
 
   function selectFolder() {
@@ -98,6 +119,7 @@
       dispatchNavHistoryTracker();
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
+      navCrumbObjects = generateColors(navCrumbs)
       return;
     }
 
@@ -131,6 +153,7 @@
 
       navCrumbs.pop();
       navCrumbs = navCrumbs;
+      navCrumbObjects = generateColors(navCrumbs)
       let newPath = navCrumbs.join("\\");
       console.log("newpath ", newPath);
       storeCurrentPath.set(newPath);
@@ -138,6 +161,7 @@
       return;
     }
 
+    // using breadcrumbs navigation, going more than one level back/up
     let i = navCrumbs.indexOf(e.target.textContent);
     let dif = navCrumbs.length - i;
 
@@ -151,6 +175,7 @@
     console.log("newpath ", newPath);
     storeCurrentPath.set(newPath);
     currentPath = newPath;
+    navCrumbObjects = generateColors(navCrumbs)
     addNavHistory();
   }
 </script>
@@ -174,7 +199,8 @@
   }
 
   .breadcrumb {
-    background: #225599aa;
+    // background: #225599aa;
+    background: var(--breadcrumb-color);
     padding: 0.25rem 1rem;
     // margin: 0.25rem;
     height: 3rem;
@@ -278,7 +304,10 @@
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={() => navigate('back')} on:mouseover={() => showHistory()}>
+    <div
+      class="icon-container"
+      on:click={() => navigate('back')}
+      on:mouseover={() => showHistory()}>
       <i id="backNavigate" />
     </div>
   </div>
@@ -287,11 +316,14 @@
       <i id="forwardNavigate" />
     </div>
   </div>
-  <div class="breadcrumbs">
+  <!-- <div class="breadcrumbs">
     {#each navCrumbs as crumb}
       <span class="breadcrumb" on:click={e => navigate(e)}>{crumb}</span>
-      <!-- <span class="divider">></span> -->
+    {/each}
+  </div> -->
+  <div class="breadcrumbs">
+    {#each navCrumbObjects as crumb}
+      <span class="breadcrumb" on:click={e => navigate(e)} style={crumb.color}>{crumb.name}</span>
     {/each}
   </div>
-
 </div>
