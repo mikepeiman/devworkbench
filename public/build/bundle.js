@@ -440,7 +440,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (164:4) {#each navCrumbs as crumb}
+    // (198:4) {#each navCrumbs as crumb}
     function create_each_block(ctx) {
     	let span;
     	let t0_value = /*crumb*/ ctx[13] + "";
@@ -453,8 +453,8 @@ var app = (function () {
     			span = element("span");
     			t0 = text(t0_value);
     			t1 = space();
-    			attr_dev(span, "class", "breadcrumb svelte-sh8obx");
-    			add_location(span, file$1, 164, 6, 3960);
+    			attr_dev(span, "class", "breadcrumb svelte-e9p8ay");
+    			add_location(span, file$1, 198, 6, 4789);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -476,7 +476,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(164:4) {#each navCrumbs as crumb}",
+    		source: "(198:4) {#each navCrumbs as crumb}",
     		ctx
     	});
 
@@ -484,7 +484,7 @@ var app = (function () {
     }
 
     function create_fragment(ctx) {
-    	let div5;
+    	let div9;
     	let div1;
     	let div0;
     	let i0;
@@ -493,7 +493,15 @@ var app = (function () {
     	let div2;
     	let i1;
     	let t1;
+    	let div5;
     	let div4;
+    	let i2;
+    	let t2;
+    	let div7;
+    	let div6;
+    	let i3;
+    	let t3;
+    	let div8;
     	let dispose;
     	let each_value = /*navCrumbs*/ ctx[0];
     	validate_each_argument(each_value);
@@ -505,7 +513,7 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div5 = element("div");
+    			div9 = element("div");
     			div1 = element("div");
     			div0 = element("div");
     			i0 = element("i");
@@ -514,53 +522,85 @@ var app = (function () {
     			div2 = element("div");
     			i1 = element("i");
     			t1 = space();
+    			div5 = element("div");
     			div4 = element("div");
+    			i2 = element("i");
+    			t2 = space();
+    			div7 = element("div");
+    			div6 = element("div");
+    			i3 = element("i");
+    			t3 = space();
+    			div8 = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			attr_dev(i0, "id", "openDirectory");
-    			attr_dev(i0, "class", "svelte-sh8obx");
-    			add_location(i0, file$1, 154, 6, 3715);
-    			attr_dev(div0, "class", "icon-container svelte-sh8obx");
-    			add_location(div0, file$1, 153, 4, 3655);
-    			attr_dev(div1, "class", "nav svelte-sh8obx");
-    			add_location(div1, file$1, 152, 2, 3632);
+    			attr_dev(i0, "class", "svelte-e9p8ay");
+    			add_location(i0, file$1, 178, 6, 4266);
+    			attr_dev(div0, "class", "icon-container svelte-e9p8ay");
+    			add_location(div0, file$1, 177, 4, 4206);
+    			attr_dev(div1, "class", "nav svelte-e9p8ay");
+    			add_location(div1, file$1, 176, 2, 4183);
     			attr_dev(i1, "id", "upDirectory");
-    			attr_dev(i1, "class", "svelte-sh8obx");
-    			add_location(i1, file$1, 159, 6, 3847);
-    			attr_dev(div2, "class", "icon-container svelte-sh8obx");
-    			add_location(div2, file$1, 158, 4, 3788);
-    			attr_dev(div3, "class", "nav svelte-sh8obx");
-    			add_location(div3, file$1, 157, 2, 3765);
-    			attr_dev(div4, "class", "breadcrumbs svelte-sh8obx");
-    			add_location(div4, file$1, 162, 2, 3895);
-    			attr_dev(div5, "class", "nav-wrapper svelte-sh8obx");
-    			add_location(div5, file$1, 151, 0, 3603);
+    			attr_dev(i1, "class", "svelte-e9p8ay");
+    			add_location(i1, file$1, 183, 6, 4398);
+    			attr_dev(div2, "class", "icon-container svelte-e9p8ay");
+    			add_location(div2, file$1, 182, 4, 4339);
+    			attr_dev(div3, "class", "nav svelte-e9p8ay");
+    			add_location(div3, file$1, 181, 2, 4316);
+    			attr_dev(i2, "id", "backNavigate");
+    			attr_dev(i2, "class", "svelte-e9p8ay");
+    			add_location(i2, file$1, 188, 6, 4533);
+    			attr_dev(div4, "class", "icon-container svelte-e9p8ay");
+    			add_location(div4, file$1, 187, 4, 4469);
+    			attr_dev(div5, "class", "nav svelte-e9p8ay");
+    			add_location(div5, file$1, 186, 2, 4446);
+    			attr_dev(i3, "id", "forwardNavigate");
+    			attr_dev(i3, "class", "svelte-e9p8ay");
+    			add_location(i3, file$1, 193, 6, 4672);
+    			attr_dev(div6, "class", "icon-container svelte-e9p8ay");
+    			add_location(div6, file$1, 192, 4, 4605);
+    			attr_dev(div7, "class", "nav svelte-e9p8ay");
+    			add_location(div7, file$1, 191, 2, 4582);
+    			attr_dev(div8, "class", "breadcrumbs svelte-e9p8ay");
+    			add_location(div8, file$1, 196, 2, 4724);
+    			attr_dev(div9, "class", "nav-wrapper svelte-e9p8ay");
+    			add_location(div9, file$1, 175, 0, 4154);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div5, anchor);
-    			append_dev(div5, div1);
+    			insert_dev(target, div9, anchor);
+    			append_dev(div9, div1);
     			append_dev(div1, div0);
     			append_dev(div0, i0);
-    			append_dev(div5, t0);
-    			append_dev(div5, div3);
+    			append_dev(div9, t0);
+    			append_dev(div9, div3);
     			append_dev(div3, div2);
     			append_dev(div2, i1);
-    			append_dev(div5, t1);
+    			append_dev(div9, t1);
+    			append_dev(div9, div5);
     			append_dev(div5, div4);
+    			append_dev(div4, i2);
+    			append_dev(div9, t2);
+    			append_dev(div9, div7);
+    			append_dev(div7, div6);
+    			append_dev(div6, i3);
+    			append_dev(div9, t3);
+    			append_dev(div9, div8);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div4, null);
+    				each_blocks[i].m(div8, null);
     			}
 
     			dispose = [
     				listen_dev(div0, "click", /*selectFolder*/ ctx[2], false, false, false),
-    				listen_dev(div2, "click", /*upDirectory*/ ctx[1], false, false, false)
+    				listen_dev(div2, "click", /*upDirectory*/ ctx[1], false, false, false),
+    				listen_dev(div4, "click", /*navigate*/ ctx[3]("back"), false, false, false),
+    				listen_dev(div6, "click", /*navigate*/ ctx[3]("forward"), false, false, false)
     			];
     		},
     		p: function update(ctx, [dirty]) {
@@ -577,7 +617,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(div4, null);
+    						each_blocks[i].m(div8, null);
     					}
     				}
 
@@ -591,7 +631,7 @@ var app = (function () {
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div5);
+    			if (detaching) detach_dev(div9);
     			destroy_each(each_blocks, detaching);
     			run_all(dispose);
     		}
@@ -664,6 +704,16 @@ var app = (function () {
     	}
 
     	function navigate(e) {
+    		if (e === "back") {
+    			console.log("back");
+    			return;
+    		}
+
+    		if (e === "forward") {
+    			console.log("forward");
+    			return;
+    		}
+
     		console.log(`navigate clicked, `, currentPath);
     		console.log(`navigate clicked, `, e.target.textContent);
     		let i = navCrumbs.indexOf(e.target.textContent);
