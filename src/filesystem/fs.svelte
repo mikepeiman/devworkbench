@@ -33,17 +33,31 @@
       .map(fileName => {
         // console.log(`inside folderPath.map: `, fileName);
         return path.join(folderPath, fileName);
+        // return fileName
       })
       .filter(isFile);
+  }
+
+  function cropFileName(name) {
+    let split = name.split("\\");
+    let tail = split.pop();
+    console.log("the tail of the name split: ", tail);
+    // if (tail[0] === ".") {
+    //   if(tail == ".git") {
+    //     return ".git"
+    //   } else {
+    //   return "...";
+    // }
+    return tail;
   }
 
   const isFile = fileName => {
     // console.log(fs.lstatSync(fileName));
     if (fs.lstatSync(fileName).isFile()) {
-      currentFiles = [...currentFiles, fileName];
+      currentFiles = [...currentFiles, cropFileName(fileName)];
       // console.log(`currentFiles: `, currentFiles);
     } else {
-      currentDirs = [...currentDirs, fileName];
+      currentDirs = [...currentDirs, cropFileName(fileName)];
       // console.log(`currentDirs: `, currentDirs);
     }
   };
@@ -53,9 +67,10 @@
   }
 
   function navDown(e) {
-    console.log(`navDown clicked here: ${e}`);
-    folderPath = e;
-    storeCurrentPath.set(e)
+    console.log(`navDown clicked here: ${e}, folderPath: ${folderPath}`);
+    folderPath = folderPath + "\\" + e;
+    console.log("folderPath ", folderPath);
+    storeCurrentPath.set(folderPath);
     navigate();
   }
 </script>
@@ -74,23 +89,37 @@
     margin-top: 1rem;
     padding-top: 1rem;
     border-top: 5px solid rgba(0, 55, 255, 0.75);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    text-align: left;
+    display: grid;
+    grid-auto-flow: row;
+    max-width: 100vw;
+    grid-template-columns: repeat(6, auto);
+
+    // flex-direction: row;
+    // flex-wrap: wrap;
+    // text-align: left;
   }
   .dir {
-    padding: 1rem;
+    padding: 0.5rem;
     margin: 0.25rem;
-    background: rgba(0, 55, 255, 0.2);
+    // background: rgba(0, 55, 255, 0.2);
+    color: rgba(40, 155, 255, 1);
     width: auto;
+    border-bottom: 1px solid rgba(40, 155, 255, 1);
+    border-right: 1px solid rgba(40, 155, 255, 1);
+    box-shadow: 1px 1px 3px 0px rgba(40, 155, 255, 0.5);
     min-width: 20ch;
     display: flex;
+  
     &:hover {
-      background: rgba(0, 55, 255, 0.5);
+      color: rgba(140, 215, 255, 1);
+      background: rgba(0, 55, 155, 0.75);
       cursor: pointer;
     }
   }
+  .dot-dir {
+      background: rgba(0, 55, 155, 0.25);
+    }
+
   .file {
     padding: 0.5rem;
     margin: 0.25rem;
@@ -112,7 +141,7 @@
   <div class="dirs-listing">
     <!-- {#await currentDirs} -->
     {#each currentDirs as dir}
-      <div class="dir" on:click={() => navDown(dir)}>{dir}</div>
+      <div class="dir {dir[0] == "." ? "dot-dir" : "reg-dir"}" on:click={() => navDown(dir)}>{dir}</div>
     {/each}
   </div>
   <h2>FILES</h2>

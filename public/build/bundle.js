@@ -790,11 +790,12 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (110:4) {#each currentDirs as dir}
+    // (132:4) {#each currentDirs as dir}
     function create_each_block_1(ctx) {
     	let div;
     	let t_value = /*dir*/ ctx[14] + "";
     	let t;
+    	let div_class_value;
     	let dispose;
 
     	function click_handler(...args) {
@@ -805,8 +806,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			t = text(t_value);
-    			attr_dev(div, "class", "dir svelte-jmica1");
-    			add_location(div, file_1, 110, 6, 2709);
+    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[14][0] == "." ? "dot-dir" : "reg-dir") + " svelte-3xj6b3");
+    			add_location(div, file_1, 132, 6, 3391);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -816,6 +817,10 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
     			if (dirty & /*currentDirs*/ 2 && t_value !== (t_value = /*dir*/ ctx[14] + "")) set_data_dev(t, t_value);
+
+    			if (dirty & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[14][0] == "." ? "dot-dir" : "reg-dir") + " svelte-3xj6b3")) {
+    				attr_dev(div, "class", div_class_value);
+    			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -827,14 +832,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(110:4) {#each currentDirs as dir}",
+    		source: "(132:4) {#each currentDirs as dir}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (116:4) {#each currentFiles as file}
+    // (138:4) {#each currentFiles as file}
     function create_each_block$1(ctx) {
     	let div;
     	let t_value = /*file*/ ctx[11] + "";
@@ -849,8 +854,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			t = text(t_value);
-    			attr_dev(div, "class", "file svelte-jmica1");
-    			add_location(div, file_1, 116, 6, 2881);
+    			attr_dev(div, "class", "file svelte-3xj6b3");
+    			add_location(div, file_1, 138, 6, 3603);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -871,7 +876,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(116:4) {#each currentFiles as file}",
+    		source: "(138:4) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -935,14 +940,14 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h1, file_1, 104, 2, 2548);
-    			add_location(h20, file_1, 106, 2, 2584);
-    			attr_dev(div0, "class", "dirs-listing svelte-jmica1");
-    			add_location(div0, file_1, 107, 2, 2608);
-    			add_location(h21, file_1, 113, 2, 2794);
-    			attr_dev(div1, "class", "files-listing svelte-jmica1");
-    			add_location(div1, file_1, 114, 2, 2812);
-    			add_location(main, file_1, 103, 0, 2538);
+    			add_location(h1, file_1, 126, 2, 3230);
+    			add_location(h20, file_1, 128, 2, 3266);
+    			attr_dev(div0, "class", "dirs-listing svelte-3xj6b3");
+    			add_location(div0, file_1, 129, 2, 3290);
+    			add_location(h21, file_1, 135, 2, 3516);
+    			attr_dev(div1, "class", "files-listing svelte-3xj6b3");
+    			add_location(div1, file_1, 136, 2, 3534);
+    			add_location(main, file_1, 125, 0, 3220);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -973,7 +978,7 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*navDown, currentDirs*/ 6) {
+    			if (dirty & /*currentDirs, navDown*/ 6) {
     				each_value_1 = /*currentDirs*/ ctx[1];
     				validate_each_argument(each_value_1);
     				let i;
@@ -1049,6 +1054,20 @@ var app = (function () {
     	return block;
     }
 
+    function cropFileName(name) {
+    	let split = name.split("\\");
+    	let tail = split.pop();
+    	console.log("the tail of the name split: ", tail);
+
+    	// if (tail[0] === ".") {
+    	//   if(tail == ".git") {
+    	//     return ".git"
+    	//   } else {
+    	//   return "...";
+    	// }
+    	return tail;
+    }
+
     function fileInfo(e) {
     	console.log(`fileInfo on ${file}: `, file);
     }
@@ -1082,22 +1101,23 @@ var app = (function () {
     		fs.readdirSync(folderPath).map(fileName => {
     			// console.log(`inside folderPath.map: `, fileName);
     			return path.join(folderPath, fileName);
-    		}).filter(isFile);
+    		}).filter(isFile); // return fileName
     	}
 
     	const isFile = fileName => {
     		// console.log(fs.lstatSync(fileName));
     		if (fs.lstatSync(fileName).isFile()) {
-    			$$invalidate(0, currentFiles = [...currentFiles, fileName]);
+    			$$invalidate(0, currentFiles = [...currentFiles, cropFileName(fileName)]);
     		} else {
-    			$$invalidate(1, currentDirs = [...currentDirs, fileName]); // console.log(`currentFiles: `, currentFiles);
+    			$$invalidate(1, currentDirs = [...currentDirs, cropFileName(fileName)]); // console.log(`currentFiles: `, currentFiles);
     		} // console.log(`currentDirs: `, currentDirs);
     	};
 
     	function navDown(e) {
-    		console.log(`navDown clicked here: ${e}`);
-    		$$invalidate(3, folderPath = e);
-    		storeCurrentPath.set(e);
+    		console.log(`navDown clicked here: ${e}, folderPath: ${folderPath}`);
+    		$$invalidate(3, folderPath = folderPath + "\\" + e);
+    		console.log("folderPath ", folderPath);
+    		storeCurrentPath.set(folderPath);
     		navigate();
     	}
 
@@ -1113,6 +1133,7 @@ var app = (function () {
     		currentFiles,
     		currentDirs,
     		navigate,
+    		cropFileName,
     		isFile,
     		fileInfo,
     		navDown,
