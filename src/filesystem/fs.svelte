@@ -17,12 +17,11 @@
     storeCurrentPath.subscribe(path => {
       console.log("subscription path ", path);
       currentPath = path;
-      navigate();
+      readDirectory();
     });
     storeNavHistory.subscribe(history => {
       console.log("navHistory ", history);
       navHistory = history;
-      // navigate();
     });
   }
 
@@ -42,14 +41,17 @@
   }
 
   function addNavHistory() {
+    if (navHistory[navHistory.length - 1] === currentPath) {
+      return;
+    }
     navHistory = [...navHistory, currentPath];
     navHistoryTracker = 1;
     storeNavHistory.set(navHistory);
   }
 
-  function navigate() {
-    // console.log("navigate() path ", currentPath);
-    // console.log("navigate() path ", typeof currentPath);
+  function readDirectory() {
+    // console.log("readDirectory() path ", currentPath);
+    // console.log("readDirectory() path ", typeof currentPath);
     currentFiles = [];
     currentDirs = [];
     fs.readdirSync(currentPath)
@@ -82,15 +84,22 @@
     console.log(`fileInfo on ${file}: `, file);
   }
 
-  function navDown(e) {
-    console.log(`navDown clicked here: ${e}, currentPath: ${currentPath}`);
+  function navigate(dir, type) {
+    console.log(`navigate clicked here: ${dir}, currentPath: ${currentPath}`);
     if (currentPath === "undefined") {
       currentPath = navHistory[navHistory.length - 1];
     } else {
-      currentPath = currentPath + "\\" + e;
-      console.log("currentPath ", currentPath);
-      storeCurrentPath.set(currentPath);
-      navigate();
+      if (type === "tail") {
+        currentPath = currentPath + "\\" + dir;
+        console.log("currentPath ", currentPath);
+        storeCurrentPath.set(currentPath);
+      } else {
+        currentPath = dir;
+        console.log("currentPath ", currentPath);
+        storeCurrentPath.set(currentPath);
+      }
+
+      readDirectory();
       addNavHistory();
     }
   }
@@ -174,7 +183,7 @@
         {#each currentDirs as dir}
           <div
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
-            on:click={() => navDown(dir)}>
+            on:click={() => navigate(dir, 'tail')}>
             {dir}
           </div>
         {/each}
@@ -192,12 +201,10 @@
   </div> -->
     <div>
       {#each navHistory as dir, i}
-      i: {i}
-      navHistoryTracker: {navHistoryTracker}
-      navHistory.length: {navHistory.length}
+        i: {i} navHistoryTracker: {navHistoryTracker} navHistory.length: {navHistory.length}
         <div
           class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
-          on:click={() => navDown(dir)}>
+          on:click={() => navigate(dir, 'full')}>
           {dir}
         </div>
       {/each}
