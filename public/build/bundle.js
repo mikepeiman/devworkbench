@@ -481,7 +481,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (308:4) {#each navCrumbObjects as crumb}
+    // (289:4) {#each navCrumbObjects as crumb}
     function create_each_block(ctx) {
     	let span;
     	let t_value = /*crumb*/ ctx[24].name + "";
@@ -495,7 +495,7 @@ var app = (function () {
     			t = text(t_value);
     			attr_dev(span, "class", "breadcrumb svelte-qvnm7r");
     			attr_dev(span, "style", span_style_value = /*crumb*/ ctx[24].color);
-    			add_location(span, file$1, 308, 6, 8589);
+    			add_location(span, file$1, 289, 6, 7968);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -519,7 +519,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(308:4) {#each navCrumbObjects as crumb}",
+    		source: "(289:4) {#each navCrumbObjects as crumb}",
     		ctx
     	});
 
@@ -581,36 +581,36 @@ var app = (function () {
 
     			attr_dev(i0, "id", "openDirectory");
     			attr_dev(i0, "class", "svelte-qvnm7r");
-    			add_location(i0, file$1, 280, 6, 7815);
+    			add_location(i0, file$1, 261, 6, 7194);
     			attr_dev(div0, "class", "icon-container svelte-qvnm7r");
-    			add_location(div0, file$1, 279, 4, 7755);
+    			add_location(div0, file$1, 260, 4, 7134);
     			attr_dev(div1, "class", "nav svelte-qvnm7r");
-    			add_location(div1, file$1, 278, 2, 7732);
+    			add_location(div1, file$1, 259, 2, 7111);
     			attr_dev(i1, "id", "upDirectory");
     			attr_dev(i1, "class", "svelte-qvnm7r");
-    			add_location(i1, file$1, 285, 6, 7956);
+    			add_location(i1, file$1, 266, 6, 7335);
     			attr_dev(div2, "class", "icon-container svelte-qvnm7r");
-    			add_location(div2, file$1, 284, 4, 7888);
+    			add_location(div2, file$1, 265, 4, 7267);
     			attr_dev(div3, "class", "nav svelte-qvnm7r");
-    			add_location(div3, file$1, 283, 2, 7865);
+    			add_location(div3, file$1, 264, 2, 7244);
     			attr_dev(i2, "id", "backNavigate");
     			attr_dev(i2, "class", "svelte-qvnm7r");
-    			add_location(i2, file$1, 293, 6, 8153);
+    			add_location(i2, file$1, 274, 6, 7532);
     			attr_dev(div4, "class", "icon-container svelte-qvnm7r");
-    			add_location(div4, file$1, 289, 4, 8027);
+    			add_location(div4, file$1, 270, 4, 7406);
     			attr_dev(div5, "class", "nav svelte-qvnm7r");
-    			add_location(div5, file$1, 288, 2, 8004);
+    			add_location(div5, file$1, 269, 2, 7383);
     			attr_dev(i3, "id", "forwardNavigate");
     			attr_dev(i3, "class", "svelte-qvnm7r");
-    			add_location(i3, file$1, 298, 6, 8298);
+    			add_location(i3, file$1, 279, 6, 7677);
     			attr_dev(div6, "class", "icon-container svelte-qvnm7r");
-    			add_location(div6, file$1, 297, 4, 8225);
+    			add_location(div6, file$1, 278, 4, 7604);
     			attr_dev(div7, "class", "nav svelte-qvnm7r");
-    			add_location(div7, file$1, 296, 2, 8202);
+    			add_location(div7, file$1, 277, 2, 7581);
     			attr_dev(div8, "class", "breadcrumbs svelte-qvnm7r");
-    			add_location(div8, file$1, 306, 2, 8518);
+    			add_location(div8, file$1, 287, 2, 7897);
     			attr_dev(div9, "class", "nav-wrapper svelte-qvnm7r");
-    			add_location(div9, file$1, 277, 0, 7703);
+    			add_location(div9, file$1, 258, 0, 7082);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -699,7 +699,7 @@ var app = (function () {
     function instance($$self, $$props, $$invalidate) {
     	let $storeCurrentPath;
     	validate_store(storeCurrentPath, "storeCurrentPath");
-    	component_subscribe($$self, storeCurrentPath, $$value => $$invalidate(8, $storeCurrentPath = $$value));
+    	component_subscribe($$self, storeCurrentPath, $$value => $$invalidate(9, $storeCurrentPath = $$value));
     	const dispatch = createEventDispatcher();
     	const fs = require("fs");
     	const electron = require("electron");
@@ -707,37 +707,18 @@ var app = (function () {
     	const dialog = electron.remote.dialog;
     	let breadcrumbs = [];
     	let lsCurrentPath;
-    	let navCrumbObjects = [];
 
     	onMount(() => {
     		$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
     	});
 
-    	// function generateColors() {
-    	//   navCrumbObjects = []
-    	//   let hueOffset = 222;
-    	//   // let hueInterval = 3; * navCrumbs.length;
-    	//   let hueInterval = 6;
-    	//   let brightnessInterval = 30 / navCrumbs.length;
-    	//   console.log("generateColors");
-    	//   for (let i = 0; i < navCrumbs.length; i++) {
-    	//     console.log("navCrumbObjects: ", navCrumbObjects);
-    	//     navCrumbObjects = [
-    	//       ...navCrumbObjects,
-    	//       {
-    	//         name: navCrumbs[i],
-    	//         color: `--breadcrumb-color: hsla(${hueOffset}, 40%, ${60 + (brightnessInterval * i)}%, 1)`
-    	//       }
-    	//     ];
-    	//   }
-    	// }
     	function dispatchNavHistoryTracker() {
     		console.log("function dispatchNavHistoryTracker ", navHistoryTracker);
     		dispatch("nav", { data: navHistoryTracker });
     	}
 
     	function addNavHistory() {
-    		$$invalidate(3, navHistory = [...navHistory, currentPath]);
+    		$$invalidate(4, navHistory = [...navHistory, currentPath]);
     		storeNavHistory.set(navHistory);
     	}
 
@@ -766,7 +747,7 @@ var app = (function () {
     			}
 
     			set_store_value(storeCurrentPath, $storeCurrentPath = res.filePaths[0]);
-    			$$invalidate(7, currentPath = res.filePaths[0]);
+    			$$invalidate(8, currentPath = res.filePaths[0]);
     			console.log("currentPath: ", currentPath);
     		});
     	}
@@ -781,18 +762,18 @@ var app = (function () {
     			}
 
     			// addNavHistory()
-    			$$invalidate(4, navHistoryTracker = navHistoryTracker + 1);
+    			$$invalidate(5, navHistoryTracker = navHistoryTracker + 1);
 
     			if (!navHistory[navHistoryIndex]) {
     				console.log("!no more history!");
-    				$$invalidate(4, navHistoryTracker = navHistoryTracker - 1);
-    				$$invalidate(6, navHistoryIndex = navHistoryLength - navHistoryTracker);
+    				$$invalidate(5, navHistoryTracker = navHistoryTracker - 1);
+    				$$invalidate(7, navHistoryIndex = navHistoryLength - navHistoryTracker);
     				return;
     			}
 
     			dispatchNavHistoryTracker();
     			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryIndex]);
-    			$$invalidate(7, currentPath = navHistory[navHistoryIndex]);
+    			$$invalidate(8, currentPath = navHistory[navHistoryIndex]);
     			$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
     			return;
     		}
@@ -805,13 +786,13 @@ var app = (function () {
     				return;
     			}
 
-    			$$invalidate(4, navHistoryTracker = navHistoryTracker - 1);
-    			$$invalidate(6, navHistoryIndex = navHistoryLength - navHistoryTracker);
+    			$$invalidate(5, navHistoryTracker = navHistoryTracker - 1);
+    			$$invalidate(7, navHistoryIndex = navHistoryLength - navHistoryTracker);
 
     			if (!navHistory[navHistoryIndex]) {
     				console.log("!no more history!");
-    				$$invalidate(4, navHistoryTracker = navHistoryTracker + 1);
-    				$$invalidate(6, navHistoryIndex = navHistoryLength - navHistoryTracker);
+    				$$invalidate(5, navHistoryTracker = navHistoryTracker + 1);
+    				$$invalidate(7, navHistoryIndex = navHistoryLength - navHistoryTracker);
     				return;
     			}
 
@@ -820,14 +801,14 @@ var app = (function () {
     			console.log(`navHistory[navHistoryIndex]: ${navHistory[navHistoryIndex]}`);
     			dispatchNavHistoryTracker();
     			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryIndex]);
-    			$$invalidate(7, currentPath = navHistory[navHistoryIndex]);
+    			$$invalidate(8, currentPath = navHistory[navHistoryIndex]);
     			return;
     		}
 
     		if (e === "up") {
     			console.log("up");
     			navCrumbs.pop();
-    			navCrumbs = navCrumbs;
+    			(($$invalidate(3, navCrumbs), $$invalidate(8, currentPath)), $$invalidate(9, $storeCurrentPath));
     			$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
     			let newPath = navCrumbs.join("\\");
     			console.log("newpath ", newPath);
@@ -847,11 +828,11 @@ var app = (function () {
     			}
     		}
 
-    		navCrumbs = navCrumbs;
+    		(($$invalidate(3, navCrumbs), $$invalidate(8, currentPath)), $$invalidate(9, $storeCurrentPath));
     		let newPath = navCrumbs.join("\\");
     		console.log("newpath ", newPath);
     		storeCurrentPath.set(newPath);
-    		$$invalidate(7, currentPath = newPath);
+    		$$invalidate(8, currentPath = newPath);
     		$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
     		addNavHistory();
     	}
@@ -875,13 +856,14 @@ var app = (function () {
     		dialog,
     		breadcrumbs,
     		lsCurrentPath,
-    		navCrumbObjects,
     		dispatchNavHistoryTracker,
     		addNavHistory,
     		showHistory,
     		selectFolder,
     		navigate,
     		require,
+    		navCrumbObjects,
+    		navCrumbs,
     		navHistory,
     		navHistoryTracker,
     		navHistoryLength,
@@ -889,22 +871,22 @@ var app = (function () {
     		console,
     		currentPath,
     		$storeCurrentPath,
-    		window,
-    		navCrumbs
+    		window
     	});
 
     	$$self.$inject_state = $$props => {
     		if ("breadcrumbs" in $$props) breadcrumbs = $$props.breadcrumbs;
     		if ("lsCurrentPath" in $$props) lsCurrentPath = $$props.lsCurrentPath;
     		if ("navCrumbObjects" in $$props) $$invalidate(0, navCrumbObjects = $$props.navCrumbObjects);
-    		if ("navHistory" in $$props) $$invalidate(3, navHistory = $$props.navHistory);
-    		if ("navHistoryTracker" in $$props) $$invalidate(4, navHistoryTracker = $$props.navHistoryTracker);
-    		if ("navHistoryLength" in $$props) $$invalidate(5, navHistoryLength = $$props.navHistoryLength);
-    		if ("navHistoryIndex" in $$props) $$invalidate(6, navHistoryIndex = $$props.navHistoryIndex);
-    		if ("currentPath" in $$props) $$invalidate(7, currentPath = $$props.currentPath);
-    		if ("navCrumbs" in $$props) navCrumbs = $$props.navCrumbs;
+    		if ("navCrumbs" in $$props) $$invalidate(3, navCrumbs = $$props.navCrumbs);
+    		if ("navHistory" in $$props) $$invalidate(4, navHistory = $$props.navHistory);
+    		if ("navHistoryTracker" in $$props) $$invalidate(5, navHistoryTracker = $$props.navHistoryTracker);
+    		if ("navHistoryLength" in $$props) $$invalidate(6, navHistoryLength = $$props.navHistoryLength);
+    		if ("navHistoryIndex" in $$props) $$invalidate(7, navHistoryIndex = $$props.navHistoryIndex);
+    		if ("currentPath" in $$props) $$invalidate(8, currentPath = $$props.currentPath);
     	};
 
+    	let navCrumbObjects;
     	let navHistory;
     	let navHistoryTracker;
     	let navHistoryLength;
@@ -917,55 +899,58 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*navHistory*/ 8) {
-    			 $$invalidate(5, navHistoryLength = navHistory.length);
+    		if ($$self.$$.dirty & /*$storeCurrentPath*/ 512) {
+    			 $$invalidate(8, currentPath = $storeCurrentPath);
     		}
 
-    		if ($$self.$$.dirty & /*navHistoryLength, navHistoryTracker*/ 48) {
-    			 $$invalidate(6, navHistoryIndex = navHistoryLength - navHistoryTracker - 1);
+    		if ($$self.$$.dirty & /*currentPath*/ 256) {
+    			 $$invalidate(3, navCrumbs = currentPath.split("\\"));
     		}
 
-    		if ($$self.$$.dirty & /*navHistoryLength, navHistoryTracker, navHistoryIndex*/ 112) {
+    		if ($$self.$$.dirty & /*navCrumbs*/ 8) {
+    			 $$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
+    		}
+
+    		if ($$self.$$.dirty & /*navHistory*/ 16) {
+    			 $$invalidate(6, navHistoryLength = navHistory.length);
+    		}
+
+    		if ($$self.$$.dirty & /*navHistoryLength, navHistoryTracker*/ 96) {
+    			 $$invalidate(7, navHistoryIndex = navHistoryLength - navHistoryTracker - 1);
+    		}
+
+    		if ($$self.$$.dirty & /*navHistoryLength, navHistoryTracker, navHistoryIndex*/ 224) {
     			 console.log(`reactive navHistory length: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}, navHistoryIndex: ${navHistoryIndex}  `);
-    		}
-
-    		if ($$self.$$.dirty & /*$storeCurrentPath*/ 256) {
-    			 $$invalidate(7, currentPath = $storeCurrentPath);
-    		}
-
-    		if ($$self.$$.dirty & /*currentPath*/ 128) {
-    			 navCrumbs = currentPath.split("\\");
     		}
     	};
 
-    	 $$invalidate(3, navHistory = []);
-    	 $$invalidate(4, navHistoryTracker = 1);
-
-    	// console.log(`accessing assets: ${currentPath}`);
     	 if (typeof window !== "undefined") {
     		storeCurrentPath.subscribe(path => {
     			console.log("subscription path ", path);
-    			$$invalidate(7, currentPath = path);
+    			$$invalidate(8, currentPath = path);
     		});
 
     		storeNavHistory.subscribe(history => {
     			console.log("navHistory ", history);
-    			$$invalidate(4, navHistoryTracker = 1);
-    			$$invalidate(3, navHistory = history);
+    			$$invalidate(5, navHistoryTracker = 1);
+    			$$invalidate(4, navHistory = history);
     		}); // navigate();
     	}
+
+    	 $$invalidate(4, navHistory = []);
+    	 $$invalidate(5, navHistoryTracker = 1);
 
     	return [
     		navCrumbObjects,
     		selectFolder,
     		navigate,
+    		navCrumbs,
     		navHistory,
     		navHistoryTracker,
     		navHistoryLength,
     		navHistoryIndex,
     		currentPath,
     		$storeCurrentPath,
-    		navCrumbs,
     		dispatch,
     		fs,
     		electron,
