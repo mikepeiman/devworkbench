@@ -155,8 +155,14 @@
     }
 
     // using breadcrumbs navigation, going more than one level back/up
-    let i = navCrumbs.indexOf(e.target.textContent);
-    console.log(`navCrumbs: `, navCrumbs)
+    console.log(`navCrumbs: ${navCrumbs} typeof navCerumbs ${typeof navCrumbs} isarray? ${Array.isArray(navCrumbs)} `)
+    navCrumbs.forEach(crumb => {
+      console.log(`typeof crumb ${crumb}: ${typeof crumb}`)
+    })
+    console.log(`typeof e.target.textContent ${typeof e.target.textContent}`)
+    let target = e.target.textContent
+    let i = navCrumbs.indexOf(`${target}`);
+    console.log(`navCrumbs: `, navCrumbs);
     console.log(
       `navCrumbs.indexOf(e.target.textContent): ${navCrumbs.indexOf(
         e.target.textContent
@@ -171,7 +177,8 @@
     }
     navCrumbs = navCrumbs;
     let newPath = navCrumbs.join("\\");
-    console.log("newpath ", newPath);
+    console.log(`navCrumbs: `, navCrumbs);
+    console.log("newpath: ", newPath);
     storeCurrentPath.set(newPath);
     currentPath = newPath;
     navCrumbObjects = generateColors(navCrumbs);

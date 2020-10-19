@@ -458,9 +458,9 @@ var app = (function () {
         let navCrumbObjects = [];
         let hueOffset = 222;
         let brightnessInterval = 30 / navCrumbs.length;
-        console.log("generateColors");
+        // console.log("generateColors");
         for (let i = 0; i < navCrumbs.length; i++) {
-          console.log("navCrumbObjects: ", navCrumbObjects);
+          // console.log("navCrumbObjects: ", navCrumbObjects);
           navCrumbObjects = [
             ...navCrumbObjects,
             {
@@ -491,7 +491,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (320:4) {#each navCrumbObjects as crumb}
+    // (327:4) {#each navCrumbObjects as crumb}
     function create_each_block(ctx) {
     	let span;
     	let t0_value = /*crumb*/ ctx[24].name + "";
@@ -507,7 +507,7 @@ var app = (function () {
     			t1 = space();
     			attr_dev(span, "class", "breadcrumb svelte-t7gb48");
     			attr_dev(span, "style", span_style_value = /*crumb*/ ctx[24].color);
-    			add_location(span, file$1, 320, 6, 8867);
+    			add_location(span, file$1, 327, 6, 9245);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -532,7 +532,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(320:4) {#each navCrumbObjects as crumb}",
+    		source: "(327:4) {#each navCrumbObjects as crumb}",
     		ctx
     	});
 
@@ -602,43 +602,43 @@ var app = (function () {
 
     			attr_dev(i0, "id", "childProcess");
     			attr_dev(i0, "class", "svelte-t7gb48");
-    			add_location(i0, file$1, 287, 6, 7961);
+    			add_location(i0, file$1, 294, 6, 8339);
     			attr_dev(div0, "class", "icon-container svelte-t7gb48");
-    			add_location(div0, file$1, 286, 4, 7901);
+    			add_location(div0, file$1, 293, 4, 8279);
     			attr_dev(div1, "class", "nav svelte-t7gb48");
-    			add_location(div1, file$1, 285, 2, 7878);
+    			add_location(div1, file$1, 292, 2, 8256);
     			attr_dev(i1, "id", "openDirectory");
     			attr_dev(i1, "class", "svelte-t7gb48");
-    			add_location(i1, file$1, 292, 6, 8093);
+    			add_location(i1, file$1, 299, 6, 8471);
     			attr_dev(div2, "class", "icon-container svelte-t7gb48");
-    			add_location(div2, file$1, 291, 4, 8033);
+    			add_location(div2, file$1, 298, 4, 8411);
     			attr_dev(div3, "class", "nav svelte-t7gb48");
-    			add_location(div3, file$1, 290, 2, 8010);
+    			add_location(div3, file$1, 297, 2, 8388);
     			attr_dev(i2, "id", "upDirectory");
     			attr_dev(i2, "class", "svelte-t7gb48");
-    			add_location(i2, file$1, 297, 6, 8234);
+    			add_location(i2, file$1, 304, 6, 8612);
     			attr_dev(div4, "class", "icon-container svelte-t7gb48");
-    			add_location(div4, file$1, 296, 4, 8166);
+    			add_location(div4, file$1, 303, 4, 8544);
     			attr_dev(div5, "class", "nav svelte-t7gb48");
-    			add_location(div5, file$1, 295, 2, 8143);
+    			add_location(div5, file$1, 302, 2, 8521);
     			attr_dev(i3, "id", "backNavigate");
     			attr_dev(i3, "class", "svelte-t7gb48");
-    			add_location(i3, file$1, 305, 6, 8431);
+    			add_location(i3, file$1, 312, 6, 8809);
     			attr_dev(div6, "class", "icon-container svelte-t7gb48");
-    			add_location(div6, file$1, 301, 4, 8305);
+    			add_location(div6, file$1, 308, 4, 8683);
     			attr_dev(div7, "class", "nav svelte-t7gb48");
-    			add_location(div7, file$1, 300, 2, 8282);
+    			add_location(div7, file$1, 307, 2, 8660);
     			attr_dev(i4, "id", "forwardNavigate");
     			attr_dev(i4, "class", "svelte-t7gb48");
-    			add_location(i4, file$1, 310, 6, 8576);
+    			add_location(i4, file$1, 317, 6, 8954);
     			attr_dev(div8, "class", "icon-container svelte-t7gb48");
-    			add_location(div8, file$1, 309, 4, 8503);
+    			add_location(div8, file$1, 316, 4, 8881);
     			attr_dev(div9, "class", "nav svelte-t7gb48");
-    			add_location(div9, file$1, 308, 2, 8480);
+    			add_location(div9, file$1, 315, 2, 8858);
     			attr_dev(div10, "class", "breadcrumbs svelte-t7gb48");
-    			add_location(div10, file$1, 318, 2, 8796);
+    			add_location(div10, file$1, 325, 2, 9174);
     			attr_dev(div11, "class", "nav-wrapper svelte-t7gb48");
-    			add_location(div11, file$1, 284, 0, 7849);
+    			add_location(div11, file$1, 291, 0, 8227);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -859,8 +859,15 @@ var app = (function () {
     		}
 
     		// using breadcrumbs navigation, going more than one level back/up
-    		let i = navCrumbs.indexOf(e.target.textContent);
+    		console.log(`navCrumbs: ${navCrumbs} typeof navCerumbs ${typeof navCrumbs} isarray? ${Array.isArray(navCrumbs)} `);
 
+    		navCrumbs.forEach(crumb => {
+    			console.log(`typeof crumb ${crumb}: ${typeof crumb}`);
+    		});
+
+    		console.log(`typeof e.target.textContent ${typeof e.target.textContent}`);
+    		let target = e.target.textContent;
+    		let i = navCrumbs.indexOf(`${target}`);
     		console.log(`navCrumbs: `, navCrumbs);
     		console.log(`navCrumbs.indexOf(e.target.textContent): ${navCrumbs.indexOf(e.target.textContent)}, e.target.textContent: ${e.target.textContent}`);
     		let dif = navCrumbs.length - i;
@@ -873,7 +880,8 @@ var app = (function () {
 
     		(($$invalidate(3, navCrumbs), $$invalidate(8, currentPath)), $$invalidate(9, $storeCurrentPath));
     		let newPath = navCrumbs.join("\\");
-    		console.log("newpath ", newPath);
+    		console.log(`navCrumbs: `, navCrumbs);
+    		console.log("newpath: ", newPath);
     		storeCurrentPath.set(newPath);
     		$$invalidate(8, currentPath = newPath);
     		$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
@@ -916,7 +924,8 @@ var app = (function () {
     		console,
     		currentPath,
     		$storeCurrentPath,
-    		window
+    		window,
+    		Array
     	});
 
     	$$self.$inject_state = $$props => {
