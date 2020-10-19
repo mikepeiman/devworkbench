@@ -160,7 +160,7 @@
     console.log(
       `navCrumbs.indexOf(e.target.textContent): ${navCrumbs.indexOf(
         e.target.textContent
-      )}, e.target.textContent: ${(e.target.textContent).toString()}`
+      )}, e.target.textContent: ${e.target.textContent}`
     );
     let dif = navCrumbs.length - i;
 

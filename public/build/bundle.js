@@ -507,7 +507,7 @@ var app = (function () {
     			t1 = space();
     			attr_dev(span, "class", "breadcrumb svelte-t7gb48");
     			attr_dev(span, "style", span_style_value = /*crumb*/ ctx[24].color);
-    			add_location(span, file$1, 320, 6, 8880);
+    			add_location(span, file$1, 320, 6, 8867);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -602,43 +602,43 @@ var app = (function () {
 
     			attr_dev(i0, "id", "childProcess");
     			attr_dev(i0, "class", "svelte-t7gb48");
-    			add_location(i0, file$1, 287, 6, 7974);
+    			add_location(i0, file$1, 287, 6, 7961);
     			attr_dev(div0, "class", "icon-container svelte-t7gb48");
-    			add_location(div0, file$1, 286, 4, 7914);
+    			add_location(div0, file$1, 286, 4, 7901);
     			attr_dev(div1, "class", "nav svelte-t7gb48");
-    			add_location(div1, file$1, 285, 2, 7891);
+    			add_location(div1, file$1, 285, 2, 7878);
     			attr_dev(i1, "id", "openDirectory");
     			attr_dev(i1, "class", "svelte-t7gb48");
-    			add_location(i1, file$1, 292, 6, 8106);
+    			add_location(i1, file$1, 292, 6, 8093);
     			attr_dev(div2, "class", "icon-container svelte-t7gb48");
-    			add_location(div2, file$1, 291, 4, 8046);
+    			add_location(div2, file$1, 291, 4, 8033);
     			attr_dev(div3, "class", "nav svelte-t7gb48");
-    			add_location(div3, file$1, 290, 2, 8023);
+    			add_location(div3, file$1, 290, 2, 8010);
     			attr_dev(i2, "id", "upDirectory");
     			attr_dev(i2, "class", "svelte-t7gb48");
-    			add_location(i2, file$1, 297, 6, 8247);
+    			add_location(i2, file$1, 297, 6, 8234);
     			attr_dev(div4, "class", "icon-container svelte-t7gb48");
-    			add_location(div4, file$1, 296, 4, 8179);
+    			add_location(div4, file$1, 296, 4, 8166);
     			attr_dev(div5, "class", "nav svelte-t7gb48");
-    			add_location(div5, file$1, 295, 2, 8156);
+    			add_location(div5, file$1, 295, 2, 8143);
     			attr_dev(i3, "id", "backNavigate");
     			attr_dev(i3, "class", "svelte-t7gb48");
-    			add_location(i3, file$1, 305, 6, 8444);
+    			add_location(i3, file$1, 305, 6, 8431);
     			attr_dev(div6, "class", "icon-container svelte-t7gb48");
-    			add_location(div6, file$1, 301, 4, 8318);
+    			add_location(div6, file$1, 301, 4, 8305);
     			attr_dev(div7, "class", "nav svelte-t7gb48");
-    			add_location(div7, file$1, 300, 2, 8295);
+    			add_location(div7, file$1, 300, 2, 8282);
     			attr_dev(i4, "id", "forwardNavigate");
     			attr_dev(i4, "class", "svelte-t7gb48");
-    			add_location(i4, file$1, 310, 6, 8589);
+    			add_location(i4, file$1, 310, 6, 8576);
     			attr_dev(div8, "class", "icon-container svelte-t7gb48");
-    			add_location(div8, file$1, 309, 4, 8516);
+    			add_location(div8, file$1, 309, 4, 8503);
     			attr_dev(div9, "class", "nav svelte-t7gb48");
-    			add_location(div9, file$1, 308, 2, 8493);
+    			add_location(div9, file$1, 308, 2, 8480);
     			attr_dev(div10, "class", "breadcrumbs svelte-t7gb48");
-    			add_location(div10, file$1, 318, 2, 8809);
+    			add_location(div10, file$1, 318, 2, 8796);
     			attr_dev(div11, "class", "nav-wrapper svelte-t7gb48");
-    			add_location(div11, file$1, 284, 0, 7862);
+    			add_location(div11, file$1, 284, 0, 7849);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -862,7 +862,7 @@ var app = (function () {
     		let i = navCrumbs.indexOf(e.target.textContent);
 
     		console.log(`navCrumbs: `, navCrumbs);
-    		console.log(`navCrumbs.indexOf(e.target.textContent): ${navCrumbs.indexOf(e.target.textContent)}, e.target.textContent: ${e.target.textContent.toString()}`);
+    		console.log(`navCrumbs.indexOf(e.target.textContent): ${navCrumbs.indexOf(e.target.textContent)}, e.target.textContent: ${e.target.textContent}`);
     		let dif = navCrumbs.length - i;
 
     		if (dif > 1) {
