@@ -491,7 +491,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (314:4) {#each navCrumbObjects as crumb}
+    // (320:4) {#each navCrumbObjects as crumb}
     function create_each_block(ctx) {
     	let span;
     	let t0_value = /*crumb*/ ctx[24].name + "";
@@ -507,7 +507,7 @@ var app = (function () {
     			t1 = space();
     			attr_dev(span, "class", "breadcrumb svelte-t7gb48");
     			attr_dev(span, "style", span_style_value = /*crumb*/ ctx[24].color);
-    			add_location(span, file$1, 314, 6, 8635);
+    			add_location(span, file$1, 320, 6, 8880);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -532,7 +532,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(314:4) {#each navCrumbObjects as crumb}",
+    		source: "(320:4) {#each navCrumbObjects as crumb}",
     		ctx
     	});
 
@@ -602,43 +602,43 @@ var app = (function () {
 
     			attr_dev(i0, "id", "childProcess");
     			attr_dev(i0, "class", "svelte-t7gb48");
-    			add_location(i0, file$1, 281, 6, 7729);
+    			add_location(i0, file$1, 287, 6, 7974);
     			attr_dev(div0, "class", "icon-container svelte-t7gb48");
-    			add_location(div0, file$1, 280, 4, 7669);
+    			add_location(div0, file$1, 286, 4, 7914);
     			attr_dev(div1, "class", "nav svelte-t7gb48");
-    			add_location(div1, file$1, 279, 2, 7646);
+    			add_location(div1, file$1, 285, 2, 7891);
     			attr_dev(i1, "id", "openDirectory");
     			attr_dev(i1, "class", "svelte-t7gb48");
-    			add_location(i1, file$1, 286, 6, 7861);
+    			add_location(i1, file$1, 292, 6, 8106);
     			attr_dev(div2, "class", "icon-container svelte-t7gb48");
-    			add_location(div2, file$1, 285, 4, 7801);
+    			add_location(div2, file$1, 291, 4, 8046);
     			attr_dev(div3, "class", "nav svelte-t7gb48");
-    			add_location(div3, file$1, 284, 2, 7778);
+    			add_location(div3, file$1, 290, 2, 8023);
     			attr_dev(i2, "id", "upDirectory");
     			attr_dev(i2, "class", "svelte-t7gb48");
-    			add_location(i2, file$1, 291, 6, 8002);
+    			add_location(i2, file$1, 297, 6, 8247);
     			attr_dev(div4, "class", "icon-container svelte-t7gb48");
-    			add_location(div4, file$1, 290, 4, 7934);
+    			add_location(div4, file$1, 296, 4, 8179);
     			attr_dev(div5, "class", "nav svelte-t7gb48");
-    			add_location(div5, file$1, 289, 2, 7911);
+    			add_location(div5, file$1, 295, 2, 8156);
     			attr_dev(i3, "id", "backNavigate");
     			attr_dev(i3, "class", "svelte-t7gb48");
-    			add_location(i3, file$1, 299, 6, 8199);
+    			add_location(i3, file$1, 305, 6, 8444);
     			attr_dev(div6, "class", "icon-container svelte-t7gb48");
-    			add_location(div6, file$1, 295, 4, 8073);
+    			add_location(div6, file$1, 301, 4, 8318);
     			attr_dev(div7, "class", "nav svelte-t7gb48");
-    			add_location(div7, file$1, 294, 2, 8050);
+    			add_location(div7, file$1, 300, 2, 8295);
     			attr_dev(i4, "id", "forwardNavigate");
     			attr_dev(i4, "class", "svelte-t7gb48");
-    			add_location(i4, file$1, 304, 6, 8344);
+    			add_location(i4, file$1, 310, 6, 8589);
     			attr_dev(div8, "class", "icon-container svelte-t7gb48");
-    			add_location(div8, file$1, 303, 4, 8271);
+    			add_location(div8, file$1, 309, 4, 8516);
     			attr_dev(div9, "class", "nav svelte-t7gb48");
-    			add_location(div9, file$1, 302, 2, 8248);
+    			add_location(div9, file$1, 308, 2, 8493);
     			attr_dev(div10, "class", "breadcrumbs svelte-t7gb48");
-    			add_location(div10, file$1, 312, 2, 8564);
+    			add_location(div10, file$1, 318, 2, 8809);
     			attr_dev(div11, "class", "nav-wrapper svelte-t7gb48");
-    			add_location(div11, file$1, 278, 0, 7617);
+    			add_location(div11, file$1, 284, 0, 7862);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -861,6 +861,8 @@ var app = (function () {
     		// using breadcrumbs navigation, going more than one level back/up
     		let i = navCrumbs.indexOf(e.target.textContent);
 
+    		console.log(`navCrumbs: `, navCrumbs);
+    		console.log(`navCrumbs.indexOf(e.target.textContent): ${navCrumbs.indexOf(e.target.textContent)}, e.target.textContent: ${e.target.textContent.toString()}`);
     		let dif = navCrumbs.length - i;
 
     		if (dif > 1) {
@@ -1040,7 +1042,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (179:8) {#each currentDirs as dir}
+    // (174:8) {#each currentDirs as dir}
     function create_each_block_1(ctx) {
     	let div;
     	let t0_value = /*dir*/ ctx[19] + "";
@@ -1059,7 +1061,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[19][0] == "." ? "dot-dir" : "reg-dir") + " svelte-1d4rth4");
-    			add_location(div, file_1, 179, 10, 4738);
+    			add_location(div, file_1, 174, 10, 4573);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1085,14 +1087,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(179:8) {#each currentDirs as dir}",
+    		source: "(174:8) {#each currentDirs as dir}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (192:8) {#each currentFiles as file}
+    // (187:8) {#each currentFiles as file}
     function create_each_block$1(ctx) {
     	let div;
     	let t_value = /*file*/ ctx[16] + "";
@@ -1108,7 +1110,7 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "file svelte-1d4rth4");
-    			add_location(div, file_1, 192, 10, 5076);
+    			add_location(div, file_1, 187, 10, 4911);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1129,7 +1131,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(192:8) {#each currentFiles as file}",
+    		source: "(187:8) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -1200,18 +1202,18 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h20, file_1, 176, 6, 4636);
+    			add_location(h20, file_1, 171, 6, 4471);
     			attr_dev(div0, "class", "dirs-listing svelte-1d4rth4");
-    			add_location(div0, file_1, 177, 6, 4664);
-    			add_location(div1, file_1, 175, 4, 4623);
-    			add_location(div2, file_1, 187, 4, 4946);
-    			add_location(h21, file_1, 189, 6, 4977);
+    			add_location(div0, file_1, 172, 6, 4499);
+    			add_location(div1, file_1, 170, 4, 4458);
+    			add_location(div2, file_1, 182, 4, 4781);
+    			add_location(h21, file_1, 184, 6, 4812);
     			attr_dev(div3, "class", "files-listing svelte-1d4rth4");
-    			add_location(div3, file_1, 190, 6, 4999);
-    			add_location(div4, file_1, 188, 4, 4964);
+    			add_location(div3, file_1, 185, 6, 4834);
+    			add_location(div4, file_1, 183, 4, 4799);
     			attr_dev(div5, "class", "file-system svelte-1d4rth4");
-    			add_location(div5, file_1, 174, 2, 4592);
-    			add_location(main, file_1, 172, 0, 4537);
+    			add_location(div5, file_1, 169, 2, 4427);
+    			add_location(main, file_1, 167, 0, 4372);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1341,11 +1343,6 @@ var app = (function () {
     	let oldPath = "";
 
     	onMount(() => {
-    		const dir1 = __dirname;
-    		const cwd = process.cwd();
-    		console.log("ROOT:", root);
-    		console.log("__dirname: ", dir1);
-    		console.log("cwd: ", cwd);
     		addNavHistory();
     	});
 
@@ -1444,7 +1441,6 @@ var app = (function () {
     		root,
     		window,
     		console,
-    		__dirname,
     		file
     	});
 

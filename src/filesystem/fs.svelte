@@ -28,11 +28,6 @@
   }
 
   onMount(() => {
-    const dir1 = __dirname;
-    const cwd = process.cwd();
-    console.log("ROOT:", root);
-    console.log("__dirname: ", dir1);
-    console.log("cwd: ", cwd);
     addNavHistory();
   });
 

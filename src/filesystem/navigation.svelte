@@ -13,9 +13,9 @@
   let breadcrumbs = [];
   let lsCurrentPath;
 
-function childProcess() {
-  runner()  
-}
+  function childProcess() {
+    runner();
+  }
 
   $: navCrumbObjects = generateColors(navCrumbs);
   $: navHistory = [];
@@ -156,6 +156,12 @@ function childProcess() {
 
     // using breadcrumbs navigation, going more than one level back/up
     let i = navCrumbs.indexOf(e.target.textContent);
+    console.log(`navCrumbs: `, navCrumbs)
+    console.log(
+      `navCrumbs.indexOf(e.target.textContent): ${navCrumbs.indexOf(
+        e.target.textContent
+      )}, e.target.textContent: ${(e.target.textContent).toString()}`
+    );
     let dif = navCrumbs.length - i;
 
     if (dif > 1) {
