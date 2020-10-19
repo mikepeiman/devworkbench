@@ -1,6 +1,8 @@
 <script>
   import { storeCurrentPath, storeNavHistory } from "./../db/stores.js";
   import generateColors from "./../utils/gradients.js";
+  import runner from "./../utils/childProcess.js";
+  // const exec = require("./../src/utils/childProcess.js")
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
@@ -11,8 +13,11 @@
   let breadcrumbs = [];
   let lsCurrentPath;
 
+function childProcess() {
+  runner()  
+}
 
-  $: navCrumbObjects =  generateColors(navCrumbs)
+  $: navCrumbObjects = generateColors(navCrumbs);
   $: navHistory = [];
   $: navHistoryTracker = 1;
   $: navHistoryLength = navHistory.length;
@@ -37,7 +42,9 @@
   }
   $: navCrumbs = currentPath.split("\\");
 
-  onMount(() => {navCrumbObjects = generateColors(navCrumbs)});
+  onMount(() => {
+    navCrumbObjects = generateColors(navCrumbs);
+  });
 
   function dispatchNavHistoryTracker() {
     console.log("function dispatchNavHistoryTracker ", navHistoryTracker);
@@ -45,6 +52,11 @@
       data: navHistoryTracker
     });
   }
+
+  // function childProcess() {
+  //   const exec = require("child_process").exec;
+  //   exec("notepad.exe", (err, stdout, stderr) => console.log(stdout));
+  // }
 
   function addNavHistory() {
     navHistory = [...navHistory, currentPath];
@@ -100,7 +112,7 @@
       dispatchNavHistoryTracker();
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
-      navCrumbObjects = generateColors(navCrumbs)
+      navCrumbObjects = generateColors(navCrumbs);
       return;
     }
 
@@ -134,7 +146,7 @@
 
       navCrumbs.pop();
       navCrumbs = navCrumbs;
-      navCrumbObjects = generateColors(navCrumbs)
+      navCrumbObjects = generateColors(navCrumbs);
       let newPath = navCrumbs.join("\\");
       console.log("newpath ", newPath);
       storeCurrentPath.set(newPath);
@@ -156,7 +168,7 @@
     console.log("newpath ", newPath);
     storeCurrentPath.set(newPath);
     currentPath = newPath;
-    navCrumbObjects = generateColors(navCrumbs)
+    navCrumbObjects = generateColors(navCrumbs);
     addNavHistory();
   }
 </script>
@@ -238,6 +250,14 @@
     margin: 0.5rem 0.25rem;
     padding: 0 0.25rem;
   }
+  #childProcess {
+    background-image: url("../../assets/008-launch-1.png");
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 3rem;
+    height: 3rem;
+  }
 
   #upDirectory {
     background-image: url("../../assets/folder.png");
@@ -275,6 +295,11 @@
 
 <div class="nav-wrapper">
   <div class="nav">
+    <div class="icon-container" on:click={childProcess}>
+      <i id="childProcess" />
+    </div>
+  </div>
+  <div class="nav">
     <div class="icon-container" on:click={selectFolder}>
       <i id="openDirectory" />
     </div>
@@ -304,7 +329,9 @@
   </div> -->
   <div class="breadcrumbs">
     {#each navCrumbObjects as crumb}
-      <span class="breadcrumb" on:click={e => navigate(e)} style={crumb.color}>{crumb.name}</span>
+      <span class="breadcrumb" on:click={e => navigate(e)} style={crumb.color}>
+        {crumb.name}
+      </span>
     {/each}
   </div>
 </div>
