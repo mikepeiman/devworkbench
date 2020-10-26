@@ -29,7 +29,7 @@
       console.log("subscription path ", currentPath);
     });
     storeNavHistory.subscribe(history => {
-      console.log("navHistory ", history);
+      // console.log("navHistory ", history);
       navHistoryTracker = 1;
       navHistory = history;
       // navigate();
@@ -151,14 +151,6 @@
     );
     // using breadcrumbs navigation, going more than one level back/up
     let crumb = e.target.textContent.trim();
-    let x = navCrumbs[4];
-    // let y = e.target.attribute["index"];
-    console.log(
-      `testing index navCrumbs[4] ${x} and index of this: ${navCrumbs.indexOf(
-        x
-      )}`
-    );
-    // console.log(`testing HTML element ${y}`);
     let i = navCrumbs.indexOf(crumb);
     console.log(
       `e.target.textContent ${crumb}, index of this crumb: ${i} from navCrumbs ${navCrumbs}`

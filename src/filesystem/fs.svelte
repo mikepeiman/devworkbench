@@ -65,7 +65,7 @@
         .map`);
       fs.readdirSync(currentPath)
         .map(contents => {
-          console.log("node fs readdirSync contents: ", contents);
+          // console.log("node fs readdirSync contents: ", contents);
           return path.join(currentPath, contents);
           // return contents
         })
@@ -88,14 +88,18 @@
 
   const isFile = fileName => {
     // console.log(fs.lstatSync(fileName));
-    if (fs.lstatSync(fileName)) {
+    try {
       if (fs.lstatSync(fileName).isFile()) {
+              console.log(`### File ### name: ${fileName}`)
         currentFiles = [...currentFiles, cropFileName(fileName)];
         // console.log(`currentFiles: `, currentFiles);
       } else {
+        console.log(`### Directory ### name: ${fileName}`)
         currentDirs = [...currentDirs, cropFileName(fileName)];
         // console.log(`currentDirs: `, currentDirs);
       }
+    } catch(err) {
+      console.log(`error from lstatsync: `, err)
     }
   };
 
