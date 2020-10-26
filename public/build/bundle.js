@@ -1026,7 +1026,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (193:8) {#each currentDirs as dir}
+    // (196:8) {#each currentDirs as dir}
     function create_each_block_1(ctx) {
     	let div;
     	let t0_value = /*dir*/ ctx[19] + "";
@@ -1045,7 +1045,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[19][0] == "." ? "dot-dir" : "reg-dir") + " svelte-1d4rth4");
-    			add_location(div, file_1, 193, 10, 5374);
+    			add_location(div, file_1, 196, 10, 5343);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1071,14 +1071,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(193:8) {#each currentDirs as dir}",
+    		source: "(196:8) {#each currentDirs as dir}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (206:8) {#each currentFiles as file}
+    // (209:8) {#each currentFiles as file}
     function create_each_block$1(ctx) {
     	let div;
     	let t_value = /*file*/ ctx[16] + "";
@@ -1094,7 +1094,7 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "file svelte-1d4rth4");
-    			add_location(div, file_1, 206, 10, 5712);
+    			add_location(div, file_1, 209, 10, 5681);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1115,7 +1115,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(206:8) {#each currentFiles as file}",
+    		source: "(209:8) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -1186,18 +1186,18 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h20, file_1, 190, 6, 5272);
+    			add_location(h20, file_1, 193, 6, 5241);
     			attr_dev(div0, "class", "dirs-listing svelte-1d4rth4");
-    			add_location(div0, file_1, 191, 6, 5300);
-    			add_location(div1, file_1, 189, 4, 5259);
-    			add_location(div2, file_1, 201, 4, 5582);
-    			add_location(h21, file_1, 203, 6, 5613);
+    			add_location(div0, file_1, 194, 6, 5269);
+    			add_location(div1, file_1, 192, 4, 5228);
+    			add_location(div2, file_1, 204, 4, 5551);
+    			add_location(h21, file_1, 206, 6, 5582);
     			attr_dev(div3, "class", "files-listing svelte-1d4rth4");
-    			add_location(div3, file_1, 204, 6, 5635);
-    			add_location(div4, file_1, 202, 4, 5600);
+    			add_location(div3, file_1, 207, 6, 5604);
+    			add_location(div4, file_1, 205, 4, 5569);
     			attr_dev(div5, "class", "file-system svelte-1d4rth4");
-    			add_location(div5, file_1, 188, 2, 5228);
-    			add_location(main, file_1, 186, 0, 5173);
+    			add_location(div5, file_1, 191, 2, 5197);
+    			add_location(main, file_1, 189, 0, 5142);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1356,12 +1356,7 @@ var app = (function () {
     		$$invalidate(0, currentFiles = []);
     		$$invalidate(1, currentDirs = []);
 
-    		// if(currentPath === "C:"){
-    		//   currentPath = "C:\\"
-    		// }
-    		// console.log(`currentPath.length: ${currentPath.split("\\").length}`)
     		if (currentPath.split("\\").length === 1) {
-    			// currentPath = "C:\\"
     			$$invalidate(7, currentPath = currentPath + path.sep);
     		}
 
@@ -1370,9 +1365,8 @@ var app = (function () {
         .map`);
 
     			fs.readdirSync(currentPath).map(contents => {
-    				// console.log("node fs readdirSync contents: ", contents);
     				return path.join(currentPath, contents);
-    			}).filter(isFile); // return contents
+    			}).filter(isFile);
     		} catch(err) {
     			console.log("node fs readdirSync error!!! Cannot access this folder", err);
     			$$invalidate(7, currentPath = oldPath);
@@ -1384,28 +1378,34 @@ var app = (function () {
     		// console.log(fs.lstatSync(fileName));
     		try {
     			if (fs.lstatSync(fileName).isFile()) {
-    				console.log(`### File ### name: ${fileName}`);
+    				// console.log(`### File ### name: ${fileName}`);
     				$$invalidate(0, currentFiles = [...currentFiles, cropFileName(fileName)]);
     			} else {
-    				console.log(`### Directory ### name: ${fileName}`); // console.log(`currentFiles: `, currentFiles);
-    				$$invalidate(1, currentDirs = [...currentDirs, cropFileName(fileName)]);
+    				// console.log(`### Directory ### name: ${fileName}`);
+    				$$invalidate(1, currentDirs = [...currentDirs, cropFileName(fileName)]); // console.log(`currentFiles: `, currentFiles);
     			} // console.log(`currentDirs: `, currentDirs);
     		} catch(err) {
-    			console.log(`error from lstatsync: `, err);
-    		}
+    			
+    		} // console.log(`error from lstatsync: `, err);
     	};
 
     	function navigate(dir, type) {
     		oldPath = currentPath;
-    		console.log(`navigate clicked here: ${dir}, currentPath: ${currentPath}`);
+    		console.log(`\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`);
 
     		if (currentPath === "undefined") {
     			$$invalidate(7, currentPath = navHistory[navHistory.length - 1]);
     		} else {
     			if (type === "tail") {
-    				$$invalidate(7, currentPath = currentPath + "\\" + dir);
-    				console.log("currentPath ", currentPath);
-    				storeCurrentPath.set(currentPath);
+    				console.log(`currentPath type is type ${type}`, currentPath);
+
+    				if (currentPath.split("\\")[1] === "") {
+    					$$invalidate(7, currentPath = currentPath + dir);
+    					storeCurrentPath.set(currentPath);
+    				} else {
+    					$$invalidate(7, currentPath = currentPath + "\\" + dir);
+    					storeCurrentPath.set(currentPath);
+    				}
     			} else {
     				$$invalidate(7, currentPath = dir);
     				console.log("currentPath ", currentPath);

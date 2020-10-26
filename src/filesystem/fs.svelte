@@ -47,27 +47,25 @@
   }
 
   function readDirectory() {
-    console.log(`*************** What is users directory? ${process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Preferences' : process.env.HOME + "/.local/share")}`)
+    console.log(
+      `*************** What is users directory? ${process.env.APPDATA ||
+        (process.platform == "darwin"
+          ? process.env.HOME + "/Library/Preferences"
+          : process.env.HOME + "/.local/share")}`
+    );
     console.log("readDirectory() path ", currentPath);
     oldPath = currentPath;
     currentFiles = [];
     currentDirs = [];
-    // if(currentPath === "C:"){
-    //   currentPath = "C:\\"
-    // }
-    // console.log(`currentPath.length: ${currentPath.split("\\").length}`)
-        if(currentPath.split("\\").length === 1){
-      // currentPath = "C:\\"
-      currentPath = currentPath + path.sep
+    if (currentPath.split("\\").length === 1) {
+      currentPath = currentPath + path.sep;
     }
     try {
       console.log(`inside readDirectory(), try fs.readdirSync(${currentPath})
         .map`);
       fs.readdirSync(currentPath)
         .map(contents => {
-          // console.log("node fs readdirSync contents: ", contents);
           return path.join(currentPath, contents);
-          // return contents
         })
         .filter(isFile);
     } catch (err) {
@@ -90,16 +88,16 @@
     // console.log(fs.lstatSync(fileName));
     try {
       if (fs.lstatSync(fileName).isFile()) {
-              console.log(`### File ### name: ${fileName}`)
+        // console.log(`### File ### name: ${fileName}`);
         currentFiles = [...currentFiles, cropFileName(fileName)];
         // console.log(`currentFiles: `, currentFiles);
       } else {
-        console.log(`### Directory ### name: ${fileName}`)
+        // console.log(`### Directory ### name: ${fileName}`);
         currentDirs = [...currentDirs, cropFileName(fileName)];
         // console.log(`currentDirs: `, currentDirs);
       }
-    } catch(err) {
-      console.log(`error from lstatsync: `, err)
+    } catch (err) {
+      // console.log(`error from lstatsync: `, err);
     }
   };
 
@@ -109,14 +107,19 @@
 
   function navigate(dir, type) {
     oldPath = currentPath;
-    console.log(`navigate clicked here: ${dir}, currentPath: ${currentPath}`);
+    console.log(`\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`);
     if (currentPath === "undefined") {
       currentPath = navHistory[navHistory.length - 1];
     } else {
       if (type === "tail") {
-        currentPath = currentPath + "\\" + dir;
-        console.log("currentPath ", currentPath);
-        storeCurrentPath.set(currentPath);
+        console.log(`currentPath type is type ${type}`, currentPath);
+        if (currentPath.split("\\")[1] === "") {
+          currentPath = currentPath + dir;
+          storeCurrentPath.set(currentPath);
+        } else {
+          currentPath = currentPath + "\\" + dir;
+          storeCurrentPath.set(currentPath);
+        }
       } else {
         currentPath = dir;
         console.log("currentPath ", currentPath);
