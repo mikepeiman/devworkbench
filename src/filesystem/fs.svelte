@@ -2,7 +2,7 @@
   import Nav from "./navigation.svelte";
   import { onMount } from "svelte";
   import { storeCurrentPath, storeNavHistory } from "./../db/stores.js";
-    import generateColors from "./../utils/gradients.js";
+  import generateColors from "./../utils/gradients.js";
   const fs = require("fs");
   const path = require("path");
 
@@ -17,22 +17,17 @@
 
   $: if (typeof window !== "undefined") {
     storeCurrentPath.subscribe(path => {
-      console.log("subscription path ", path);
       currentPath = path;
+      console.log("subscription path ", path);
       readDirectory();
     });
     storeNavHistory.subscribe(history => {
-      console.log("navHistory ", history);
+      // console.log("navHistory ", history);
       navHistory = history;
     });
   }
 
   onMount(() => {
-    const dir1 = __dirname;
-    const cwd = process.cwd();
-    console.log("ROOT:", root);
-    console.log("__dirname: ", dir1);
-    console.log("cwd: ", cwd);
     addNavHistory();
   });
 
@@ -52,21 +47,33 @@
   }
 
   function readDirectory() {
-    // console.log("readDirectory() path ", currentPath);
-    // console.log("readDirectory() path ", typeof currentPath);
+    console.log("readDirectory() path ", currentPath);
+    oldPath = currentPath;
     currentFiles = [];
     currentDirs = [];
-
+    // if(currentPath === "C:"){
+    //   currentPath = "C:\\"
+    // }
+    // console.log(`currentPath.length: ${currentPath.split("\\").length}`)
+        if(currentPath.split("\\").length === 1){
+      // currentPath = "C:\\"
+      currentPath = currentPath + path.sep
+    }
     try {
+      console.log(`inside readDirectory(), try fs.readdirSync(${currentPath})
+        .map`);
       fs.readdirSync(currentPath)
-        .map(fileName => {
-          // console.log(`inside currentPath.map: `, fileName);
-          return path.join(currentPath, fileName);
-          // return fileName
+        .map(contents => {
+          console.log("node fs readdirSync contents: ", contents);
+          return path.join(currentPath, contents);
+          // return contents
         })
         .filter(isFile);
     } catch (err) {
-      console.log("node fs readdirSync error!!! Cannot access this folder");
+      console.log(
+        "node fs readdirSync error!!! Cannot access this folder",
+        err
+      );
       currentPath = oldPath;
       storeCurrentPath.set(currentPath);
     }
@@ -80,12 +87,14 @@
 
   const isFile = fileName => {
     // console.log(fs.lstatSync(fileName));
-    if (fs.lstatSync(fileName).isFile()) {
-      currentFiles = [...currentFiles, cropFileName(fileName)];
-      // console.log(`currentFiles: `, currentFiles);
-    } else {
-      currentDirs = [...currentDirs, cropFileName(fileName)];
-      // console.log(`currentDirs: `, currentDirs);
+    if (fs.lstatSync(fileName)) {
+      if (fs.lstatSync(fileName).isFile()) {
+        currentFiles = [...currentFiles, cropFileName(fileName)];
+        // console.log(`currentFiles: `, currentFiles);
+      } else {
+        currentDirs = [...currentDirs, cropFileName(fileName)];
+        // console.log(`currentDirs: `, currentDirs);
+      }
     }
   };
 

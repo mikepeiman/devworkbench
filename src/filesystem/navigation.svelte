@@ -11,8 +11,7 @@
   let breadcrumbs = [];
   let lsCurrentPath;
 
-
-  $: navCrumbObjects =  generateColors(navCrumbs)
+  $: navCrumbObjects = generateColors(navCrumbs);
   $: navHistory = [];
   $: navHistoryTracker = 1;
   $: navHistoryLength = navHistory.length;
@@ -25,8 +24,9 @@
   // console.log(`accessing assets: ${currentPath}`);
   $: if (typeof window !== "undefined") {
     storeCurrentPath.subscribe(path => {
-      console.log("subscription path ", path);
       currentPath = path;
+      // currentPath = `${path}\\`;
+      console.log("subscription path ", currentPath);
     });
     storeNavHistory.subscribe(history => {
       console.log("navHistory ", history);
@@ -37,7 +37,9 @@
   }
   $: navCrumbs = currentPath.split("\\");
 
-  onMount(() => {navCrumbObjects = generateColors(navCrumbs)});
+  onMount(() => {
+    navCrumbObjects = generateColors(navCrumbs);
+  });
 
   function dispatchNavHistoryTracker() {
     console.log("function dispatchNavHistoryTracker ", navHistoryTracker);
@@ -100,7 +102,7 @@
       dispatchNavHistoryTracker();
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
-      navCrumbObjects = generateColors(navCrumbs)
+      navCrumbObjects = generateColors(navCrumbs);
       return;
     }
 
@@ -134,9 +136,11 @@
 
       navCrumbs.pop();
       navCrumbs = navCrumbs;
-      navCrumbObjects = generateColors(navCrumbs)
+      navCrumbObjects = generateColors(navCrumbs);
       let newPath = navCrumbs.join("\\");
-      console.log("newpath ", newPath);
+      console.log("~~~~~~~     newpath ", newPath);
+      console.log("~~~~~~~     navcrumbs ", navCrumbs);
+      // let pathJoin = navCrumbs.joi
       storeCurrentPath.set(newPath);
       addNavHistory();
       return;
@@ -153,10 +157,11 @@
     }
     navCrumbs = navCrumbs;
     let newPath = navCrumbs.join("\\");
-    console.log("newpath ", newPath);
+    console.log("~~~~~~~     newpath ", newPath);
+    console.log("~~~~~~~     navcrumbs ", navCrumbs);
     storeCurrentPath.set(newPath);
     currentPath = newPath;
-    navCrumbObjects = generateColors(navCrumbs)
+    navCrumbObjects = generateColors(navCrumbs);
     addNavHistory();
   }
 </script>
@@ -304,7 +309,9 @@
   </div> -->
   <div class="breadcrumbs">
     {#each navCrumbObjects as crumb}
-      <span class="breadcrumb" on:click={e => navigate(e)} style={crumb.color}>{crumb.name}</span>
+      <span class="breadcrumb" on:click={e => navigate(e)} style={crumb.color}>
+        {crumb.name}
+      </span>
     {/each}
   </div>
 </div>
