@@ -47,6 +47,7 @@
   }
 
   function readDirectory() {
+    console.log(`*************** What is users directory? ${process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Preferences' : process.env.HOME + "/.local/share")}`)
     console.log("readDirectory() path ", currentPath);
     oldPath = currentPath;
     currentFiles = [];

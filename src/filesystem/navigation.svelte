@@ -85,6 +85,7 @@
   }
 
   function navigate(e) {
+    console.log(e)
     if (e === "back") {
       console.log("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n");
       if (navHistoryLength < 1) {
@@ -145,14 +146,30 @@
       addNavHistory();
       return;
     }
-
+    console.log(
+      `navigate(e) clicked at currentPath ${currentPath}, e.target.textContent ${e.target.textContent}`
+    );
     // using breadcrumbs navigation, going more than one level back/up
-    let i = navCrumbs.indexOf(e.target.textContent);
+    let crumb = e.target.textContent.trim();
+    let x = navCrumbs[4];
+    // let y = e.target.attribute["index"];
+    console.log(
+      `testing index navCrumbs[4] ${x} and index of this: ${navCrumbs.indexOf(
+        x
+      )}`
+    );
+    // console.log(`testing HTML element ${y}`);
+    let i = navCrumbs.indexOf(crumb);
+    console.log(
+      `e.target.textContent ${crumb}, index of this crumb: ${i} from navCrumbs ${navCrumbs}`
+    );
     let dif = navCrumbs.length - i;
 
     if (dif > 1) {
+      console.log(`crumbs dif is more than 1`);
       for (let x = 1; x < dif; x++) {
         navCrumbs.pop();
+        console.log(`navCrumbs.pop()...ing`);
       }
     }
     navCrumbs = navCrumbs;
@@ -308,8 +325,12 @@
     {/each}
   </div> -->
   <div class="breadcrumbs">
-    {#each navCrumbObjects as crumb}
-      <span class="breadcrumb" on:click={e => navigate(e)} style={crumb.color}>
+    {#each navCrumbObjects as crumb, i}
+      <span
+        class="breadcrumb"
+        on:click={e => navigate(e)}
+        style={crumb.color}
+        index={i}>
         {crumb.name}
       </span>
     {/each}
