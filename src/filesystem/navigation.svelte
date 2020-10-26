@@ -29,8 +29,8 @@
       console.log("subscription path ", currentPath);
     });
     storeNavHistory.subscribe(history => {
-      // console.log("navHistory ", history);
-      navHistoryTracker = 1;
+      console.log("navHistory ", history);
+      // navHistoryTracker = 1;
       navHistory = history;
       // navigate();
     });
@@ -87,7 +87,12 @@
   function navigate(e) {
     console.log(e)
     if (e === "back") {
-      console.log("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n");
+      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n\n");
+      console.log(`back`);
+      console.log(`navHistoryLength: ${navHistoryLength}`);
+      console.log(`navHistoryTracker: ${navHistoryTracker}`);
+      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n\n");
+
       if (navHistoryLength < 1) {
         console.log("no history, exit");
         return;
@@ -108,7 +113,11 @@
     }
 
     if (e === "forward") {
-      console.log("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> forward\n");
+      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< forward\n\n");
+      console.log(`forward`);
+      console.log(`navHistoryLength: ${navHistoryLength}`);
+      console.log(`navHistoryTracker: ${navHistoryTracker}`);
+      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< forward\n\n");
       if (navHistoryLength < 1) {
         console.log("no history, exit");
         return;

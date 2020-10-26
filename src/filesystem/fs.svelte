@@ -47,12 +47,6 @@
   }
 
   function readDirectory() {
-    console.log(
-      `*************** What is users directory? ${process.env.APPDATA ||
-        (process.platform == "darwin"
-          ? process.env.HOME + "/Library/Preferences"
-          : process.env.HOME + "/.local/share")}`
-    );
     console.log("readDirectory() path ", currentPath);
     oldPath = currentPath;
     currentFiles = [];
@@ -85,16 +79,11 @@
   }
 
   const isFile = fileName => {
-    // console.log(fs.lstatSync(fileName));
     try {
       if (fs.lstatSync(fileName).isFile()) {
-        // console.log(`### File ### name: ${fileName}`);
         currentFiles = [...currentFiles, cropFileName(fileName)];
-        // console.log(`currentFiles: `, currentFiles);
       } else {
-        // console.log(`### Directory ### name: ${fileName}`);
         currentDirs = [...currentDirs, cropFileName(fileName)];
-        // console.log(`currentDirs: `, currentDirs);
       }
     } catch (err) {
       // console.log(`error from lstatsync: `, err);
