@@ -6,6 +6,11 @@
   import {customStyles, customStylesObjects, c } from "./../utils/CustomLogging.js";
 
 
+  function logThis(type, msg) {
+    customStylesObjects[`${type}`].log(msg)
+    console.log(msg)
+  }
+
   customStyles[0].log("test 0")
   customStyles[1].log("test 1")
   // customStyles[2].log("test 2")
@@ -14,6 +19,7 @@
   console.log('testing back')
   customStylesObjects["forward"].forward("test forward")
   c.forward.l("c.l here")
+  logThis("back", "hello hello")
   // const custom = new CustomLogging();
   // const error = new CustomLogging("error");
   // error.setBodyStyle({ color: "red", size: "2rem" });

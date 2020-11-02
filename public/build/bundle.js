@@ -482,6 +482,8 @@ var app = (function () {
           color: "rgba(0,0,0,0.5)",
           size: "1rem",
           margin: "0.5rem 0",
+          before: ">>>",
+          after: "$$$",
         };
 
         this.body = {
@@ -491,11 +493,13 @@ var app = (function () {
         };
       }
 
-      setTitleStyle({ color, size, margin, padding }) {
+      setTitleStyle({ color, size, margin, padding, before, after }) {
         if (color !== undefined) this.title.color = color;
         if (size !== undefined) this.title.size = size;
         if (margin !== undefined) this.title.margin = margin;
         if (padding !== undefined) this.title.padding = padding;
+        if (before !== undefined) this.title.before = before;
+        if (after !== undefined) this.title.after = after;
       }
 
       setBodyStyle({ color, size, margin, padding }) {
@@ -508,16 +512,16 @@ var app = (function () {
       log(body = "") {
         // the second line is now the body because the first references the content after the first %c for the title
         console.log(
-          `%c${this.title.body} | %c${body}`,
+          `${this.title.before} %c${this.title.body} ${this.title.after} %c${body}`,
           `color: ${this.title.color}; font-weight: bold; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
           `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
         );
       }
-      
+
       l(body = "") {
         // the second line is now the body because the first references the content after the first %c for the title
         console.log(
-          `%c${this.title.body} | %c${body}`,
+          `%c${this.title.body} ${this.title.after} %c${body}`,
           `color: ${this.title.color}; font-weight: bold; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
           `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
         );
@@ -544,26 +548,54 @@ var app = (function () {
     error.setBodyStyle({ color: "red", size: "2rem" });
 
     const special = new CustomLogging("special");
-    special.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1.2rem", padding: "1rem" });
-    special.setTitleStyle({ color: "rgba(0,70,255,0.5)", size: "1.2rem", margin: "0 0 0 0rem" });
+    special.setBodyStyle({
+      color: "rgba(0,70,255,0.5)",
+      size: "1.2rem",
+      padding: "1rem",
+    });
+    special.setTitleStyle({
+      color: "rgba(0,70,255,0.5)",
+      size: "1.2rem",
+      margin: "0 0 0 0rem",
+      after: "!!!",
+    });
 
     const back = new CustomLogging("back");
-    back.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1rem", padding: "1rem" });
-    back.setTitleStyle({ color: "rgba(255,155,70,0.95)", size: "1.2rem", margin: "0 0 0 0" });
+    back.setBodyStyle({
+      color: "rgba(0,70,255,0.5)",
+      size: "1rem",
+      padding: "1rem",
+    });
+    back.setTitleStyle({
+      color: "rgba(255,155,70,0.95)",
+      size: "1.2rem",
+      margin: "0 0 0 0",
+    });
 
     const forward = new CustomLogging("forward");
-    forward.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1rem", padding: "1rem" });
-    forward.setTitleStyle({ color: "rgba(70,205,70,0.95)", size: "1.2rem", margin: "0 0 0 0" });
-
+    forward.setBodyStyle({
+      color: "rgba(0,70,255,0.5)",
+      size: "1rem",
+      padding: "1rem",
+    });
+    forward.setTitleStyle({
+      color: "rgba(70,205,70,0.95)",
+      size: "1.2rem",
+      margin: "0 0 0 0",
+    });
 
     const customStyles = [];
     customStyles.push(error, special);
     // let customStylesObjects = []
     // customStylesObjects.push({"error": error}, {"special": special},{ "back": back}, {"forward": forward})
 
-    let customStylesObjects = {"error": error, "special": special, "back": back, "forward": forward};
-    let c = {"error": error, "special": special, "back": back, "forward": forward};
-
+    let customStylesObjects = {
+      error: error,
+      special: special,
+      back: back,
+      forward: forward,
+    };
+    let c = { error: error, special: special, back: back, forward: forward };
 
     var CustomLogging_1 = { customStyles, customStylesObjects, c };
     var CustomLogging_2 = CustomLogging_1.customStyles;
@@ -580,7 +612,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (345:4) {#each navCrumbObjects as crumb, i}
+    // (351:4) {#each navCrumbObjects as crumb, i}
     function create_each_block(ctx) {
     	let span;
     	let t0_value = /*crumb*/ ctx[24].name + "";
@@ -598,7 +630,7 @@ var app = (function () {
     			attr_dev(span, "class", "breadcrumb svelte-qvnm7r");
     			attr_dev(span, "style", span_style_value = /*crumb*/ ctx[24].color);
     			attr_dev(span, "index", span_index_value = /*i*/ ctx[26]);
-    			add_location(span, file$1, 345, 6, 10341);
+    			add_location(span, file$1, 351, 6, 10482);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -623,7 +655,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(345:4) {#each navCrumbObjects as crumb, i}",
+    		source: "(351:4) {#each navCrumbObjects as crumb, i}",
     		ctx
     	});
 
@@ -685,36 +717,36 @@ var app = (function () {
 
     			attr_dev(i0, "id", "openDirectory");
     			attr_dev(i0, "class", "svelte-qvnm7r");
-    			add_location(i0, file$1, 317, 6, 9564);
+    			add_location(i0, file$1, 323, 6, 9705);
     			attr_dev(div0, "class", "icon-container svelte-qvnm7r");
-    			add_location(div0, file$1, 316, 4, 9504);
+    			add_location(div0, file$1, 322, 4, 9645);
     			attr_dev(div1, "class", "nav svelte-qvnm7r");
-    			add_location(div1, file$1, 315, 2, 9481);
+    			add_location(div1, file$1, 321, 2, 9622);
     			attr_dev(i1, "id", "upDirectory");
     			attr_dev(i1, "class", "svelte-qvnm7r");
-    			add_location(i1, file$1, 322, 6, 9705);
+    			add_location(i1, file$1, 328, 6, 9846);
     			attr_dev(div2, "class", "icon-container svelte-qvnm7r");
-    			add_location(div2, file$1, 321, 4, 9637);
+    			add_location(div2, file$1, 327, 4, 9778);
     			attr_dev(div3, "class", "nav svelte-qvnm7r");
-    			add_location(div3, file$1, 320, 2, 9614);
+    			add_location(div3, file$1, 326, 2, 9755);
     			attr_dev(i2, "id", "backNavigate");
     			attr_dev(i2, "class", "svelte-qvnm7r");
-    			add_location(i2, file$1, 330, 6, 9902);
+    			add_location(i2, file$1, 336, 6, 10043);
     			attr_dev(div4, "class", "icon-container svelte-qvnm7r");
-    			add_location(div4, file$1, 326, 4, 9776);
+    			add_location(div4, file$1, 332, 4, 9917);
     			attr_dev(div5, "class", "nav svelte-qvnm7r");
-    			add_location(div5, file$1, 325, 2, 9753);
+    			add_location(div5, file$1, 331, 2, 9894);
     			attr_dev(i3, "id", "forwardNavigate");
     			attr_dev(i3, "class", "svelte-qvnm7r");
-    			add_location(i3, file$1, 335, 6, 10047);
+    			add_location(i3, file$1, 341, 6, 10188);
     			attr_dev(div6, "class", "icon-container svelte-qvnm7r");
-    			add_location(div6, file$1, 334, 4, 9974);
+    			add_location(div6, file$1, 340, 4, 10115);
     			attr_dev(div7, "class", "nav svelte-qvnm7r");
-    			add_location(div7, file$1, 333, 2, 9951);
+    			add_location(div7, file$1, 339, 2, 10092);
     			attr_dev(div8, "class", "breadcrumbs svelte-qvnm7r");
-    			add_location(div8, file$1, 343, 2, 10267);
+    			add_location(div8, file$1, 349, 2, 10408);
     			attr_dev(div9, "class", "nav-wrapper svelte-qvnm7r");
-    			add_location(div9, file$1, 314, 0, 9452);
+    			add_location(div9, file$1, 320, 0, 9593);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -796,6 +828,11 @@ var app = (function () {
     	return block;
     }
 
+    function logThis(type, msg) {
+    	CustomLogging_3[`${type}`].log(msg);
+    	console.log(msg);
+    }
+
     function showHistory() {
     	console.log("show history from back button");
     }
@@ -814,6 +851,7 @@ var app = (function () {
     	console.log("testing back");
     	CustomLogging_3["forward"].forward("test forward");
     	CustomLogging_4.forward.l("c.l here");
+    	logThis("back", "hello hello");
 
     	// const custom = new CustomLogging();
     	// const error = new CustomLogging("error");
@@ -1005,6 +1043,7 @@ var app = (function () {
     		customStyles: CustomLogging_2,
     		customStylesObjects: CustomLogging_3,
     		c: CustomLogging_4,
+    		logThis,
     		dispatch,
     		fs,
     		electron,
