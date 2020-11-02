@@ -3,7 +3,7 @@
   import generateColors from "./../utils/gradients.js";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import {customStyles, customStylesObjects } from "./../utils/CustomLogging.js";
+  import {customStyles, customStylesObjects, c } from "./../utils/CustomLogging.js";
 
 
   customStyles[0].log("test 0")
@@ -11,7 +11,9 @@
   // customStyles[2].log("test 2")
   // customStyles[3].log("test 3")
   customStylesObjects["back"].back("test back")
+  console.log('testing back')
   customStylesObjects["forward"].forward("test forward")
+  c.forward.l("c.l here")
   // const custom = new CustomLogging();
   // const error = new CustomLogging("error");
   // error.setBodyStyle({ color: "red", size: "2rem" });

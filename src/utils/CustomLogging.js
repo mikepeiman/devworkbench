@@ -1,3 +1,4 @@
+
 class CustomLogging {
   constructor(title) {
     this.title = {
@@ -36,6 +37,15 @@ class CustomLogging {
       `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
     );
   }
+  
+  l(body = "") {
+    // the second line is now the body because the first references the content after the first %c for the title
+    console.log(
+      `%c${this.title.body} | %c${body}`,
+      `color: ${this.title.color}; font-weight: bold; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
+      `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
+    );
+  }
   back(body = "") {
     // the second line is now the body because the first references the content after the first %c for the title
     console.log(
@@ -60,16 +70,16 @@ const error = new CustomLogging("error");
 error.setBodyStyle({ color: "red", size: "2rem" });
 
 const special = new CustomLogging("special");
-special.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1.2rem", padding: "2rem" });
-special.setTitleStyle({ color: "rgba(0,70,255,0.5)", size: "1.2rem", margin: "0 0 0 1rem" });
+special.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1.2rem", padding: "1rem" });
+special.setTitleStyle({ color: "rgba(0,70,255,0.5)", size: "1.2rem", margin: "0 0 0 0rem" });
 
 const back = new CustomLogging("back");
-back.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1rem", padding: "2rem" });
-back.setTitleStyle({ color: "rgba(255,155,70,0.95)", size: "1.2rem", margin: "0 0 0 1rem" });
+back.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1rem", padding: "1rem" });
+back.setTitleStyle({ color: "rgba(255,155,70,0.95)", size: "1.2rem", margin: "0 0 0 0" });
 
 const forward = new CustomLogging("forward");
-forward.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1rem", padding: "2rem" });
-forward.setTitleStyle({ color: "rgba(70,205,70,0.95)", size: "1.2rem", margin: "0 0 0 1rem" });
+forward.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1rem", padding: "1rem" });
+forward.setTitleStyle({ color: "rgba(70,205,70,0.95)", size: "1.2rem", margin: "0 0 0 0" });
 
 
 const customStyles = []
@@ -78,9 +88,10 @@ customStyles.push(error, special)
 // customStylesObjects.push({"error": error}, {"special": special},{ "back": back}, {"forward": forward})
 
 let customStylesObjects = {"error": error, "special": special, "back": back, "forward": forward}
+let c = {"error": error, "special": special, "back": back, "forward": forward}
 
 
-module.exports = { customStyles, customStylesObjects }
+module.exports = { customStyles, customStylesObjects, c }
 
 // export default customStyles;
 // export customStylesObjects;
