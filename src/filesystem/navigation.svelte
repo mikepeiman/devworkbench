@@ -3,35 +3,14 @@
   import generateColors from "./../utils/gradients.js";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import {customStyles, customStylesObjects, c } from "./../utils/CustomLogging.js";
+  import { customStylesObjects } from "./../utils/CustomLogging.js";
 
-
-  function logThis(type, msg) {
-    customStylesObjects[`${type}`].log(msg)
-    console.log(msg)
+  function log(type, msg) {
+    customStylesObjects[`${type}`].log(msg);
+    console.log(msg);
   }
 
-  customStyles[0].log("test 0")
-  customStyles[1].log("test 1")
-  // customStyles[2].log("test 2")
-  // customStyles[3].log("test 3")
-  customStylesObjects["back"].back("test back")
-  console.log('testing back')
-  customStylesObjects["forward"].forward("test forward")
-  c.forward.l("c.l here")
-  logThis("back", "hello hello")
-  // const custom = new CustomLogging();
-  // const error = new CustomLogging("error");
-  // error.setBodyStyle({ color: "red", size: "2rem" });
-  // const special = new CustomLogging("special");
-  // special.setTitleStyle({
-  //   color: "rgba(0,70,255,0.5)",
-  //   size: "1.2rem",
-  //   margin: "0 0 0 1rem"
-  // });
-
-  // error.log("Something bad happened!");
-  // special.log("I am very special");
+  log("error", "error hello");
 
   const dispatch = createEventDispatcher();
   const fs = require("fs");
@@ -126,8 +105,7 @@
         return;
       }
       navHistoryTracker = navHistoryTracker + 1;
-      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back");
-      console.log(`back`);
+      log("back", "back hello");
       console.log(`navHistoryLength: ${navHistoryLength}`);
       console.log(`navHistoryTracker: ${navHistoryTracker}`);
       console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n\n");
@@ -152,8 +130,7 @@
         return;
       }
       navHistoryTracker = navHistoryTracker - 1;
-      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< forward");
-      console.log(`forward`);
+      log("forward", "forward hello");
       console.log(`navHistoryLength: ${navHistoryLength}`);
       console.log(`navHistoryTracker: ${navHistoryTracker}`);
       console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< forward\n\n");
@@ -177,8 +154,7 @@
     }
 
     if (e === "up") {
-      console.log("up");
-
+      log("up", navCrumbs);
       navCrumbs.pop();
       navCrumbs = navCrumbs;
       navCrumbObjects = generateColors(navCrumbs);
@@ -192,6 +168,7 @@
       // return;
     }
     if (typeof e === "object") {
+      log("crumbs", currentPath)
       console.log(
         `navigate(e) clicked at currentPath ${currentPath}, e.target.textContent ${e.target.textContent}`
       );

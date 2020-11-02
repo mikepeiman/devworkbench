@@ -12,7 +12,7 @@ class CustomLogging {
     this.body = {
       color: "rgba(0,0,0,1)",
       size: "1rem",
-      padding: ".5rem 0",
+      padding: "0 1rem 1rem 0",
     };
   }
 
@@ -35,94 +35,99 @@ class CustomLogging {
   log(body = "") {
     // the second line is now the body because the first references the content after the first %c for the title
     console.log(
-      `${this.title.before} %c${this.title.body} ${this.title.after} %c${body}`,
-      `color: ${this.title.color}; font-weight: bold; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
-      `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
-    );
-  }
-
-  l(body = "") {
-    // the second line is now the body because the first references the content after the first %c for the title
-    console.log(
-      `%c${this.title.body} ${this.title.after} %c${body}`,
-      `color: ${this.title.color}; font-weight: bold; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
-      `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
-    );
-  }
-  back(body = "") {
-    // the second line is now the body because the first references the content after the first %c for the title
-    console.log(
-      `%c${this.title.body} <<< \n%c${body}`,
-      `color: ${this.title.color}; font-weight: bold; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
-      `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
-    );
-  }
-  forward(body = "") {
-    // the second line is now the body because the first references the content after the first %c for the title
-    console.log(
-      `%c${this.title.body} >>> \n%c${body}`,
+      `%c${this.title.before} ${this.title.body} ${this.title.after} %c${body}`,
       `color: ${this.title.color}; font-weight: bold; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
       `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
     );
   }
 }
+let color;
 
-const custom = new CustomLogging();
-
-const error = new CustomLogging("error");
-error.setBodyStyle({ color: "red", size: "2rem" });
-
-const special = new CustomLogging("special");
-special.setBodyStyle({
-  color: "rgba(0,70,255,0.5)",
+const up = new CustomLogging("up");
+color = "rgba(0,170,255,0.95)";
+up.setTitleStyle({
+  color: color,
   size: "1.2rem",
-  padding: "1rem",
+  margin: "0",
+  before: "!!!",
+  after: "!!!\n",
 });
-special.setTitleStyle({
-  color: "rgba(0,70,255,0.5)",
+up.setBodyStyle({
+  color: color,
   size: "1.2rem",
-  margin: "0 0 0 0rem",
-  after: "!!!",
+  padding: "0 1rem 1rem 0",
 });
 
 const back = new CustomLogging("back");
-back.setBodyStyle({
-  color: "rgba(0,70,255,0.5)",
-  size: "1rem",
-  padding: "1rem",
-});
+color = "rgba(150,70,55,0.95)";
 back.setTitleStyle({
-  color: "rgba(255,155,70,0.95)",
+  color: color,
   size: "1.2rem",
   margin: "0 0 0 0",
+  before: "<<<",
+  after: "<<<\n",
 });
+back.setBodyStyle({
+  color: color,
+  size: "1rem",
+  padding: "1rem",padding: "0 1rem 1rem 0",});
+
 
 const forward = new CustomLogging("forward");
-forward.setBodyStyle({
-  color: "rgba(0,70,255,0.5)",
-  size: "1rem",
-  padding: "1rem",
-});
+color = "rgba(150,70,255,0.95)";
 forward.setTitleStyle({
-  color: "rgba(70,205,70,0.95)",
+  color: color,
   size: "1.2rem",
   margin: "0 0 0 0",
+  before: ">>>",
+  after: ">>>\n",
+});
+forward.setBodyStyle({
+  color: color,
+  size: "1rem",
+  padding: "0 1rem 1rem 0",
 });
 
-const customStyles = [];
-customStyles.push(error, special);
-// let customStylesObjects = []
-// customStylesObjects.push({"error": error}, {"special": special},{ "back": back}, {"forward": forward})
+
+const crumbs = new CustomLogging("crumbs");
+color = "rgba(90,70,255,1)";
+crumbs.setTitleStyle({
+  color: color,
+  size: "1.2rem",
+  margin: "0 0 0 0",
+  before: ">>>",
+  after: ">>>\n",
+});
+crumbs.setBodyStyle({
+  color: color,
+  size: "1rem",
+  padding: "0 1rem 1rem 0",
+});
+
+const error = new CustomLogging("error");
+color = "rgba(255,70,70,0.95)";
+error.setTitleStyle({
+  color: color,
+  size: "1.2rem",
+  margin: "0 0 0 0",
+  before: ">>>",
+  after: ">>>\n",
+});
+error.setBodyStyle({
+  color: color,
+  size: "1rem",
+  padding: "0 1rem 1rem 0",
+});
 
 let customStylesObjects = {
   error: error,
-  special: special,
+  up: up,
   back: back,
   forward: forward,
+  crumbs: crumbs
 };
-let c = { error: error, special: special, back: back, forward: forward };
 
-module.exports = { customStyles, customStylesObjects, c };
+module.exports = { customStylesObjects };
 
 // export default customStyles;
 // export customStylesObjects;
