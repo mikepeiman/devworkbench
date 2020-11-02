@@ -3,6 +3,28 @@
   import generateColors from "./../utils/gradients.js";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
+  import {customStyles, customStylesObjects } from "./../utils/CustomLogging.js";
+
+
+  customStyles[0].log("test 0")
+  customStyles[1].log("test 1")
+  // customStyles[2].log("test 2")
+  // customStyles[3].log("test 3")
+  customStylesObjects["back"].back("test back")
+  customStylesObjects["forward"].forward("test forward")
+  // const custom = new CustomLogging();
+  // const error = new CustomLogging("error");
+  // error.setBodyStyle({ color: "red", size: "2rem" });
+  // const special = new CustomLogging("special");
+  // special.setTitleStyle({
+  //   color: "rgba(0,70,255,0.5)",
+  //   size: "1.2rem",
+  //   margin: "0 0 0 1rem"
+  // });
+
+  // error.log("Something bad happened!");
+  // special.log("I am very special");
+
   const dispatch = createEventDispatcher();
   const fs = require("fs");
   const electron = require("electron");
@@ -50,6 +72,8 @@
 
   function addNavHistory() {
     navHistory = [...navHistory, currentPath];
+    navHistoryTracker = navHistory.length - 1;
+    navHistoryIndex = navHistoryLength - navHistoryTracker;
     storeNavHistory.set(navHistory);
   }
 
@@ -85,20 +109,21 @@
   }
 
   function navigate(e) {
-    console.log(e)
+    console.log(`\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< navigate(e):`);
+    console.log(`\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< e = ${typeof e}`);
+    console.log(e);
     if (e === "back") {
-      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n\n");
-      console.log(`back`);
-      console.log(`navHistoryLength: ${navHistoryLength}`);
-      console.log(`navHistoryTracker: ${navHistoryTracker}`);
-      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n\n");
-
       if (navHistoryLength < 1) {
         console.log("no history, exit");
         return;
       }
-      // addNavHistory()
       navHistoryTracker = navHistoryTracker + 1;
+      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back");
+      console.log(`back`);
+      console.log(`navHistoryLength: ${navHistoryLength}`);
+      console.log(`navHistoryTracker: ${navHistoryTracker}`);
+      console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n\n");
+
       if (!navHistory[navHistoryIndex]) {
         console.log("!no more history!");
         navHistoryTracker = navHistoryTracker - 1;
@@ -109,20 +134,21 @@
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
       navCrumbObjects = generateColors(navCrumbs);
-      return;
+      // addNavHistory();
+      // return;
     }
 
     if (e === "forward") {
-      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< forward\n\n");
-      console.log(`forward`);
-      console.log(`navHistoryLength: ${navHistoryLength}`);
-      console.log(`navHistoryTracker: ${navHistoryTracker}`);
-      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< forward\n\n");
       if (navHistoryLength < 1) {
         console.log("no history, exit");
         return;
       }
       navHistoryTracker = navHistoryTracker - 1;
+      console.log("\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< forward");
+      console.log(`forward`);
+      console.log(`navHistoryLength: ${navHistoryLength}`);
+      console.log(`navHistoryTracker: ${navHistoryTracker}`);
+      console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< forward\n\n");
       navHistoryIndex = navHistoryLength - navHistoryTracker;
       if (!navHistory[navHistoryIndex]) {
         console.log("!no more history!");
@@ -138,7 +164,8 @@
       dispatchNavHistoryTracker();
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
-      return;
+      // addNavHistory();
+      // return;
     }
 
     if (e === "up") {
@@ -152,35 +179,39 @@
       console.log("~~~~~~~     navcrumbs ", navCrumbs);
       // let pathJoin = navCrumbs.joi
       storeCurrentPath.set(newPath);
+      dispatchNavHistoryTracker();
       addNavHistory();
-      return;
+      // return;
     }
-    console.log(
-      `navigate(e) clicked at currentPath ${currentPath}, e.target.textContent ${e.target.textContent}`
-    );
-    // using breadcrumbs navigation, going more than one level back/up
-    let crumb = e.target.textContent.trim();
-    let i = navCrumbs.indexOf(crumb);
-    console.log(
-      `e.target.textContent ${crumb}, index of this crumb: ${i} from navCrumbs ${navCrumbs}`
-    );
-    let dif = navCrumbs.length - i;
+    if (typeof e === "object") {
+      console.log(
+        `navigate(e) clicked at currentPath ${currentPath}, e.target.textContent ${e.target.textContent}`
+      );
+      // using breadcrumbs navigation, going more than one level back/up
+      let crumb = e.target.textContent.trim();
+      let i = navCrumbs.indexOf(crumb);
+      console.log(
+        `e.target.textContent ${crumb}, index of this crumb: ${i} from navCrumbs ${navCrumbs}`
+      );
+      let dif = navCrumbs.length - i;
 
-    if (dif > 1) {
-      console.log(`crumbs dif is more than 1`);
-      for (let x = 1; x < dif; x++) {
-        navCrumbs.pop();
-        console.log(`navCrumbs.pop()...ing`);
+      if (dif > 1) {
+        console.log(`crumbs dif is more than 1`);
+        for (let x = 1; x < dif; x++) {
+          navCrumbs.pop();
+          console.log(`navCrumbs.pop()...ing`);
+        }
       }
+      navCrumbs = navCrumbs;
+      let newPath = navCrumbs.join("\\");
+      console.log("~~~~~~~     newpath ", newPath);
+      console.log("~~~~~~~     navcrumbs ", navCrumbs);
+      storeCurrentPath.set(newPath);
+      currentPath = newPath;
+      navCrumbObjects = generateColors(navCrumbs);
+      dispatchNavHistoryTracker();
+      addNavHistory();
     }
-    navCrumbs = navCrumbs;
-    let newPath = navCrumbs.join("\\");
-    console.log("~~~~~~~     newpath ", newPath);
-    console.log("~~~~~~~     navcrumbs ", navCrumbs);
-    storeCurrentPath.set(newPath);
-    currentPath = newPath;
-    navCrumbObjects = generateColors(navCrumbs);
-    addNavHistory();
   }
 </script>
 
