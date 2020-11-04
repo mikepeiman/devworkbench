@@ -50,8 +50,8 @@ up.setTitleStyle({
   color: color,
   size: "1.2rem",
   margin: "0",
-  before: "!!!",
-  after: "!!!\n",
+  before: "^^^",
+  after: "^^^\n",
 });
 up.setBodyStyle({
   color: color,
@@ -96,8 +96,8 @@ crumbs.setTitleStyle({
   color: color,
   size: "1.2rem",
   margin: "0 0 0 0",
-  before: ">>>",
-  after: ">>>\n",
+  before: "...",
+  after: "...\n",
 });
 crumbs.setBodyStyle({
   color: color,
@@ -111,8 +111,8 @@ error.setTitleStyle({
   color: color,
   size: "1.2rem",
   margin: "0 0 0 0",
-  before: ">>>",
-  after: ">>>\n",
+  before: "!",
+  after: "!\n",
 });
 error.setBodyStyle({
   color: color,
@@ -128,8 +128,8 @@ data.setTitleStyle({
   weight: "normal",
   size: "1.2rem",
   margin: "0 0 0 0",
-  before: ">>>",
-  after: ">>>\n",
+  before: "$",
+  after: "$\n",
 });
 data.setBodyStyle({
   color: color,

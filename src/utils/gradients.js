@@ -1,5 +1,5 @@
 const generateColors = (navCrumbs) => {
-  console.log("generateColors, navCrumbs: ", navCrumbs);
+  // console.log("generateColors, navCrumbs: ", navCrumbs);
   let navCrumbObjects = [];
   let hueOffset = 222;
   // let hueInterval = 3; * navCrumbs.length;

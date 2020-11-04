@@ -147,6 +147,15 @@
     // flex-wrap: wrap;
     // text-align: left;
   }
+    .history-listing {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 5px solid rgba(0, 55, 255, 0.75);
+    display: flex;
+    flex-direction: column;
+    // flex-wrap: wrap;
+    // text-align: left;
+  }
   .dir {
     padding: 0.5rem;
     margin: 0.25rem;
@@ -207,7 +216,18 @@
         {/each}
       </div>
     </div>
-    <div>.</div>
+    <div>
+      <h2>History</h2>
+      <div class="history-listing">
+        {#each navHistory as dir, i}
+          <div
+            class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
+            on:click={() => navigate(dir, 'full')}>
+            {dir}
+          </div>
+        {/each}
+      </div>
+    </div>
     <div>
       <h2>FILES</h2>
       <div class="files-listing">
@@ -216,15 +236,8 @@
         {/each}
       </div>
     </div>
+    <!-- </div> -->
+
+    <div />
   </div>
-  <div>
-    {#each navHistory as dir, i}
-      <div
-        class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
-        on:click={() => navigate(dir, 'full')}>
-        {dir}
-      </div>
-    {/each}
-  </div>
-  <!-- </div> -->
 </main>

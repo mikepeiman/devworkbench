@@ -10,8 +10,6 @@
     console.log(msg);
   }
 
-  log("error", "error hello");
-
   const dispatch = createEventDispatcher();
   const fs = require("fs");
   const electron = require("electron");
@@ -38,7 +36,7 @@
       console.log("subscription path ", currentPath);
     });
     storeNavHistory.subscribe(history => {
-      log("data", "storeNavHistory called in navigation.svelte subscription")
+      // log("data", "storeNavHistory called in navigation.svelte subscription");
       // navHistoryTracker = 1;
       navHistory = history;
       // navigate();
@@ -64,8 +62,8 @@
     storeNavHistory.set(navHistory);
   }
 
-  function showHistory() {
-    console.log("show history from back button");
+  function hoverButton(msg) {
+    console.log(`hovering ${msg} button`);
   }
 
   function selectFolder() {
@@ -96,9 +94,7 @@
   }
 
   function navigate(e) {
-    console.log(`\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< navigate(e):`);
-    console.log(`\n\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< e = ${typeof e}`);
-    console.log(e);
+    console.log(`navigate called with e: ${e}`)
     if (e === "back") {
       if (navHistoryLength < 1) {
         console.log("no history, exit");
@@ -168,7 +164,7 @@
       // return;
     }
     if (typeof e === "object") {
-      log("crumbs", currentPath)
+      log("crumbs", currentPath);
       console.log(
         `navigate(e) clicked at currentPath ${currentPath}, e.target.textContent ${e.target.textContent}`
       );
@@ -319,7 +315,10 @@
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={() => navigate('up')}>
+    <div
+      class="icon-container"
+      on:click={() => navigate('up')}
+      on:mouseover={() => hoverButton('up')}>
       <i id="upDirectory" />
     </div>
   </div>
@@ -327,12 +326,15 @@
     <div
       class="icon-container"
       on:click={() => navigate('back')}
-      on:mouseover={() => showHistory()}>
+      on:mouseover={() => hoverButton('back')}>
       <i id="backNavigate" />
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={() => navigate('forward')}>
+    <div
+      class="icon-container"
+      on:click={() => navigate('forward')}
+      on:mouseover={() => hoverButton('forward')}>
       <i id="forwardNavigate" />
     </div>
   </div>
