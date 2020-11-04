@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const debugMenu = require('debug-menu');
 
 // Live Reload
 require('electron-reload')(__dirname, {
@@ -27,13 +28,18 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, '../public/index.html'));
 
   // Open the DevTools.
+
   mainWindow.webContents.openDevTools();
+
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow()
+
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -49,6 +55,7 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+    debugMenu.install(); 
   }
 });
 

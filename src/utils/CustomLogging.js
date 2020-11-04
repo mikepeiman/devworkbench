@@ -3,6 +3,7 @@ class CustomLogging {
     this.title = {
       body: title || "---",
       color: "rgba(0,0,0,0.5)",
+      weight: "bold",
       size: "1rem",
       margin: "0.5rem 0",
       before: ">>>",
@@ -36,7 +37,7 @@ class CustomLogging {
     // the second line is now the body because the first references the content after the first %c for the title
     console.log(
       `%c${this.title.before} ${this.title.body} ${this.title.after} %c${body}`,
-      `color: ${this.title.color}; font-weight: bold; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
+      `color: ${this.title.color}; font-weight: ${this.title.weight}; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
       `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
     );
   }
@@ -119,12 +120,30 @@ error.setBodyStyle({
   padding: "0 1rem 1rem 0",
 });
 
+
+const data = new CustomLogging("data");
+color = "rgba(255,70,70,0.95)";
+data.setTitleStyle({
+  color: color,
+  weight: "normal",
+  size: "1.2rem",
+  margin: "0 0 0 0",
+  before: ">>>",
+  after: ">>>\n",
+});
+data.setBodyStyle({
+  color: color,
+  size: "1rem",
+  padding: "0 1rem 1rem 0",
+});
+
 let customStylesObjects = {
   error: error,
   up: up,
   back: back,
   forward: forward,
-  crumbs: crumbs
+  crumbs: crumbs,
+  data: data
 };
 
 module.exports = { customStylesObjects };

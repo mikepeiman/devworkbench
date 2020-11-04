@@ -3,18 +3,34 @@
   import FS from "./filesystem/fs.svelte";
   import CustomLogging from "./utils/CustomLogging.js";
 
-  // const custom = new CustomLogging();
-  // const error = new CustomLogging("error");
-  // error.setBodyStyle({ color: "red", size: "2rem" });
+  // Importing this adds a right-click menu with 'Inspect Element' option
+  const { remote } = require("electron");
+  const { Menu, MenuItem } = remote;
 
-  // const special = new CustomLogging("special");
-  // // special.setBodyStyle({ color: "rgba(0,70,255,0.5)", size: "1.2rem", padding: "2rem" });
-  // special.setTitleStyle({ color: "rgba(0,70,255,0.5)", size: "1.2rem", margin: "0 0 0 1rem" });
+  let rightClickPosition = null;
 
-  // console.log("Regular log..");
-  // custom.log("Hello there!");
-  // error.log("Something bad happened!");
-  // special.log("I am very special")
+  const menu = new Menu();
+  const menuItem = new MenuItem({
+    label: "Inspect Element",
+    click: () => {
+      remote
+        .getCurrentWindow()
+        .inspectElement(rightClickPosition.x, rightClickPosition.y);
+    }
+  });
+  menu.append(menuItem);
+// end 'Inspect Element' menu
+
+  window.addEventListener(
+    "contextmenu",
+    e => {
+      e.preventDefault();
+      rightClickPosition = { x: e.x, y: e.y };
+      menu.popup(remote.getCurrentWindow());
+    },
+    false
+  );
+
 </script>
 
 <style>

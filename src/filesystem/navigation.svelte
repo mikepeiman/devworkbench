@@ -38,7 +38,7 @@
       console.log("subscription path ", currentPath);
     });
     storeNavHistory.subscribe(history => {
-      console.log("navHistory ", history);
+      log("data", "storeNavHistory called in navigation.svelte subscription")
       // navHistoryTracker = 1;
       navHistory = history;
       // navigate();

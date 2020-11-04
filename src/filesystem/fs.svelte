@@ -28,6 +28,7 @@
   }
 
   onMount(() => {
+    console.log("onMount fs.svelte");
     addNavHistory();
   });
 
@@ -96,7 +97,9 @@
 
   function navigate(dir, type) {
     oldPath = currentPath;
-    console.log(`\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`);
+    console.log(
+      `\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`
+    );
     if (currentPath === "undefined") {
       currentPath = navHistory[navHistory.length - 1];
     } else {
@@ -214,14 +217,14 @@
       </div>
     </div>
   </div>
-  <!-- <div>
-      {#each navHistory as dir, i}
-        <div
-          class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
-          on:click={() => navigate(dir, 'full')}>
-          {dir}
-        </div>
-      {/each}
-    </div>
-  </div> -->
+  <div>
+    {#each navHistory as dir, i}
+      <div
+        class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
+        on:click={() => navigate(dir, 'full')}>
+        {dir}
+      </div>
+    {/each}
+  </div>
+  <!-- </div> -->
 </main>
