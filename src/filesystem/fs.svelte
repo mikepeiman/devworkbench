@@ -41,7 +41,7 @@
     if (navHistory[navHistory.length - 1] === currentPath) {
       return;
     }
-    navHistory = [...navHistory, { index: navHistory.length, path: currentPath }];
+    navHistory = [...navHistory, currentPath ];
     navHistoryLocation = 1;
     storeNavHistory.set(navHistory);
   }
@@ -100,7 +100,7 @@
       `\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`
     );
     if (currentPath === "undefined") {
-      currentPath = navHistory[navHistory.length - 1].path;
+      currentPath = navHistory[navHistory.length - 1];
     } else {
       if (type === "directoryItem") {
         console.log(`currentPath type is type ${type}`, currentPath);
@@ -112,7 +112,7 @@
           storeCurrentPath.set(currentPath);
         }
       } else {
-        currentPath = dir.path;
+        currentPath = dir;
         console.log("currentPath ", currentPath);
         storeCurrentPath.set(currentPath);
       }
@@ -151,7 +151,7 @@
     padding-top: 1rem;
     border-top: 5px solid rgba(0, 55, 255, 0.75);
     display: grid;
-    grid-template-columns: 2.5rem 2.5rem auto;
+    grid-template-columns: 2.5rem auto;
     // flex-direction: column;
     // flex-wrap: wrap;
     // text-align: left;
@@ -235,11 +235,10 @@
       <div class="history-listing">
         {#each navHistory as dir, i}
           <div class="historyIndex">{i}</div>
-          <div class="historyIndex">{dir.index}</div>
           <div
             class="dir i {navHistoryLocation === i ? 'special' : 'none'}"
             on:click={() => navigate(dir, 'historyItem')}>
-            {dir.path}
+            {dir}
           </div>
         {/each}
       </div>

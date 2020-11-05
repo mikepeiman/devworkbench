@@ -65,10 +65,7 @@
   }
 
   function addNavHistory() {
-    navHistory = [
-      ...navHistory,
-      { index: navHistory.length + 1, path: currentPath }
-    ];
+    navHistory = [...navHistory, currentPath];
     storeNavHistory.set(navHistory);
   }
 
@@ -133,7 +130,7 @@
         return;
       }
       dispatchNavHistoryLocation();
-      $storeCurrentPath = navHistory[navHistoryLocation].path;
+      $storeCurrentPath = navHistory[navHistoryLocation];
       currentPath = navHistory[navHistoryLocation];
       // navCrumbObjects = generateColors(navCrumbs);
     }
@@ -164,7 +161,7 @@
         return;
       }
       dispatchNavHistoryLocation();
-      $storeCurrentPath = navHistory[navHistoryLocation].path;
+      $storeCurrentPath = navHistory[navHistoryLocation];
       currentPath = navHistory[navHistoryLocation];
       // addNavHistory();
       // return;

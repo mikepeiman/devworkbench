@@ -636,7 +636,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (352:4) {#each navCrumbObjects as crumb, i}
+    // (349:4) {#each navCrumbObjects as crumb, i}
     function create_each_block(ctx) {
     	let span;
     	let t0_value = /*crumb*/ ctx[25].name + "";
@@ -654,7 +654,7 @@ var app = (function () {
     			attr_dev(span, "class", "breadcrumb svelte-qvnm7r");
     			attr_dev(span, "style", span_style_value = /*crumb*/ ctx[25].color);
     			attr_dev(span, "index", span_index_value = /*i*/ ctx[27]);
-    			add_location(span, file$1, 352, 6, 9927);
+    			add_location(span, file$1, 349, 6, 9856);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -679,7 +679,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(352:4) {#each navCrumbObjects as crumb, i}",
+    		source: "(349:4) {#each navCrumbObjects as crumb, i}",
     		ctx
     	});
 
@@ -741,36 +741,36 @@ var app = (function () {
 
     			attr_dev(i0, "id", "openDirectory");
     			attr_dev(i0, "class", "svelte-qvnm7r");
-    			add_location(i0, file$1, 318, 6, 9019);
+    			add_location(i0, file$1, 315, 6, 8948);
     			attr_dev(div0, "class", "icon-container svelte-qvnm7r");
-    			add_location(div0, file$1, 317, 4, 8959);
+    			add_location(div0, file$1, 314, 4, 8888);
     			attr_dev(div1, "class", "nav svelte-qvnm7r");
-    			add_location(div1, file$1, 316, 2, 8936);
+    			add_location(div1, file$1, 313, 2, 8865);
     			attr_dev(i1, "id", "upDirectory");
     			attr_dev(i1, "class", "svelte-qvnm7r");
-    			add_location(i1, file$1, 326, 6, 9220);
+    			add_location(i1, file$1, 323, 6, 9149);
     			attr_dev(div2, "class", "icon-container svelte-qvnm7r");
-    			add_location(div2, file$1, 322, 4, 9092);
+    			add_location(div2, file$1, 319, 4, 9021);
     			attr_dev(div3, "class", "nav svelte-qvnm7r");
-    			add_location(div3, file$1, 321, 2, 9069);
+    			add_location(div3, file$1, 318, 2, 8998);
     			attr_dev(i2, "id", "backNavigate");
     			attr_dev(i2, "class", "svelte-qvnm7r");
-    			add_location(i2, file$1, 334, 6, 9423);
+    			add_location(i2, file$1, 331, 6, 9352);
     			attr_dev(div4, "class", "icon-container svelte-qvnm7r");
-    			add_location(div4, file$1, 330, 4, 9291);
+    			add_location(div4, file$1, 327, 4, 9220);
     			attr_dev(div5, "class", "nav svelte-qvnm7r");
-    			add_location(div5, file$1, 329, 2, 9268);
+    			add_location(div5, file$1, 326, 2, 9197);
     			attr_dev(i3, "id", "forwardNavigate");
     			attr_dev(i3, "class", "svelte-qvnm7r");
-    			add_location(i3, file$1, 342, 6, 9633);
+    			add_location(i3, file$1, 339, 6, 9562);
     			attr_dev(div6, "class", "icon-container svelte-qvnm7r");
-    			add_location(div6, file$1, 338, 4, 9495);
+    			add_location(div6, file$1, 335, 4, 9424);
     			attr_dev(div7, "class", "nav svelte-qvnm7r");
-    			add_location(div7, file$1, 337, 2, 9472);
+    			add_location(div7, file$1, 334, 2, 9401);
     			attr_dev(div8, "class", "breadcrumbs svelte-qvnm7r");
-    			add_location(div8, file$1, 350, 2, 9853);
+    			add_location(div8, file$1, 347, 2, 9782);
     			attr_dev(div9, "class", "nav-wrapper svelte-qvnm7r");
-    			add_location(div9, file$1, 315, 0, 8907);
+    			add_location(div9, file$1, 312, 0, 8836);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -887,14 +887,7 @@ var app = (function () {
     	}
 
     	function addNavHistory() {
-    		$$invalidate(5, navHistory = [
-    			...navHistory,
-    			{
-    				index: navHistory.length + 1,
-    				path: currentPath
-    			}
-    		]);
-
+    		$$invalidate(5, navHistory = [...navHistory, currentPath]);
     		storeNavHistory.set(navHistory);
     	}
 
@@ -955,7 +948,7 @@ var app = (function () {
     			}
 
     			dispatchNavHistoryLocation();
-    			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryLocation].path);
+    			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryLocation]);
     			$$invalidate(3, currentPath = navHistory[navHistoryLocation]);
     		} // navCrumbObjects = generateColors(navCrumbs);
 
@@ -979,7 +972,7 @@ var app = (function () {
     			}
 
     			dispatchNavHistoryLocation();
-    			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryLocation].path);
+    			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryLocation]);
     			$$invalidate(3, currentPath = navHistory[navHistoryLocation]);
     		} // addNavHistory();
     		// return;
@@ -1225,8 +1218,8 @@ var app = (function () {
     			div = element("div");
     			t0 = text(t0_value);
     			t1 = space();
-    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[20][0] == "." ? "dot-dir" : "reg-dir") + " svelte-1a8nd4b");
-    			add_location(div, file_1, 204, 10, 5293);
+    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[20][0] == "." ? "dot-dir" : "reg-dir") + " svelte-3qjbi0");
+    			add_location(div, file_1, 204, 10, 5241);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1238,7 +1231,7 @@ var app = (function () {
     			ctx = new_ctx;
     			if (dirty & /*currentDirs*/ 2 && t0_value !== (t0_value = /*dir*/ ctx[20] + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[20][0] == "." ? "dot-dir" : "reg-dir") + " svelte-1a8nd4b")) {
+    			if (dirty & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[20][0] == "." ? "dot-dir" : "reg-dir") + " svelte-3qjbi0")) {
     				attr_dev(div, "class", div_class_value);
     			}
     		},
@@ -1265,14 +1258,10 @@ var app = (function () {
     	let t0;
     	let t1;
     	let div1;
-    	let t2_value = /*dir*/ ctx[20].index + "";
+    	let t2_value = /*dir*/ ctx[20] + "";
     	let t2;
     	let t3;
-    	let div2;
-    	let t4_value = /*dir*/ ctx[20].path + "";
-    	let t4;
-    	let t5;
-    	let div2_class_value;
+    	let div1_class_value;
     	let dispose;
 
     	function click_handler_1(...args) {
@@ -1287,19 +1276,14 @@ var app = (function () {
     			div1 = element("div");
     			t2 = text(t2_value);
     			t3 = space();
-    			div2 = element("div");
-    			t4 = text(t4_value);
-    			t5 = space();
-    			attr_dev(div0, "class", "historyIndex svelte-1a8nd4b");
-    			add_location(div0, file_1, 218, 10, 5705);
-    			attr_dev(div1, "class", "historyIndex svelte-1a8nd4b");
-    			add_location(div1, file_1, 219, 10, 5752);
+    			attr_dev(div0, "class", "historyIndex svelte-3qjbi0");
+    			add_location(div0, file_1, 218, 10, 5653);
 
-    			attr_dev(div2, "class", div2_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[22]
+    			attr_dev(div1, "class", div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[22]
     			? "special"
-    			: "none") + " svelte-1a8nd4b");
+    			: "none") + " svelte-3qjbi0");
 
-    			add_location(div2, file_1, 220, 10, 5807);
+    			add_location(div1, file_1, 219, 10, 5700);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -1307,29 +1291,23 @@ var app = (function () {
     			insert_dev(target, t1, anchor);
     			insert_dev(target, div1, anchor);
     			append_dev(div1, t2);
-    			insert_dev(target, t3, anchor);
-    			insert_dev(target, div2, anchor);
-    			append_dev(div2, t4);
-    			append_dev(div2, t5);
-    			dispose = listen_dev(div2, "click", click_handler_1, false, false, false);
+    			append_dev(div1, t3);
+    			dispose = listen_dev(div1, "click", click_handler_1, false, false, false);
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*navHistory*/ 4 && t2_value !== (t2_value = /*dir*/ ctx[20].index + "")) set_data_dev(t2, t2_value);
-    			if (dirty & /*navHistory*/ 4 && t4_value !== (t4_value = /*dir*/ ctx[20].path + "")) set_data_dev(t4, t4_value);
+    			if (dirty & /*navHistory*/ 4 && t2_value !== (t2_value = /*dir*/ ctx[20] + "")) set_data_dev(t2, t2_value);
 
-    			if (dirty & /*navHistoryLocation*/ 8 && div2_class_value !== (div2_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[22]
+    			if (dirty & /*navHistoryLocation*/ 8 && div1_class_value !== (div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[22]
     			? "special"
-    			: "none") + " svelte-1a8nd4b")) {
-    				attr_dev(div2, "class", div2_class_value);
+    			: "none") + " svelte-3qjbi0")) {
+    				attr_dev(div1, "class", div1_class_value);
     			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div0);
     			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(div1);
-    			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(div2);
     			dispose();
     		}
     	};
@@ -1345,7 +1323,7 @@ var app = (function () {
     	return block;
     }
 
-    // (232:8) {#each currentFiles as file}
+    // (231:8) {#each currentFiles as file}
     function create_each_block$1(ctx) {
     	let div;
     	let t_value = /*file*/ ctx[17] + "";
@@ -1360,8 +1338,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			t = text(t_value);
-    			attr_dev(div, "class", "file svelte-1a8nd4b");
-    			add_location(div, file_1, 232, 10, 6149);
+    			attr_dev(div, "class", "file svelte-3qjbi0");
+    			add_location(div, file_1, 231, 10, 6037);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1382,7 +1360,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(232:8) {#each currentFiles as file}",
+    		source: "(231:8) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -1487,24 +1465,24 @@ var app = (function () {
 
     			t13 = space();
     			div6 = element("div");
-    			add_location(h20, file_1, 201, 6, 5191);
-    			attr_dev(div0, "class", "dirs-listing svelte-1a8nd4b");
-    			add_location(div0, file_1, 202, 6, 5219);
-    			add_location(div1, file_1, 200, 4, 5178);
-    			add_location(h21, file_1, 213, 6, 5523);
-    			add_location(h1, file_1, 214, 6, 5547);
-    			add_location(p, file_1, 215, 6, 5591);
-    			attr_dev(div2, "class", "history-listing svelte-1a8nd4b");
-    			add_location(div2, file_1, 216, 6, 5626);
-    			add_location(div3, file_1, 212, 4, 5510);
-    			add_location(h22, file_1, 229, 6, 6050);
-    			attr_dev(div4, "class", "files-listing svelte-1a8nd4b");
-    			add_location(div4, file_1, 230, 6, 6072);
-    			add_location(div5, file_1, 228, 4, 6037);
-    			add_location(div6, file_1, 238, 4, 6283);
-    			attr_dev(div7, "class", "file-system svelte-1a8nd4b");
-    			add_location(div7, file_1, 199, 2, 5147);
-    			add_location(main, file_1, 197, 0, 5091);
+    			add_location(h20, file_1, 201, 6, 5139);
+    			attr_dev(div0, "class", "dirs-listing svelte-3qjbi0");
+    			add_location(div0, file_1, 202, 6, 5167);
+    			add_location(div1, file_1, 200, 4, 5126);
+    			add_location(h21, file_1, 213, 6, 5471);
+    			add_location(h1, file_1, 214, 6, 5495);
+    			add_location(p, file_1, 215, 6, 5539);
+    			attr_dev(div2, "class", "history-listing svelte-3qjbi0");
+    			add_location(div2, file_1, 216, 6, 5574);
+    			add_location(div3, file_1, 212, 4, 5458);
+    			add_location(h22, file_1, 228, 6, 5938);
+    			attr_dev(div4, "class", "files-listing svelte-3qjbi0");
+    			add_location(div4, file_1, 229, 6, 5960);
+    			add_location(div5, file_1, 227, 4, 5925);
+    			add_location(div6, file_1, 237, 4, 6171);
+    			attr_dev(div7, "class", "file-system svelte-3qjbi0");
+    			add_location(div7, file_1, 199, 2, 5095);
+    			add_location(main, file_1, 197, 0, 5039);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1690,14 +1668,7 @@ var app = (function () {
     			return;
     		}
 
-    		$$invalidate(2, navHistory = [
-    			...navHistory,
-    			{
-    				index: navHistory.length,
-    				path: currentPath
-    			}
-    		]);
-
+    		$$invalidate(2, navHistory = [...navHistory, currentPath]);
     		$$invalidate(3, navHistoryLocation = 1);
     		storeNavHistory.set(navHistory);
     	}
@@ -1743,7 +1714,7 @@ var app = (function () {
     		console.log(`\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`);
 
     		if (currentPath === "undefined") {
-    			$$invalidate(7, currentPath = navHistory[navHistory.length - 1].path);
+    			$$invalidate(7, currentPath = navHistory[navHistory.length - 1]);
     		} else {
     			if (type === "directoryItem") {
     				console.log(`currentPath type is type ${type}`, currentPath);
@@ -1756,7 +1727,7 @@ var app = (function () {
     					storeCurrentPath.set(currentPath);
     				}
     			} else {
-    				$$invalidate(7, currentPath = dir.path);
+    				$$invalidate(7, currentPath = dir);
     				console.log("currentPath ", currentPath);
     				storeCurrentPath.set(currentPath);
     			}
