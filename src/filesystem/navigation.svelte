@@ -56,9 +56,9 @@
   }
 
   function addNavHistory() {
-    navHistory = [...navHistory, currentPath];
     navHistoryTracker = navHistory.length - 1;
     navHistoryIndex = navHistoryLength - navHistoryTracker;
+    navHistory = [...navHistory, { index: navHistoryIndex, path: currentPath }];
     storeNavHistory.set(navHistory);
   }
 
@@ -94,30 +94,24 @@
   }
 
   function navigate(e) {
-    console.log(`navigate called with e: ${e}`)
+    console.log(`navigate called with e: ${e}`);
     if (e === "back") {
       if (navHistoryLength < 1) {
         console.log("no history, exit");
         return;
       }
       navHistoryTracker = navHistoryTracker + 1;
-      log("back", "back hello");
-      console.log(`navHistoryLength: ${navHistoryLength}`);
-      console.log(`navHistoryTracker: ${navHistoryTracker}`);
-      console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n\n");
-
+      log("back", `navHistoryLength: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}`);
       if (!navHistory[navHistoryIndex]) {
         console.log("!no more history!");
         navHistoryTracker = navHistoryTracker - 1;
         navHistoryIndex = navHistoryLength - navHistoryTracker;
         return;
       }
-      dispatchNavHistoryTracker();
+      // dispatchNavHistoryTracker();
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
       navCrumbObjects = generateColors(navCrumbs);
-      // addNavHistory();
-      // return;
     }
 
     if (e === "forward") {
@@ -126,10 +120,7 @@
         return;
       }
       navHistoryTracker = navHistoryTracker - 1;
-      log("forward", "forward hello");
-      console.log(`navHistoryLength: ${navHistoryLength}`);
-      console.log(`navHistoryTracker: ${navHistoryTracker}`);
-      console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< forward\n\n");
+      log("forward", `navHistoryLength: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}`);
       navHistoryIndex = navHistoryLength - navHistoryTracker;
       if (!navHistory[navHistoryIndex]) {
         console.log("!no more history!");
@@ -142,7 +133,7 @@
       console.log(
         `navHistory[navHistoryIndex]: ${navHistory[navHistoryIndex]}`
       );
-      dispatchNavHistoryTracker();
+      // dispatchNavHistoryTracker();
       $storeCurrentPath = navHistory[navHistoryIndex];
       currentPath = navHistory[navHistoryIndex];
       // addNavHistory();
@@ -159,7 +150,7 @@
       console.log("~~~~~~~     navcrumbs ", navCrumbs);
       // let pathJoin = navCrumbs.joi
       storeCurrentPath.set(newPath);
-      dispatchNavHistoryTracker();
+      // dispatchNavHistoryTracker();
       addNavHistory();
       // return;
     }
@@ -190,9 +181,10 @@
       storeCurrentPath.set(newPath);
       currentPath = newPath;
       navCrumbObjects = generateColors(navCrumbs);
-      dispatchNavHistoryTracker();
+      // dispatchNavHistoryTracker();
       addNavHistory();
     }
+    dispatchNavHistoryTracker();
   }
 </script>
 

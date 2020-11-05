@@ -42,7 +42,8 @@
     if (navHistory[navHistory.length - 1] === currentPath) {
       return;
     }
-    navHistory = [...navHistory, currentPath];
+    let navHistoryIndex = navHistory.length - navHistoryTracker;
+    navHistory = [...navHistory, { index: navHistoryIndex, path: currentPath }];
     navHistoryTracker = 1;
     storeNavHistory.set(navHistory);
   }
@@ -147,12 +148,13 @@
     // flex-wrap: wrap;
     // text-align: left;
   }
-    .history-listing {
+  .history-listing {
     margin-top: 1rem;
     padding-top: 1rem;
     border-top: 5px solid rgba(0, 55, 255, 0.75);
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 2rem auto;
+    // flex-direction: column;
     // flex-wrap: wrap;
     // text-align: left;
   }
@@ -199,6 +201,17 @@
   .special {
     background: rgba(255, 100, 155, 0.2);
   }
+
+  .historyIndex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.7);
+    border: 2px solid black;
+    color: rgba(255,255,255,0.7);
+    padding: 5px;
+    margin: .25rem;
+  }
 </style>
 
 <main>
@@ -220,10 +233,11 @@
       <h2>History</h2>
       <div class="history-listing">
         {#each navHistory as dir, i}
+        <div class="historyIndex">{dir.index}</div>
           <div
             class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
             on:click={() => navigate(dir, 'full')}>
-            {dir}
+            {dir.path}
           </div>
         {/each}
       </div>
