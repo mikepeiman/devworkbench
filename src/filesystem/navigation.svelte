@@ -98,8 +98,10 @@
         return;
       }
       $storeCurrentPath = res.filePaths[0];
-      currentPath = res.filePaths[0];
-      console.log("currentPath: ", currentPath);
+      navHistoryLocation = navHistoryLocation + 1;
+      // currentPath = res.filePaths[0];
+      log("data", `currentPath from selectFolder: ${currentPath}`);
+      addNavHistory();
     });
   }
 

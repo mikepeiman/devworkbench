@@ -636,7 +636,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (350:4) {#each navCrumbObjects as crumb, i}
+    // (352:4) {#each navCrumbObjects as crumb, i}
     function create_each_block(ctx) {
     	let span;
     	let t0_value = /*crumb*/ ctx[25].name + "";
@@ -654,7 +654,7 @@ var app = (function () {
     			attr_dev(span, "class", "breadcrumb svelte-qvnm7r");
     			attr_dev(span, "style", span_style_value = /*crumb*/ ctx[25].color);
     			attr_dev(span, "index", span_index_value = /*i*/ ctx[27]);
-    			add_location(span, file$1, 350, 6, 9829);
+    			add_location(span, file$1, 352, 6, 9927);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -679,7 +679,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(350:4) {#each navCrumbObjects as crumb, i}",
+    		source: "(352:4) {#each navCrumbObjects as crumb, i}",
     		ctx
     	});
 
@@ -741,36 +741,36 @@ var app = (function () {
 
     			attr_dev(i0, "id", "openDirectory");
     			attr_dev(i0, "class", "svelte-qvnm7r");
-    			add_location(i0, file$1, 316, 6, 8921);
+    			add_location(i0, file$1, 318, 6, 9019);
     			attr_dev(div0, "class", "icon-container svelte-qvnm7r");
-    			add_location(div0, file$1, 315, 4, 8861);
+    			add_location(div0, file$1, 317, 4, 8959);
     			attr_dev(div1, "class", "nav svelte-qvnm7r");
-    			add_location(div1, file$1, 314, 2, 8838);
+    			add_location(div1, file$1, 316, 2, 8936);
     			attr_dev(i1, "id", "upDirectory");
     			attr_dev(i1, "class", "svelte-qvnm7r");
-    			add_location(i1, file$1, 324, 6, 9122);
+    			add_location(i1, file$1, 326, 6, 9220);
     			attr_dev(div2, "class", "icon-container svelte-qvnm7r");
-    			add_location(div2, file$1, 320, 4, 8994);
+    			add_location(div2, file$1, 322, 4, 9092);
     			attr_dev(div3, "class", "nav svelte-qvnm7r");
-    			add_location(div3, file$1, 319, 2, 8971);
+    			add_location(div3, file$1, 321, 2, 9069);
     			attr_dev(i2, "id", "backNavigate");
     			attr_dev(i2, "class", "svelte-qvnm7r");
-    			add_location(i2, file$1, 332, 6, 9325);
+    			add_location(i2, file$1, 334, 6, 9423);
     			attr_dev(div4, "class", "icon-container svelte-qvnm7r");
-    			add_location(div4, file$1, 328, 4, 9193);
+    			add_location(div4, file$1, 330, 4, 9291);
     			attr_dev(div5, "class", "nav svelte-qvnm7r");
-    			add_location(div5, file$1, 327, 2, 9170);
+    			add_location(div5, file$1, 329, 2, 9268);
     			attr_dev(i3, "id", "forwardNavigate");
     			attr_dev(i3, "class", "svelte-qvnm7r");
-    			add_location(i3, file$1, 340, 6, 9535);
+    			add_location(i3, file$1, 342, 6, 9633);
     			attr_dev(div6, "class", "icon-container svelte-qvnm7r");
-    			add_location(div6, file$1, 336, 4, 9397);
+    			add_location(div6, file$1, 338, 4, 9495);
     			attr_dev(div7, "class", "nav svelte-qvnm7r");
-    			add_location(div7, file$1, 335, 2, 9374);
+    			add_location(div7, file$1, 337, 2, 9472);
     			attr_dev(div8, "class", "breadcrumbs svelte-qvnm7r");
-    			add_location(div8, file$1, 348, 2, 9755);
+    			add_location(div8, file$1, 350, 2, 9853);
     			attr_dev(div9, "class", "nav-wrapper svelte-qvnm7r");
-    			add_location(div9, file$1, 313, 0, 8809);
+    			add_location(div9, file$1, 315, 0, 8907);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -923,8 +923,12 @@ var app = (function () {
     			}
 
     			set_store_value(storeCurrentPath, $storeCurrentPath = res.filePaths[0]);
-    			$$invalidate(3, currentPath = res.filePaths[0]);
-    			console.log("currentPath: ", currentPath);
+    			$$invalidate(6, navHistoryLocation = navHistoryLocation + 1);
+
+    			// currentPath = res.filePaths[0];
+    			log("data", `currentPath from selectFolder: ${currentPath}`);
+
+    			addNavHistory();
     		});
     	}
 
