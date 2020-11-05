@@ -20,45 +20,55 @@
 
   $: navCrumbObjects = generateColors(navCrumbs);
   $: navHistory = [];
-  $: navHistoryTracker = 1;
+  $: navHistoryLocation = navHistory.length - 1;
   $: navHistoryLength = navHistory.length;
-  $: navHistoryIndex = navHistoryLength - navHistoryTracker - 1;
-  $: console.log(
-    `reactive navHistory length: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}, navHistoryIndex: ${navHistoryIndex}  `
+  // $: navHistoryIndex = navHistoryLength - navHistoryLocation - 1;
+  $: log(
+    "data",
+    `reactive navHistory length: ${navHistoryLength}, navHistoryLocation: ${navHistoryLocation}`
   );
 
-  $: currentPath = $storeCurrentPath;
+  let currentPath;
+  $: {
+    currentPath = $storeCurrentPath;
+    log("data", `currentPath = $storeCurrentPath ${currentPath}`);
+  }
   // console.log(`accessing assets: ${currentPath}`);
   $: if (typeof window !== "undefined") {
-    storeCurrentPath.subscribe(path => {
-      currentPath = path;
+    storeCurrentPath.subscribe(data => {
+      currentPath = data;
       // currentPath = `${path}\\`;
-      console.log("subscription path ", currentPath);
+      console.log("subscription path data ", data);
     });
     storeNavHistory.subscribe(history => {
       // log("data", "storeNavHistory called in navigation.svelte subscription");
-      // navHistoryTracker = 1;
+      // navHistoryLocation = 1;
       navHistory = history;
       // navigate();
     });
   }
-  $: navCrumbs = currentPath.split("\\");
+  let navCrumbs;
+  $: {
+    navCrumbs = currentPath.split("\\");
+    log("data", `navCrumbs reactive update: ${navCrumbs}`);
+  }
 
   onMount(() => {
     navCrumbObjects = generateColors(navCrumbs);
   });
 
-  function dispatchNavHistoryTracker() {
-    console.log("function dispatchNavHistoryTracker ", navHistoryTracker);
+  function dispatchNavHistoryLocation() {
+    log("data", `function dispatchNavHistoryLocation, ${navHistoryLocation}`);
     dispatch("nav", {
-      data: navHistoryTracker
+      data: navHistoryLocation
     });
   }
 
   function addNavHistory() {
-    navHistoryTracker = navHistory.length - 1;
-    navHistoryIndex = navHistoryLength - navHistoryTracker;
-    navHistory = [...navHistory, { index: navHistoryIndex, path: currentPath }];
+    navHistory = [
+      ...navHistory,
+      { index: navHistory.length + 1, path: currentPath }
+    ];
     storeNavHistory.set(navHistory);
   }
 
@@ -97,45 +107,63 @@
     console.log(`navigate called with e: ${e}`);
     if (e === "back") {
       if (navHistoryLength < 1) {
-        console.log("no history, exit");
+        log("error", "no history exists");
         return;
       }
-      navHistoryTracker = navHistoryTracker + 1;
-      log("back", `navHistoryLength: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}`);
-      if (!navHistory[navHistoryIndex]) {
-        console.log("!no more history!");
-        navHistoryTracker = navHistoryTracker - 1;
-        navHistoryIndex = navHistoryLength - navHistoryTracker;
+      log(
+        "back",
+        `navHistoryLength: ${navHistoryLength}, navHistoryLocation: ${navHistoryLocation}`
+      );
+      if (navHistoryLocation === 0) {
+        log(
+          "error",
+          `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`
+        );
+      } else {
+        navHistoryLocation = navHistoryLocation - 1;
+      }
+
+      if (!navHistory[navHistoryLocation]) {
+        log(
+          "error",
+          `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`
+        );
         return;
       }
-      // dispatchNavHistoryTracker();
-      $storeCurrentPath = navHistory[navHistoryIndex];
-      currentPath = navHistory[navHistoryIndex];
-      navCrumbObjects = generateColors(navCrumbs);
+      dispatchNavHistoryLocation();
+      $storeCurrentPath = navHistory[navHistoryLocation].path;
+      currentPath = navHistory[navHistoryLocation];
+      // navCrumbObjects = generateColors(navCrumbs);
     }
 
     if (e === "forward") {
       if (navHistoryLength < 1) {
-        console.log("no history, exit");
+        log("error", "no history exists");
         return;
       }
-      navHistoryTracker = navHistoryTracker - 1;
-      log("forward", `navHistoryLength: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}`);
-      navHistoryIndex = navHistoryLength - navHistoryTracker;
-      if (!navHistory[navHistoryIndex]) {
-        console.log("!no more history!");
-        navHistoryTracker = navHistoryTracker + 1;
-        navHistoryIndex = navHistoryLength - navHistoryTracker;
-        return;
-      }
-      console.log(`navHistoryTracker: ${navHistoryTracker}`);
-      console.log(`navHistoryIndex: ${navHistoryIndex}`);
-      console.log(
-        `navHistory[navHistoryIndex]: ${navHistory[navHistoryIndex]}`
+      log(
+        "forward",
+        `navHistoryLength: ${navHistoryLength}, navHistoryLocation: ${navHistoryLocation}`
       );
-      // dispatchNavHistoryTracker();
-      $storeCurrentPath = navHistory[navHistoryIndex];
-      currentPath = navHistory[navHistoryIndex];
+      if (navHistoryLocation === navHistoryLength - 1) {
+        log(
+          "error",
+          `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`
+        );
+      } else {
+        navHistoryLocation = navHistoryLocation + 1;
+      }
+
+      if (!navHistory[navHistoryLocation]) {
+        log(
+          "error",
+          `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`
+        );
+        return;
+      }
+      dispatchNavHistoryLocation();
+      $storeCurrentPath = navHistory[navHistoryLocation].path;
+      currentPath = navHistory[navHistoryLocation];
       // addNavHistory();
       // return;
     }
@@ -150,7 +178,7 @@
       console.log("~~~~~~~     navcrumbs ", navCrumbs);
       // let pathJoin = navCrumbs.joi
       storeCurrentPath.set(newPath);
-      // dispatchNavHistoryTracker();
+      dispatchNavHistoryLocation();
       addNavHistory();
       // return;
     }
@@ -181,10 +209,10 @@
       storeCurrentPath.set(newPath);
       currentPath = newPath;
       navCrumbObjects = generateColors(navCrumbs);
-      // dispatchNavHistoryTracker();
+      dispatchNavHistoryLocation();
       addNavHistory();
     }
-    dispatchNavHistoryTracker();
+    // dispatchNavHistoryLocation();
   }
 </script>
 

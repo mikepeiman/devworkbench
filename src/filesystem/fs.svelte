@@ -9,16 +9,15 @@
   let currentFiles = [];
   let currentDirs = [];
   let navHistory = [];
-  let navHistoryTracker = 1;
+  $: navHistoryLocation = navHistory.length - 1;
   $: currentPath = process.cwd();
   let oldPath = "";
-  // $: currentPath = process.cwd();
   $: root = fs.readdirSync(currentPath);
 
   $: if (typeof window !== "undefined") {
-    storeCurrentPath.subscribe(path => {
-      currentPath = path;
-      console.log("subscription path ", path);
+    storeCurrentPath.subscribe(data => {
+      currentPath = data;
+      console.log("subscription path ", data);
       readDirectory();
     });
     storeNavHistory.subscribe(history => {
@@ -32,19 +31,18 @@
     addNavHistory();
   });
 
-  function receiveNavHistoryTracker(e) {
-    console.log("function receiveNavHistoryTracker", e.detail.data);
+  function receiveNavHistoryLocation(e) {
+    console.log("function receiveNavHistoryLocation", e.detail.data);
     console.log(e);
-    navHistoryTracker = e.detail.data;
+    navHistoryLocation = e.detail.data;
   }
 
   function addNavHistory() {
     if (navHistory[navHistory.length - 1] === currentPath) {
       return;
     }
-    let navHistoryIndex = navHistory.length - navHistoryTracker;
-    navHistory = [...navHistory, { index: navHistoryIndex, path: currentPath }];
-    navHistoryTracker = 1;
+    navHistory = [...navHistory, { index: navHistory.length, path: currentPath }];
+    navHistoryLocation = 1;
     storeNavHistory.set(navHistory);
   }
 
@@ -102,9 +100,9 @@
       `\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`
     );
     if (currentPath === "undefined") {
-      currentPath = navHistory[navHistory.length - 1];
+      currentPath = navHistory[navHistory.length - 1].path;
     } else {
-      if (type === "tail") {
+      if (type === "directoryItem") {
         console.log(`currentPath type is type ${type}`, currentPath);
         if (currentPath.split("\\")[1] === "") {
           currentPath = currentPath + dir;
@@ -114,7 +112,7 @@
           storeCurrentPath.set(currentPath);
         }
       } else {
-        currentPath = dir;
+        currentPath = dir.path;
         console.log("currentPath ", currentPath);
         storeCurrentPath.set(currentPath);
       }
@@ -153,7 +151,7 @@
     padding-top: 1rem;
     border-top: 5px solid rgba(0, 55, 255, 0.75);
     display: grid;
-    grid-template-columns: 2rem auto;
+    grid-template-columns: 2.5rem 2.5rem auto;
     // flex-direction: column;
     // flex-wrap: wrap;
     // text-align: left;
@@ -206,16 +204,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.7);
-    border: 2px solid black;
-    color: rgba(255,255,255,0.7);
+    background: rgba(0, 0, 0, 0.5);
+    // border: 2px solid black;
+    color: rgba(255, 255, 255, 0.7);
     padding: 5px;
-    margin: .25rem;
+    width: 1.5rem;
+    margin: 0.25rem;
   }
 </style>
 
 <main>
-  <Nav on:nav={receiveNavHistoryTracker} />
+  <Nav on:nav={receiveNavHistoryLocation} />
   <div class="file-system">
     <div>
       <h2>DIRECTORIES</h2>
@@ -223,7 +222,7 @@
         {#each currentDirs as dir}
           <div
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
-            on:click={() => navigate(dir, 'tail')}>
+            on:click={() => navigate(dir, 'directoryItem')}>
             {dir}
           </div>
         {/each}
@@ -231,12 +230,15 @@
     </div>
     <div>
       <h2>History</h2>
+      <h1>Nav History Location Index:</h1>
+      <p>{navHistoryLocation}</p>
       <div class="history-listing">
         {#each navHistory as dir, i}
-        <div class="historyIndex">{dir.index}</div>
+          <div class="historyIndex">{i}</div>
+          <div class="historyIndex">{dir.index}</div>
           <div
-            class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
-            on:click={() => navigate(dir, 'full')}>
+            class="dir i {navHistoryLocation === i ? 'special' : 'none'}"
+            on:click={() => navigate(dir, 'historyItem')}>
             {dir.path}
           </div>
         {/each}
