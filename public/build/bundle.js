@@ -455,22 +455,25 @@ var app = (function () {
     };
 
     const generateColors = (navCrumbs) => {
-        let navCrumbObjects = [];
-        let hueOffset = 222;
-        let brightnessInterval = 30 / navCrumbs.length;
-        // console.log("generateColors");
-        for (let i = 0; i < navCrumbs.length; i++) {
-          // console.log("navCrumbObjects: ", navCrumbObjects);
-          navCrumbObjects = [
-            ...navCrumbObjects,
-            {
-              name: navCrumbs[i],
-              color: `--breadcrumb-color: hsla(${hueOffset}, 40%, ${60 + (brightnessInterval * i)}%, 1)`
-            }
-          ];
-        }
-        return navCrumbObjects
-      };
+      // console.log("generateColors, navCrumbs: ", navCrumbs);
+      let navCrumbObjects = [];
+      let hueOffset = 222;
+      let brightnessInterval = 30 / navCrumbs.length;
+
+      for (let i = 0; i < navCrumbs.length; i++) {
+        // console.log("navCrumbObjects: ", navCrumbObjects);
+        navCrumbObjects = [
+          ...navCrumbObjects,
+          {
+            name: navCrumbs[i],
+            color: `--breadcrumb-color: hsla(${hueOffset}, 40%, ${
+          60 + brightnessInterval * i
+        }%, 1)`,
+          },
+        ];
+      }
+      return navCrumbObjects;
+    };
 
     // const exec = require('child_process').exec
 
@@ -482,22 +485,175 @@ var app = (function () {
       exec('notepad.exe', (err, stdout, stderr) => console.log(stdout));
     };
 
+    class CustomLogging {
+      constructor(title) {
+        this.title = {
+          body: title || "---",
+          color: "rgba(0,0,0,0.5)",
+          weight: "bold",
+          size: "1rem",
+          margin: "0.5rem 0",
+          before: ">>>",
+          after: "$$$",
+        };
+
+        this.body = {
+          color: "rgba(0,0,0,1)",
+          size: "1rem",
+          padding: "0 1rem 1rem 0",
+        };
+      }
+
+      setTitleStyle({ color, size, margin, padding, before, after }) {
+        if (color !== undefined) this.title.color = color;
+        if (size !== undefined) this.title.size = size;
+        if (margin !== undefined) this.title.margin = margin;
+        if (padding !== undefined) this.title.padding = padding;
+        if (before !== undefined) this.title.before = before;
+        if (after !== undefined) this.title.after = after;
+      }
+
+      setBodyStyle({ color, size, margin, padding }) {
+        if (color !== undefined) this.body.color = color;
+        if (size !== undefined) this.body.size = size;
+        if (margin !== undefined) this.body.margin = margin;
+        if (padding !== undefined) this.body.padding = padding;
+      }
+
+      log(body = "") {
+        // the second line is now the body because the first references the content after the first %c for the title
+        console.log(
+          `%c${this.title.before} ${this.title.body} ${this.title.after} %c${body}`,
+          `color: ${this.title.color}; font-weight: ${this.title.weight}; font-size: ${this.title.size}; margin: ${this.title.margin}; padding: ${this.title.padding};`,
+          `color: ${this.body.color}; font-weight: normal; font-size: ${this.body.size};  margin: ${this.body.margin}; padding: ${this.body.padding}; font-family: sans-serif;`
+        );
+      }
+    }
+    let color;
+
+    const up = new CustomLogging("up");
+    color = "rgba(0,170,255,0.95)";
+    up.setTitleStyle({
+      color: color,
+      size: "1.2rem",
+      margin: "0",
+      before: "^^^",
+      after: "^^^\n",
+    });
+    up.setBodyStyle({
+      color: color,
+      size: "1.2rem",
+      padding: "0 1rem 1rem 0",
+    });
+
+    const back = new CustomLogging("back");
+    color = "rgba(150,70,55,0.95)";
+    back.setTitleStyle({
+      color: color,
+      size: "1.2rem",
+      margin: "0 0 0 0",
+      before: "<<<",
+      after: "<<<\n",
+    });
+    back.setBodyStyle({
+      color: color,
+      size: "1rem",
+      padding: "1rem",padding: "0 1rem 1rem 0",});
+
+
+    const forward = new CustomLogging("forward");
+    color = "rgba(150,70,255,0.95)";
+    forward.setTitleStyle({
+      color: color,
+      size: "1.2rem",
+      margin: "0 0 0 0",
+      before: ">>>",
+      after: ">>>\n",
+    });
+    forward.setBodyStyle({
+      color: color,
+      size: "1rem",
+      padding: "0 1rem 1rem 0",
+    });
+
+
+    const crumbs = new CustomLogging("crumbs");
+    color = "rgba(90,70,255,1)";
+    crumbs.setTitleStyle({
+      color: color,
+      size: "1.2rem",
+      margin: "0 0 0 0",
+      before: "...",
+      after: "...\n",
+    });
+    crumbs.setBodyStyle({
+      color: color,
+      size: "1rem",
+      padding: "0 1rem 1rem 0",
+    });
+
+    const error = new CustomLogging("error");
+    color = "rgba(255,70,70,0.95)";
+    error.setTitleStyle({
+      color: color,
+      size: "1.2rem",
+      margin: "0 0 0 0",
+      before: "!",
+      after: "!\n",
+    });
+    error.setBodyStyle({
+      color: color,
+      size: "1rem",
+      padding: "0 1rem 1rem 0",
+    });
+
+
+    const data = new CustomLogging("data");
+    color = "rgba(255,70,70,0.95)";
+    data.setTitleStyle({
+      color: color,
+      weight: "normal",
+      size: "1.2rem",
+      margin: "0 0 0 0",
+      before: "$",
+      after: "$\n",
+    });
+    data.setBodyStyle({
+      color: color,
+      size: "1rem",
+      padding: "0 1rem 1rem 0",
+    });
+
+    let customStylesObjects = {
+      error: error,
+      up: up,
+      back: back,
+      forward: forward,
+      crumbs: crumbs,
+      data: data
+    };
+
+    var CustomLogging_1 = { customStylesObjects };
+    var CustomLogging_2 = CustomLogging_1.customStylesObjects;
+
     /* src\filesystem\navigation.svelte generated by Svelte v3.19.1 */
     const file$1 = "src\\filesystem\\navigation.svelte";
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[25] = list[i];
+    	child_ctx[27] = i;
     	return child_ctx;
     }
 
-    // (327:4) {#each navCrumbObjects as crumb}
+    // (369:4) {#each navCrumbObjects as crumb, i}
     function create_each_block(ctx) {
     	let span;
-    	let t0_value = /*crumb*/ ctx[24].name + "";
+    	let t0_value = /*crumb*/ ctx[25].name + "";
     	let t0;
     	let t1;
     	let span_style_value;
+    	let span_index_value;
     	let dispose;
 
     	const block = {
@@ -506,19 +662,20 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(span, "class", "breadcrumb svelte-t7gb48");
-    			attr_dev(span, "style", span_style_value = /*crumb*/ ctx[24].color);
-    			add_location(span, file$1, 327, 6, 9245);
+    			attr_dev(span, "style", span_style_value = /*crumb*/ ctx[25].color);
+    			attr_dev(span, "index", span_index_value = /*i*/ ctx[27]);
+    			add_location(span, file$1, 369, 6, 10465);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
     			append_dev(span, t0);
     			append_dev(span, t1);
-    			dispose = listen_dev(span, "click", /*click_handler_3*/ ctx[23], false, false, false);
+    			dispose = listen_dev(span, "click", /*click_handler_3*/ ctx[24], false, false, false);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*navCrumbObjects*/ 1 && t0_value !== (t0_value = /*crumb*/ ctx[24].name + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*navCrumbObjects*/ 1 && t0_value !== (t0_value = /*crumb*/ ctx[25].name + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*navCrumbObjects*/ 1 && span_style_value !== (span_style_value = /*crumb*/ ctx[24].color)) {
+    			if (dirty & /*navCrumbObjects*/ 1 && span_style_value !== (span_style_value = /*crumb*/ ctx[25].color)) {
     				attr_dev(span, "style", span_style_value);
     			}
     		},
@@ -532,7 +689,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(327:4) {#each navCrumbObjects as crumb}",
+    		source: "(369:4) {#each navCrumbObjects as crumb, i}",
     		ctx
     	});
 
@@ -602,43 +759,43 @@ var app = (function () {
 
     			attr_dev(i0, "id", "childProcess");
     			attr_dev(i0, "class", "svelte-t7gb48");
-    			add_location(i0, file$1, 294, 6, 8339);
+    			add_location(i0, file$1, 330, 6, 9425);
     			attr_dev(div0, "class", "icon-container svelte-t7gb48");
-    			add_location(div0, file$1, 293, 4, 8279);
+    			add_location(div0, file$1, 329, 4, 9365);
     			attr_dev(div1, "class", "nav svelte-t7gb48");
-    			add_location(div1, file$1, 292, 2, 8256);
+    			add_location(div1, file$1, 328, 2, 9342);
     			attr_dev(i1, "id", "openDirectory");
     			attr_dev(i1, "class", "svelte-t7gb48");
-    			add_location(i1, file$1, 299, 6, 8471);
+    			add_location(i1, file$1, 335, 6, 9557);
     			attr_dev(div2, "class", "icon-container svelte-t7gb48");
-    			add_location(div2, file$1, 298, 4, 8411);
+    			add_location(div2, file$1, 334, 4, 9497);
     			attr_dev(div3, "class", "nav svelte-t7gb48");
-    			add_location(div3, file$1, 297, 2, 8388);
+    			add_location(div3, file$1, 333, 2, 9474);
     			attr_dev(i2, "id", "upDirectory");
     			attr_dev(i2, "class", "svelte-t7gb48");
-    			add_location(i2, file$1, 304, 6, 8612);
+    			add_location(i2, file$1, 343, 6, 9758);
     			attr_dev(div4, "class", "icon-container svelte-t7gb48");
-    			add_location(div4, file$1, 303, 4, 8544);
+    			add_location(div4, file$1, 339, 4, 9630);
     			attr_dev(div5, "class", "nav svelte-t7gb48");
-    			add_location(div5, file$1, 302, 2, 8521);
+    			add_location(div5, file$1, 338, 2, 9607);
     			attr_dev(i3, "id", "backNavigate");
     			attr_dev(i3, "class", "svelte-t7gb48");
-    			add_location(i3, file$1, 312, 6, 8809);
+    			add_location(i3, file$1, 351, 6, 9961);
     			attr_dev(div6, "class", "icon-container svelte-t7gb48");
-    			add_location(div6, file$1, 308, 4, 8683);
+    			add_location(div6, file$1, 347, 4, 9829);
     			attr_dev(div7, "class", "nav svelte-t7gb48");
-    			add_location(div7, file$1, 307, 2, 8660);
+    			add_location(div7, file$1, 346, 2, 9806);
     			attr_dev(i4, "id", "forwardNavigate");
     			attr_dev(i4, "class", "svelte-t7gb48");
-    			add_location(i4, file$1, 317, 6, 8954);
+    			add_location(i4, file$1, 359, 6, 10171);
     			attr_dev(div8, "class", "icon-container svelte-t7gb48");
-    			add_location(div8, file$1, 316, 4, 8881);
+    			add_location(div8, file$1, 355, 4, 10033);
     			attr_dev(div9, "class", "nav svelte-t7gb48");
-    			add_location(div9, file$1, 315, 2, 8858);
+    			add_location(div9, file$1, 354, 2, 10010);
     			attr_dev(div10, "class", "breadcrumbs svelte-t7gb48");
-    			add_location(div10, file$1, 325, 2, 9174);
+    			add_location(div10, file$1, 367, 2, 10391);
     			attr_dev(div11, "class", "nav-wrapper svelte-t7gb48");
-    			add_location(div11, file$1, 291, 0, 8227);
+    			add_location(div11, file$1, 327, 0, 9313);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -674,10 +831,12 @@ var app = (function () {
     			dispose = [
     				listen_dev(div0, "click", childProcess, false, false, false),
     				listen_dev(div2, "click", /*selectFolder*/ ctx[1], false, false, false),
-    				listen_dev(div4, "click", /*click_handler*/ ctx[19], false, false, false),
+    				listen_dev(div4, "click", /*click_handler*/ ctx[18], false, false, false),
+    				listen_dev(div4, "mouseover", /*mouseover_handler*/ ctx[19], false, false, false),
     				listen_dev(div6, "click", /*click_handler_1*/ ctx[20], false, false, false),
-    				listen_dev(div6, "mouseover", /*mouseover_handler*/ ctx[21], false, false, false),
-    				listen_dev(div8, "click", /*click_handler_2*/ ctx[22], false, false, false)
+    				listen_dev(div6, "mouseover", /*mouseover_handler_1*/ ctx[21], false, false, false),
+    				listen_dev(div8, "click", /*click_handler_2*/ ctx[22], false, false, false),
+    				listen_dev(div8, "mouseover", /*mouseover_handler_2*/ ctx[23], false, false, false)
     			];
     		},
     		p: function update(ctx, [dirty]) {
@@ -725,18 +884,19 @@ var app = (function () {
     	return block;
     }
 
-    function childProcess() {
-    	runner();
+    function log(type, msg) {
+    	CustomLogging_2[`${type}`].log(msg);
+    	console.log(msg);
     }
 
-    function showHistory() {
-    	console.log("show history from back button");
+    function hoverButton(msg) {
+    	console.log(`hovering ${msg} button`);
     }
 
     function instance($$self, $$props, $$invalidate) {
     	let $storeCurrentPath;
     	validate_store(storeCurrentPath, "storeCurrentPath");
-    	component_subscribe($$self, storeCurrentPath, $$value => $$invalidate(9, $storeCurrentPath = $$value));
+    	component_subscribe($$self, storeCurrentPath, $$value => $$invalidate(8, $storeCurrentPath = $$value));
     	const dispatch = createEventDispatcher();
     	const fs = require("fs");
     	const electron = require("electron");
@@ -744,14 +904,16 @@ var app = (function () {
     	const dialog = electron.remote.dialog;
     	let breadcrumbs = [];
     	let lsCurrentPath;
+    	let currentPath;
+    	let navCrumbs;
 
     	onMount(() => {
     		$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
     	});
 
-    	function dispatchNavHistoryTracker() {
-    		console.log("function dispatchNavHistoryTracker ", navHistoryTracker);
-    		dispatch("nav", { data: navHistoryTracker });
+    	function dispatchNavHistoryLocation() {
+    		log("data", `function dispatchNavHistoryLocation, ${navHistoryLocation}`);
+    		dispatch("nav", { data: navHistoryLocation });
     	}
 
     	// function childProcess() {
@@ -759,7 +921,7 @@ var app = (function () {
     	//   exec("notepad.exe", (err, stdout, stderr) => console.log(stdout));
     	// }
     	function addNavHistory() {
-    		$$invalidate(4, navHistory = [...navHistory, currentPath]);
+    		$$invalidate(5, navHistory = [...navHistory, currentPath]);
     		storeNavHistory.set(navHistory);
     	}
 
@@ -788,110 +950,121 @@ var app = (function () {
     			}
 
     			set_store_value(storeCurrentPath, $storeCurrentPath = res.filePaths[0]);
-    			$$invalidate(8, currentPath = res.filePaths[0]);
-    			console.log("currentPath: ", currentPath);
+    			$$invalidate(6, navHistoryLocation = navHistoryLocation + 1);
+
+    			// currentPath = res.filePaths[0];
+    			log("data", `currentPath from selectFolder: ${currentPath}`);
+
+    			addNavHistory();
     		});
     	}
 
     	function navigate(e) {
+    		console.log(`navigate called with e: ${e}`);
+
     		if (e === "back") {
-    			console.log("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n");
-
     			if (navHistoryLength < 1) {
-    				console.log("no history, exit");
+    				log("error", "no history exists");
     				return;
     			}
 
-    			// addNavHistory()
-    			$$invalidate(5, navHistoryTracker = navHistoryTracker + 1);
+    			log("back", `navHistoryLength: ${navHistoryLength}, navHistoryLocation: ${navHistoryLocation}`);
 
-    			if (!navHistory[navHistoryIndex]) {
-    				console.log("!no more history!");
-    				$$invalidate(5, navHistoryTracker = navHistoryTracker - 1);
-    				$$invalidate(7, navHistoryIndex = navHistoryLength - navHistoryTracker);
+    			if (navHistoryLocation === 0) {
+    				log("error", `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`);
+    			} else {
+    				$$invalidate(6, navHistoryLocation = navHistoryLocation - 1);
+    			}
+
+    			if (!navHistory[navHistoryLocation]) {
+    				log("error", `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`);
     				return;
     			}
 
-    			dispatchNavHistoryTracker();
-    			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryIndex]);
-    			$$invalidate(8, currentPath = navHistory[navHistoryIndex]);
-    			$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
-    			return;
-    		}
+    			dispatchNavHistoryLocation();
+    			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryLocation]);
+    			$$invalidate(3, currentPath = navHistory[navHistoryLocation]);
+    		} // navCrumbObjects = generateColors(navCrumbs);
 
     		if (e === "forward") {
-    			console.log("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> forward\n");
-
     			if (navHistoryLength < 1) {
-    				console.log("no history, exit");
+    				log("error", "no history exists");
     				return;
     			}
 
-    			$$invalidate(5, navHistoryTracker = navHistoryTracker - 1);
-    			$$invalidate(7, navHistoryIndex = navHistoryLength - navHistoryTracker);
+    			log("forward", `navHistoryLength: ${navHistoryLength}, navHistoryLocation: ${navHistoryLocation}`);
 
-    			if (!navHistory[navHistoryIndex]) {
-    				console.log("!no more history!");
-    				$$invalidate(5, navHistoryTracker = navHistoryTracker + 1);
-    				$$invalidate(7, navHistoryIndex = navHistoryLength - navHistoryTracker);
+    			if (navHistoryLocation === navHistoryLength - 1) {
+    				log("error", `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`);
+    			} else {
+    				$$invalidate(6, navHistoryLocation = navHistoryLocation + 1);
+    			}
+
+    			if (!navHistory[navHistoryLocation]) {
+    				log("error", `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`);
     				return;
     			}
 
-    			console.log(`navHistoryTracker: ${navHistoryTracker}`);
-    			console.log(`navHistoryIndex: ${navHistoryIndex}`);
-    			console.log(`navHistory[navHistoryIndex]: ${navHistory[navHistoryIndex]}`);
-    			dispatchNavHistoryTracker();
-    			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryIndex]);
-    			$$invalidate(8, currentPath = navHistory[navHistoryIndex]);
-    			return;
-    		}
+    			dispatchNavHistoryLocation();
+    			set_store_value(storeCurrentPath, $storeCurrentPath = navHistory[navHistoryLocation]);
+    			$$invalidate(3, currentPath = navHistory[navHistoryLocation]);
+    		} // addNavHistory();
+    		// return;
 
     		if (e === "up") {
-    			console.log("up");
+    			log("up", navCrumbs);
     			navCrumbs.pop();
-    			(($$invalidate(3, navCrumbs), $$invalidate(8, currentPath)), $$invalidate(9, $storeCurrentPath));
+    			(($$invalidate(4, navCrumbs), $$invalidate(3, currentPath)), $$invalidate(8, $storeCurrentPath));
     			$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
     			let newPath = navCrumbs.join("\\");
-    			console.log("newpath ", newPath);
+    			console.log("~~~~~~~     newpath ", newPath);
+    			console.log("~~~~~~~     navcrumbs ", navCrumbs);
+
+    			// let pathJoin = navCrumbs.joi
     			storeCurrentPath.set(newPath);
+
+    			dispatchNavHistoryLocation();
     			addNavHistory();
-    			return;
-    		}
+    		} // return;
 
-    		// using breadcrumbs navigation, going more than one level back/up
-    		console.log(`navCrumbs: ${navCrumbs} typeof navCerumbs ${typeof navCrumbs} isarray? ${Array.isArray(navCrumbs)} `);
+    		if (typeof e === "object") {
+    			log("crumbs", currentPath);
+    			console.log(`navigate(e) clicked at currentPath ${currentPath}, e.target.textContent ${e.target.textContent}`);
 
-    		navCrumbs.forEach(crumb => {
-    			console.log(`typeof crumb ${crumb}: ${typeof crumb}`);
-    		});
+    			// using breadcrumbs navigation, going more than one level back/up
+    			let crumb = e.target.textContent.trim();
 
-    		console.log(`typeof e.target.textContent ${typeof e.target.textContent}`);
-    		let target = e.target.textContent;
-    		let i = navCrumbs.indexOf(`${target}`);
-    		console.log(`navCrumbs: `, navCrumbs);
-    		console.log(`navCrumbs.indexOf(e.target.textContent): ${navCrumbs.indexOf(e.target.textContent)}, e.target.textContent: ${e.target.textContent}`);
-    		let dif = navCrumbs.length - i;
+    			let i = navCrumbs.indexOf(crumb);
+    			console.log(`e.target.textContent ${crumb}, index of this crumb: ${i} from navCrumbs ${navCrumbs}`);
+    			let dif = navCrumbs.length - i;
 
-    		if (dif > 1) {
-    			for (let x = 1; x < dif; x++) {
-    				navCrumbs.pop();
+    			if (dif > 1) {
+    				console.log(`crumbs dif is more than 1`);
+
+    				for (let x = 1; x < dif; x++) {
+    					navCrumbs.pop();
+    					console.log(`navCrumbs.pop()...ing`);
+    				}
     			}
-    		}
 
-    		(($$invalidate(3, navCrumbs), $$invalidate(8, currentPath)), $$invalidate(9, $storeCurrentPath));
-    		let newPath = navCrumbs.join("\\");
-    		console.log(`navCrumbs: `, navCrumbs);
-    		console.log("newpath: ", newPath);
-    		storeCurrentPath.set(newPath);
-    		$$invalidate(8, currentPath = newPath);
-    		$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
-    		addNavHistory();
-    	}
+    			(($$invalidate(4, navCrumbs), $$invalidate(3, currentPath)), $$invalidate(8, $storeCurrentPath));
+    			let newPath = navCrumbs.join("\\");
+    			console.log("~~~~~~~     newpath ", newPath);
+    			console.log("~~~~~~~     navcrumbs ", navCrumbs);
+    			storeCurrentPath.set(newPath);
+    			$$invalidate(3, currentPath = newPath);
+    			$$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
+    			dispatchNavHistoryLocation();
+    			addNavHistory();
+    		}
+    	} // dispatchNavHistoryLocation();
 
     	const click_handler = () => navigate("up");
+    	const mouseover_handler = () => hoverButton("up");
     	const click_handler_1 = () => navigate("back");
-    	const mouseover_handler = () => showHistory();
+    	const mouseover_handler_1 = () => hoverButton("back");
     	const click_handler_2 = () => navigate("forward");
+    	const mouseover_handler_2 = () => hoverButton("forward");
     	const click_handler_3 = e => navigate(e);
 
     	$$self.$capture_state = () => ({
@@ -901,6 +1074,8 @@ var app = (function () {
     		runner,
     		onMount,
     		createEventDispatcher,
+    		customStylesObjects: CustomLogging_2,
+    		log,
     		dispatch,
     		fs,
     		electron,
@@ -908,102 +1083,102 @@ var app = (function () {
     		dialog,
     		breadcrumbs,
     		lsCurrentPath,
-    		childProcess,
-    		dispatchNavHistoryTracker,
+    		currentPath,
+    		navCrumbs,
+    		dispatchNavHistoryLocation,
     		addNavHistory,
-    		showHistory,
+    		hoverButton,
     		selectFolder,
     		navigate,
+    		console,
     		require,
     		navCrumbObjects,
-    		navCrumbs,
     		navHistory,
-    		navHistoryTracker,
+    		navHistoryLocation,
     		navHistoryLength,
-    		navHistoryIndex,
-    		console,
-    		currentPath,
     		$storeCurrentPath,
-    		window,
-    		Array
+    		window
     	});
 
     	$$self.$inject_state = $$props => {
     		if ("breadcrumbs" in $$props) breadcrumbs = $$props.breadcrumbs;
     		if ("lsCurrentPath" in $$props) lsCurrentPath = $$props.lsCurrentPath;
+    		if ("currentPath" in $$props) $$invalidate(3, currentPath = $$props.currentPath);
+    		if ("navCrumbs" in $$props) $$invalidate(4, navCrumbs = $$props.navCrumbs);
     		if ("navCrumbObjects" in $$props) $$invalidate(0, navCrumbObjects = $$props.navCrumbObjects);
-    		if ("navCrumbs" in $$props) $$invalidate(3, navCrumbs = $$props.navCrumbs);
-    		if ("navHistory" in $$props) $$invalidate(4, navHistory = $$props.navHistory);
-    		if ("navHistoryTracker" in $$props) $$invalidate(5, navHistoryTracker = $$props.navHistoryTracker);
-    		if ("navHistoryLength" in $$props) $$invalidate(6, navHistoryLength = $$props.navHistoryLength);
-    		if ("navHistoryIndex" in $$props) $$invalidate(7, navHistoryIndex = $$props.navHistoryIndex);
-    		if ("currentPath" in $$props) $$invalidate(8, currentPath = $$props.currentPath);
+    		if ("navHistory" in $$props) $$invalidate(5, navHistory = $$props.navHistory);
+    		if ("navHistoryLocation" in $$props) $$invalidate(6, navHistoryLocation = $$props.navHistoryLocation);
+    		if ("navHistoryLength" in $$props) $$invalidate(7, navHistoryLength = $$props.navHistoryLength);
     	};
 
     	let navCrumbObjects;
     	let navHistory;
-    	let navHistoryTracker;
+    	let navHistoryLocation;
     	let navHistoryLength;
-    	let navHistoryIndex;
-    	let currentPath;
-    	let navCrumbs;
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$storeCurrentPath*/ 512) {
-    			 $$invalidate(8, currentPath = $storeCurrentPath);
+    		if ($$self.$$.dirty & /*$storeCurrentPath, currentPath*/ 264) {
+    			 {
+    				$$invalidate(3, currentPath = $storeCurrentPath);
+    				log("data", `currentPath = $storeCurrentPath ${currentPath}`);
+    			}
     		}
 
-    		if ($$self.$$.dirty & /*currentPath*/ 256) {
-    			 $$invalidate(3, navCrumbs = currentPath.split("\\"));
+    		if ($$self.$$.dirty & /*currentPath, navCrumbs*/ 24) {
+    			 {
+    				$$invalidate(4, navCrumbs = currentPath.split("\\"));
+    				log("data", `navCrumbs reactive update: ${navCrumbs}`);
+    			}
     		}
 
-    		if ($$self.$$.dirty & /*navCrumbs*/ 8) {
+    		if ($$self.$$.dirty & /*navCrumbs*/ 16) {
     			 $$invalidate(0, navCrumbObjects = generateColors(navCrumbs));
     		}
 
-    		if ($$self.$$.dirty & /*navHistory*/ 16) {
-    			 $$invalidate(6, navHistoryLength = navHistory.length);
+    		if ($$self.$$.dirty & /*navHistory*/ 32) {
+    			 $$invalidate(6, navHistoryLocation = navHistory.length - 1);
     		}
 
-    		if ($$self.$$.dirty & /*navHistoryLength, navHistoryTracker*/ 96) {
-    			 $$invalidate(7, navHistoryIndex = navHistoryLength - navHistoryTracker - 1);
+    		if ($$self.$$.dirty & /*navHistory*/ 32) {
+    			 $$invalidate(7, navHistoryLength = navHistory.length);
     		}
 
-    		if ($$self.$$.dirty & /*navHistoryLength, navHistoryTracker, navHistoryIndex*/ 224) {
-    			 console.log(`reactive navHistory length: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}, navHistoryIndex: ${navHistoryIndex}  `);
+    		if ($$self.$$.dirty & /*navHistoryLength, navHistoryLocation*/ 192) {
+    			// $: navHistoryIndex = navHistoryLength - navHistoryLocation - 1;
+    			 log("data", `reactive navHistory length: ${navHistoryLength}, navHistoryLocation: ${navHistoryLocation}`);
     		}
     	};
 
     	 if (typeof window !== "undefined") {
-    		storeCurrentPath.subscribe(path => {
-    			console.log("subscription path ", path);
-    			$$invalidate(8, currentPath = path);
+    		storeCurrentPath.subscribe(data => {
+    			$$invalidate(3, currentPath = data);
+
+    			// currentPath = `${path}\\`;
+    			console.log("subscription path data ", data);
     		});
 
     		storeNavHistory.subscribe(history => {
-    			console.log("navHistory ", history);
-    			$$invalidate(5, navHistoryTracker = 1);
-    			$$invalidate(4, navHistory = history);
+    			// log("data", "storeNavHistory called in navigation.svelte subscription");
+    			// navHistoryLocation = 1;
+    			$$invalidate(5, navHistory = history);
     		}); // navigate();
     	}
 
-    	 $$invalidate(4, navHistory = []);
-    	 $$invalidate(5, navHistoryTracker = 1);
+    	 $$invalidate(5, navHistory = []);
 
     	return [
     		navCrumbObjects,
     		selectFolder,
     		navigate,
+    		currentPath,
     		navCrumbs,
     		navHistory,
-    		navHistoryTracker,
+    		navHistoryLocation,
     		navHistoryLength,
-    		navHistoryIndex,
-    		currentPath,
     		$storeCurrentPath,
     		dispatch,
     		fs,
@@ -1012,12 +1187,14 @@ var app = (function () {
     		dialog,
     		breadcrumbs,
     		lsCurrentPath,
-    		dispatchNavHistoryTracker,
+    		dispatchNavHistoryLocation,
     		addNavHistory,
     		click_handler,
-    		click_handler_1,
     		mouseover_handler,
+    		click_handler_1,
+    		mouseover_handler_1,
     		click_handler_2,
+    		mouseover_handler_2,
     		click_handler_3
     	];
     }
@@ -1041,27 +1218,34 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[16] = list[i];
+    	child_ctx[17] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[19] = list[i];
+    	child_ctx[20] = list[i];
+    	child_ctx[22] = i;
     	return child_ctx;
     }
 
-    // (174:8) {#each currentDirs as dir}
-    function create_each_block_1(ctx) {
+    function get_each_context_2(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[20] = list[i];
+    	return child_ctx;
+    }
+
+    // (204:8) {#each currentDirs as dir}
+    function create_each_block_2(ctx) {
     	let div;
-    	let t0_value = /*dir*/ ctx[19] + "";
+    	let t0_value = /*dir*/ ctx[20] + "";
     	let t0;
     	let t1;
     	let div_class_value;
     	let dispose;
 
     	function click_handler(...args) {
-    		return /*click_handler*/ ctx[14](/*dir*/ ctx[19], ...args);
+    		return /*click_handler*/ ctx[14](/*dir*/ ctx[20], ...args);
     	}
 
     	const block = {
@@ -1069,8 +1253,8 @@ var app = (function () {
     			div = element("div");
     			t0 = text(t0_value);
     			t1 = space();
-    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[19][0] == "." ? "dot-dir" : "reg-dir") + " svelte-1d4rth4");
-    			add_location(div, file_1, 174, 10, 4573);
+    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[20][0] == "." ? "dot-dir" : "reg-dir") + " svelte-3qjbi0");
+    			add_location(div, file_1, 204, 10, 5241);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1080,9 +1264,9 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*currentDirs*/ 2 && t0_value !== (t0_value = /*dir*/ ctx[19] + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*currentDirs*/ 2 && t0_value !== (t0_value = /*dir*/ ctx[20] + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[19][0] == "." ? "dot-dir" : "reg-dir") + " svelte-1d4rth4")) {
+    			if (dirty & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[20][0] == "." ? "dot-dir" : "reg-dir") + " svelte-3qjbi0")) {
     				attr_dev(div, "class", div_class_value);
     			}
     		},
@@ -1094,41 +1278,112 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_1.name,
+    		id: create_each_block_2.name,
     		type: "each",
-    		source: "(174:8) {#each currentDirs as dir}",
+    		source: "(204:8) {#each currentDirs as dir}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (187:8) {#each currentFiles as file}
-    function create_each_block$1(ctx) {
-    	let div;
-    	let t_value = /*file*/ ctx[16] + "";
-    	let t;
+    // (218:8) {#each navHistory as dir, i}
+    function create_each_block_1(ctx) {
+    	let div0;
+    	let t0;
+    	let t1;
+    	let div1;
+    	let t2_value = /*dir*/ ctx[20] + "";
+    	let t2;
+    	let t3;
+    	let div1_class_value;
     	let dispose;
 
     	function click_handler_1(...args) {
-    		return /*click_handler_1*/ ctx[15](/*file*/ ctx[16], ...args);
+    		return /*click_handler_1*/ ctx[15](/*dir*/ ctx[20], ...args);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			div0 = element("div");
+    			t0 = text(/*i*/ ctx[22]);
+    			t1 = space();
+    			div1 = element("div");
+    			t2 = text(t2_value);
+    			t3 = space();
+    			attr_dev(div0, "class", "historyIndex svelte-3qjbi0");
+    			add_location(div0, file_1, 218, 10, 5653);
+
+    			attr_dev(div1, "class", div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[22]
+    			? "special"
+    			: "none") + " svelte-3qjbi0");
+
+    			add_location(div1, file_1, 219, 10, 5700);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div0, anchor);
+    			append_dev(div0, t0);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, t2);
+    			append_dev(div1, t3);
+    			dispose = listen_dev(div1, "click", click_handler_1, false, false, false);
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			if (dirty & /*navHistory*/ 4 && t2_value !== (t2_value = /*dir*/ ctx[20] + "")) set_data_dev(t2, t2_value);
+
+    			if (dirty & /*navHistoryLocation*/ 8 && div1_class_value !== (div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[22]
+    			? "special"
+    			: "none") + " svelte-3qjbi0")) {
+    				attr_dev(div1, "class", div1_class_value);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div0);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(div1);
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_1.name,
+    		type: "each",
+    		source: "(218:8) {#each navHistory as dir, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (231:8) {#each currentFiles as file}
+    function create_each_block$1(ctx) {
+    	let div;
+    	let t_value = /*file*/ ctx[17] + "";
+    	let t;
+    	let dispose;
+
+    	function click_handler_2(...args) {
+    		return /*click_handler_2*/ ctx[16](/*file*/ ctx[17], ...args);
     	}
 
     	const block = {
     		c: function create() {
     			div = element("div");
     			t = text(t_value);
-    			attr_dev(div, "class", "file svelte-1d4rth4");
-    			add_location(div, file_1, 187, 10, 4911);
+    			attr_dev(div, "class", "file svelte-3qjbi0");
+    			add_location(div, file_1, 231, 10, 6037);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
-    			dispose = listen_dev(div, "click", click_handler_1, false, false, false);
+    			dispose = listen_dev(div, "click", click_handler_2, false, false, false);
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*currentFiles*/ 1 && t_value !== (t_value = /*file*/ ctx[16] + "")) set_data_dev(t, t_value);
+    			if (dirty & /*currentFiles*/ 1 && t_value !== (t_value = /*file*/ ctx[17] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -1140,7 +1395,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(187:8) {#each currentFiles as file}",
+    		source: "(231:8) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -1150,22 +1405,40 @@ var app = (function () {
     function create_fragment$1(ctx) {
     	let main;
     	let t0;
-    	let div5;
+    	let div7;
     	let div1;
     	let h20;
     	let t2;
     	let div0;
     	let t3;
-    	let div2;
-    	let t5;
-    	let div4;
-    	let h21;
-    	let t7;
     	let div3;
+    	let h21;
+    	let t5;
+    	let h1;
+    	let t7;
+    	let p;
+    	let t8;
+    	let t9;
+    	let div2;
+    	let t10;
+    	let div5;
+    	let h22;
+    	let t12;
+    	let div4;
+    	let t13;
+    	let div6;
     	let current;
     	const nav = new Navigation({ $$inline: true });
-    	nav.$on("nav", /*receiveNavHistoryTracker*/ ctx[2]);
-    	let each_value_1 = /*currentDirs*/ ctx[1];
+    	nav.$on("nav", /*receiveNavHistoryLocation*/ ctx[4]);
+    	let each_value_2 = /*currentDirs*/ ctx[1];
+    	validate_each_argument(each_value_2);
+    	let each_blocks_2 = [];
+
+    	for (let i = 0; i < each_value_2.length; i += 1) {
+    		each_blocks_2[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
+    	}
+
+    	let each_value_1 = /*navHistory*/ ctx[2];
     	validate_each_argument(each_value_1);
     	let each_blocks_1 = [];
 
@@ -1186,43 +1459,65 @@ var app = (function () {
     			main = element("main");
     			create_component(nav.$$.fragment);
     			t0 = space();
-    			div5 = element("div");
+    			div7 = element("div");
     			div1 = element("div");
     			h20 = element("h2");
     			h20.textContent = "DIRECTORIES";
     			t2 = space();
     			div0 = element("div");
 
+    			for (let i = 0; i < each_blocks_2.length; i += 1) {
+    				each_blocks_2[i].c();
+    			}
+
+    			t3 = space();
+    			div3 = element("div");
+    			h21 = element("h2");
+    			h21.textContent = "History";
+    			t5 = space();
+    			h1 = element("h1");
+    			h1.textContent = "Nav History Location Index:";
+    			t7 = space();
+    			p = element("p");
+    			t8 = text(/*navHistoryLocation*/ ctx[3]);
+    			t9 = space();
+    			div2 = element("div");
+
     			for (let i = 0; i < each_blocks_1.length; i += 1) {
     				each_blocks_1[i].c();
     			}
 
-    			t3 = space();
-    			div2 = element("div");
-    			div2.textContent = ".";
-    			t5 = space();
+    			t10 = space();
+    			div5 = element("div");
+    			h22 = element("h2");
+    			h22.textContent = "FILES";
+    			t12 = space();
     			div4 = element("div");
-    			h21 = element("h2");
-    			h21.textContent = "FILES";
-    			t7 = space();
-    			div3 = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			add_location(h20, file_1, 171, 6, 4471);
-    			attr_dev(div0, "class", "dirs-listing svelte-1d4rth4");
-    			add_location(div0, file_1, 172, 6, 4499);
-    			add_location(div1, file_1, 170, 4, 4458);
-    			add_location(div2, file_1, 182, 4, 4781);
-    			add_location(h21, file_1, 184, 6, 4812);
-    			attr_dev(div3, "class", "files-listing svelte-1d4rth4");
-    			add_location(div3, file_1, 185, 6, 4834);
-    			add_location(div4, file_1, 183, 4, 4799);
-    			attr_dev(div5, "class", "file-system svelte-1d4rth4");
-    			add_location(div5, file_1, 169, 2, 4427);
-    			add_location(main, file_1, 167, 0, 4372);
+    			t13 = space();
+    			div6 = element("div");
+    			add_location(h20, file_1, 201, 6, 5139);
+    			attr_dev(div0, "class", "dirs-listing svelte-3qjbi0");
+    			add_location(div0, file_1, 202, 6, 5167);
+    			add_location(div1, file_1, 200, 4, 5126);
+    			add_location(h21, file_1, 213, 6, 5471);
+    			add_location(h1, file_1, 214, 6, 5495);
+    			add_location(p, file_1, 215, 6, 5539);
+    			attr_dev(div2, "class", "history-listing svelte-3qjbi0");
+    			add_location(div2, file_1, 216, 6, 5574);
+    			add_location(div3, file_1, 212, 4, 5458);
+    			add_location(h22, file_1, 228, 6, 5938);
+    			attr_dev(div4, "class", "files-listing svelte-3qjbi0");
+    			add_location(div4, file_1, 229, 6, 5960);
+    			add_location(div5, file_1, 227, 4, 5925);
+    			add_location(div6, file_1, 237, 4, 6171);
+    			attr_dev(div7, "class", "file-system svelte-3qjbi0");
+    			add_location(div7, file_1, 199, 2, 5095);
+    			add_location(main, file_1, 197, 0, 5039);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1231,33 +1526,74 @@ var app = (function () {
     			insert_dev(target, main, anchor);
     			mount_component(nav, main, null);
     			append_dev(main, t0);
-    			append_dev(main, div5);
-    			append_dev(div5, div1);
+    			append_dev(main, div7);
+    			append_dev(div7, div1);
     			append_dev(div1, h20);
     			append_dev(div1, t2);
     			append_dev(div1, div0);
 
-    			for (let i = 0; i < each_blocks_1.length; i += 1) {
-    				each_blocks_1[i].m(div0, null);
+    			for (let i = 0; i < each_blocks_2.length; i += 1) {
+    				each_blocks_2[i].m(div0, null);
     			}
 
-    			append_dev(div5, t3);
-    			append_dev(div5, div2);
-    			append_dev(div5, t5);
+    			append_dev(div7, t3);
+    			append_dev(div7, div3);
+    			append_dev(div3, h21);
+    			append_dev(div3, t5);
+    			append_dev(div3, h1);
+    			append_dev(div3, t7);
+    			append_dev(div3, p);
+    			append_dev(p, t8);
+    			append_dev(div3, t9);
+    			append_dev(div3, div2);
+
+    			for (let i = 0; i < each_blocks_1.length; i += 1) {
+    				each_blocks_1[i].m(div2, null);
+    			}
+
+    			append_dev(div7, t10);
+    			append_dev(div7, div5);
+    			append_dev(div5, h22);
+    			append_dev(div5, t12);
     			append_dev(div5, div4);
-    			append_dev(div4, h21);
-    			append_dev(div4, t7);
-    			append_dev(div4, div3);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div3, null);
+    				each_blocks[i].m(div4, null);
     			}
 
+    			append_dev(div7, t13);
+    			append_dev(div7, div6);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*currentDirs, navigate*/ 10) {
-    				each_value_1 = /*currentDirs*/ ctx[1];
+    			if (dirty & /*currentDirs, navigate*/ 34) {
+    				each_value_2 = /*currentDirs*/ ctx[1];
+    				validate_each_argument(each_value_2);
+    				let i;
+
+    				for (i = 0; i < each_value_2.length; i += 1) {
+    					const child_ctx = get_each_context_2(ctx, each_value_2, i);
+
+    					if (each_blocks_2[i]) {
+    						each_blocks_2[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks_2[i] = create_each_block_2(child_ctx);
+    						each_blocks_2[i].c();
+    						each_blocks_2[i].m(div0, null);
+    					}
+    				}
+
+    				for (; i < each_blocks_2.length; i += 1) {
+    					each_blocks_2[i].d(1);
+    				}
+
+    				each_blocks_2.length = each_value_2.length;
+    			}
+
+    			if (!current || dirty & /*navHistoryLocation*/ 8) set_data_dev(t8, /*navHistoryLocation*/ ctx[3]);
+
+    			if (dirty & /*navHistoryLocation, navigate, navHistory*/ 44) {
+    				each_value_1 = /*navHistory*/ ctx[2];
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -1269,7 +1605,7 @@ var app = (function () {
     					} else {
     						each_blocks_1[i] = create_each_block_1(child_ctx);
     						each_blocks_1[i].c();
-    						each_blocks_1[i].m(div0, null);
+    						each_blocks_1[i].m(div2, null);
     					}
     				}
 
@@ -1293,7 +1629,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block$1(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(div3, null);
+    						each_blocks[i].m(div4, null);
     					}
     				}
 
@@ -1316,6 +1652,7 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
     			destroy_component(nav);
+    			destroy_each(each_blocks_2, detaching);
     			destroy_each(each_blocks_1, detaching);
     			destroy_each(each_blocks, detaching);
     		}
@@ -1348,17 +1685,17 @@ var app = (function () {
     	let currentFiles = [];
     	let currentDirs = [];
     	let navHistory = [];
-    	let navHistoryTracker = 1;
     	let oldPath = "";
 
     	onMount(() => {
+    		console.log("onMount fs.svelte");
     		addNavHistory();
     	});
 
-    	function receiveNavHistoryTracker(e) {
-    		console.log("function receiveNavHistoryTracker", e.detail.data);
+    	function receiveNavHistoryLocation(e) {
+    		console.log("function receiveNavHistoryLocation", e.detail.data);
     		console.log(e);
-    		navHistoryTracker = e.detail.data;
+    		$$invalidate(3, navHistoryLocation = e.detail.data);
     	}
 
     	function addNavHistory() {
@@ -1366,50 +1703,64 @@ var app = (function () {
     			return;
     		}
 
-    		navHistory = [...navHistory, currentPath];
-    		navHistoryTracker = 1;
+    		$$invalidate(2, navHistory = [...navHistory, currentPath]);
+    		$$invalidate(3, navHistoryLocation = 1);
     		storeNavHistory.set(navHistory);
     	}
 
     	function readDirectory() {
-    		// console.log("readDirectory() path ", currentPath);
-    		// console.log("readDirectory() path ", typeof currentPath);
+    		console.log("readDirectory() path ", currentPath);
+    		oldPath = currentPath;
     		$$invalidate(0, currentFiles = []);
-
     		$$invalidate(1, currentDirs = []);
 
+    		if (currentPath.split("\\").length === 1) {
+    			$$invalidate(7, currentPath = currentPath + path.sep);
+    		}
+
     		try {
-    			fs.readdirSync(currentPath).map(fileName => {
-    				// console.log(`inside currentPath.map: `, fileName);
-    				return path.join(currentPath, fileName);
-    			}).filter(isFile); // return fileName
+    			console.log(`inside readDirectory(), try fs.readdirSync(${currentPath})
+        .map`);
+
+    			fs.readdirSync(currentPath).map(contents => {
+    				return path.join(currentPath, contents);
+    			}).filter(isFile);
     		} catch(err) {
-    			console.log("node fs readdirSync error!!! Cannot access this folder");
+    			console.log("node fs readdirSync error!!! Cannot access this folder", err);
     			$$invalidate(7, currentPath = oldPath);
     			storeCurrentPath.set(currentPath);
     		}
     	}
 
     	const isFile = fileName => {
-    		// console.log(fs.lstatSync(fileName));
-    		if (fs.lstatSync(fileName).isFile()) {
-    			$$invalidate(0, currentFiles = [...currentFiles, cropFileName(fileName)]);
-    		} else {
-    			$$invalidate(1, currentDirs = [...currentDirs, cropFileName(fileName)]); // console.log(`currentFiles: `, currentFiles);
-    		} // console.log(`currentDirs: `, currentDirs);
+    		try {
+    			if (fs.lstatSync(fileName).isFile()) {
+    				$$invalidate(0, currentFiles = [...currentFiles, cropFileName(fileName)]);
+    			} else {
+    				$$invalidate(1, currentDirs = [...currentDirs, cropFileName(fileName)]);
+    			}
+    		} catch(err) {
+    			
+    		} // console.log(`error from lstatsync: `, err);
     	};
 
     	function navigate(dir, type) {
     		oldPath = currentPath;
-    		console.log(`navigate clicked here: ${dir}, currentPath: ${currentPath}`);
+    		console.log(`\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`);
 
     		if (currentPath === "undefined") {
     			$$invalidate(7, currentPath = navHistory[navHistory.length - 1]);
     		} else {
-    			if (type === "tail") {
-    				$$invalidate(7, currentPath = currentPath + "\\" + dir);
-    				console.log("currentPath ", currentPath);
-    				storeCurrentPath.set(currentPath);
+    			if (type === "directoryItem") {
+    				console.log(`currentPath type is type ${type}`, currentPath);
+
+    				if (currentPath.split("\\")[1] === "") {
+    					$$invalidate(7, currentPath = currentPath + dir);
+    					storeCurrentPath.set(currentPath);
+    				} else {
+    					$$invalidate(7, currentPath = currentPath + "\\" + dir);
+    					storeCurrentPath.set(currentPath);
+    				}
     			} else {
     				$$invalidate(7, currentPath = dir);
     				console.log("currentPath ", currentPath);
@@ -1421,8 +1772,9 @@ var app = (function () {
     		}
     	}
 
-    	const click_handler = dir => navigate(dir, "tail");
-    	const click_handler_1 = file => fileInfo();
+    	const click_handler = dir => navigate(dir, "directoryItem");
+    	const click_handler_1 = dir => navigate(dir, "historyItem");
+    	const click_handler_2 = file => fileInfo();
 
     	$$self.$capture_state = () => ({
     		Nav: Navigation,
@@ -1435,9 +1787,8 @@ var app = (function () {
     		currentFiles,
     		currentDirs,
     		navHistory,
-    		navHistoryTracker,
     		oldPath,
-    		receiveNavHistoryTracker,
+    		receiveNavHistoryLocation,
     		addNavHistory,
     		readDirectory,
     		cropFileName,
@@ -1445,6 +1796,7 @@ var app = (function () {
     		fileInfo,
     		navigate,
     		require,
+    		navHistoryLocation,
     		currentPath,
     		process,
     		root,
@@ -1456,13 +1808,14 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ("currentFiles" in $$props) $$invalidate(0, currentFiles = $$props.currentFiles);
     		if ("currentDirs" in $$props) $$invalidate(1, currentDirs = $$props.currentDirs);
-    		if ("navHistory" in $$props) navHistory = $$props.navHistory;
-    		if ("navHistoryTracker" in $$props) navHistoryTracker = $$props.navHistoryTracker;
+    		if ("navHistory" in $$props) $$invalidate(2, navHistory = $$props.navHistory);
     		if ("oldPath" in $$props) oldPath = $$props.oldPath;
+    		if ("navHistoryLocation" in $$props) $$invalidate(3, navHistoryLocation = $$props.navHistoryLocation);
     		if ("currentPath" in $$props) $$invalidate(7, currentPath = $$props.currentPath);
     		if ("root" in $$props) root = $$props.root;
     	};
 
+    	let navHistoryLocation;
     	let currentPath;
     	let root;
 
@@ -1471,34 +1824,37 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*navHistory*/ 4) {
+    			 $$invalidate(3, navHistoryLocation = navHistory.length - 1);
+    		}
+
     		if ($$self.$$.dirty & /*currentPath*/ 128) {
-    			// $: currentPath = process.cwd();
     			 root = fs.readdirSync(currentPath);
     		}
     	};
 
-    	 $$invalidate(7, currentPath = process.cwd());
-
     	 if (typeof window !== "undefined") {
-    		storeCurrentPath.subscribe(path => {
-    			console.log("subscription path ", path);
-    			$$invalidate(7, currentPath = path);
+    		storeCurrentPath.subscribe(data => {
+    			$$invalidate(7, currentPath = data);
+    			console.log("subscription path ", data);
     			readDirectory();
     		});
 
     		storeNavHistory.subscribe(history => {
-    			console.log("navHistory ", history);
-    			navHistory = history;
+    			// console.log("navHistory ", history);
+    			$$invalidate(2, navHistory = history);
     		});
     	}
+
+    	 $$invalidate(7, currentPath = process.cwd());
 
     	return [
     		currentFiles,
     		currentDirs,
-    		receiveNavHistoryTracker,
-    		navigate,
     		navHistory,
-    		navHistoryTracker,
+    		navHistoryLocation,
+    		receiveNavHistoryLocation,
+    		navigate,
     		oldPath,
     		currentPath,
     		root,
@@ -1508,7 +1864,8 @@ var app = (function () {
     		readDirectory,
     		isFile,
     		click_handler,
-    		click_handler_1
+    		click_handler_1,
+    		click_handler_2
     	];
     }
 
@@ -1544,9 +1901,9 @@ var app = (function () {
     			t1 = space();
     			create_component(fs.$$.fragment);
     			attr_dev(h1, "class", "svelte-19xyxbs");
-    			add_location(h1, file$2, 29, 2, 450);
+    			add_location(h1, file$2, 56, 2, 1205);
     			attr_dev(main, "class", "svelte-19xyxbs");
-    			add_location(main, file$2, 28, 0, 440);
+    			add_location(main, file$2, 55, 0, 1195);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1586,7 +1943,53 @@ var app = (function () {
     }
 
     function instance$2($$self, $$props, $$invalidate) {
-    	$$self.$capture_state = () => ({ storeCurrentPath, FS: Fs });
+    	const { remote } = require("electron");
+    	const { Menu, MenuItem } = remote;
+    	let rightClickPosition = null;
+    	const menu = new Menu();
+
+    	const menuItem = new MenuItem({
+    			label: "Inspect Element",
+    			click: () => {
+    				remote.getCurrentWindow().inspectElement(rightClickPosition.x, rightClickPosition.y);
+    			}
+    		});
+
+    	menu.append(menuItem);
+
+    	// end 'Inspect Element' menu
+    	window.addEventListener(
+    		"contextmenu",
+    		e => {
+    			e.preventDefault();
+    			rightClickPosition = { x: e.x, y: e.y };
+    			menu.popup(remote.getCurrentWindow());
+    		},
+    		false
+    	);
+
+    	$$self.$capture_state = () => ({
+    		storeCurrentPath,
+    		FS: Fs,
+    		CustomLogging: CustomLogging_1,
+    		remote,
+    		Menu,
+    		MenuItem,
+    		rightClickPosition,
+    		menu,
+    		menuItem,
+    		require,
+    		window
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ("rightClickPosition" in $$props) rightClickPosition = $$props.rightClickPosition;
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
     	return [];
     }
 

@@ -5,6 +5,13 @@
   // const exec = require("./../src/utils/childProcess.js")
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
+  import { customStylesObjects } from "./../utils/CustomLogging.js";
+
+  function log(type, msg) {
+    customStylesObjects[`${type}`].log(msg);
+    console.log(msg);
+  }
+
   const dispatch = createEventDispatcher();
   const fs = require("fs");
   const electron = require("electron");
@@ -13,43 +20,49 @@
   let breadcrumbs = [];
   let lsCurrentPath;
 
-  function childProcess() {
-    runner();
-  }
-
   $: navCrumbObjects = generateColors(navCrumbs);
   $: navHistory = [];
-  $: navHistoryTracker = 1;
+  $: navHistoryLocation = navHistory.length - 1;
   $: navHistoryLength = navHistory.length;
-  $: navHistoryIndex = navHistoryLength - navHistoryTracker - 1;
-  $: console.log(
-    `reactive navHistory length: ${navHistoryLength}, navHistoryTracker: ${navHistoryTracker}, navHistoryIndex: ${navHistoryIndex}  `
+  // $: navHistoryIndex = navHistoryLength - navHistoryLocation - 1;
+  $: log(
+    "data",
+    `reactive navHistory length: ${navHistoryLength}, navHistoryLocation: ${navHistoryLocation}`
   );
 
-  $: currentPath = $storeCurrentPath;
+  let currentPath;
+  $: {
+    currentPath = $storeCurrentPath;
+    log("data", `currentPath = $storeCurrentPath ${currentPath}`);
+  }
   // console.log(`accessing assets: ${currentPath}`);
   $: if (typeof window !== "undefined") {
-    storeCurrentPath.subscribe(path => {
-      console.log("subscription path ", path);
-      currentPath = path;
+    storeCurrentPath.subscribe(data => {
+      currentPath = data;
+      // currentPath = `${path}\\`;
+      console.log("subscription path data ", data);
     });
     storeNavHistory.subscribe(history => {
-      console.log("navHistory ", history);
-      navHistoryTracker = 1;
+      // log("data", "storeNavHistory called in navigation.svelte subscription");
+      // navHistoryLocation = 1;
       navHistory = history;
       // navigate();
     });
   }
-  $: navCrumbs = currentPath.split("\\");
+  let navCrumbs;
+  $: {
+    navCrumbs = currentPath.split("\\");
+    log("data", `navCrumbs reactive update: ${navCrumbs}`);
+  }
 
   onMount(() => {
     navCrumbObjects = generateColors(navCrumbs);
   });
 
-  function dispatchNavHistoryTracker() {
-    console.log("function dispatchNavHistoryTracker ", navHistoryTracker);
+  function dispatchNavHistoryLocation() {
+    log("data", `function dispatchNavHistoryLocation, ${navHistoryLocation}`);
     dispatch("nav", {
-      data: navHistoryTracker
+      data: navHistoryLocation
     });
   }
 
@@ -63,8 +76,8 @@
     storeNavHistory.set(navHistory);
   }
 
-  function showHistory() {
-    console.log("show history from back button");
+  function hoverButton(msg) {
+    console.log(`hovering ${msg} button`);
   }
 
   function selectFolder() {
@@ -89,100 +102,123 @@
         return;
       }
       $storeCurrentPath = res.filePaths[0];
-      currentPath = res.filePaths[0];
-      console.log("currentPath: ", currentPath);
+      navHistoryLocation = navHistoryLocation + 1;
+      // currentPath = res.filePaths[0];
+      log("data", `currentPath from selectFolder: ${currentPath}`);
+      addNavHistory();
     });
   }
 
   function navigate(e) {
+    console.log(`navigate called with e: ${e}`);
     if (e === "back") {
-      console.log("\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< back\n");
       if (navHistoryLength < 1) {
-        console.log("no history, exit");
+        log("error", "no history exists");
         return;
       }
-      // addNavHistory()
-      navHistoryTracker = navHistoryTracker + 1;
-      if (!navHistory[navHistoryIndex]) {
-        console.log("!no more history!");
-        navHistoryTracker = navHistoryTracker - 1;
-        navHistoryIndex = navHistoryLength - navHistoryTracker;
+      log(
+        "back",
+        `navHistoryLength: ${navHistoryLength}, navHistoryLocation: ${navHistoryLocation}`
+      );
+      if (navHistoryLocation === 0) {
+        log(
+          "error",
+          `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`
+        );
+      } else {
+        navHistoryLocation = navHistoryLocation - 1;
+      }
+
+      if (!navHistory[navHistoryLocation]) {
+        log(
+          "error",
+          `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`
+        );
         return;
       }
-      dispatchNavHistoryTracker();
-      $storeCurrentPath = navHistory[navHistoryIndex];
-      currentPath = navHistory[navHistoryIndex];
-      navCrumbObjects = generateColors(navCrumbs);
-      return;
+      dispatchNavHistoryLocation();
+      $storeCurrentPath = navHistory[navHistoryLocation];
+      currentPath = navHistory[navHistoryLocation];
+      // navCrumbObjects = generateColors(navCrumbs);
     }
 
     if (e === "forward") {
-      console.log("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> forward\n");
       if (navHistoryLength < 1) {
-        console.log("no history, exit");
+        log("error", "no history exists");
         return;
       }
-      navHistoryTracker = navHistoryTracker - 1;
-      navHistoryIndex = navHistoryLength - navHistoryTracker;
-      if (!navHistory[navHistoryIndex]) {
-        console.log("!no more history!");
-        navHistoryTracker = navHistoryTracker + 1;
-        navHistoryIndex = navHistoryLength - navHistoryTracker;
-        return;
-      }
-      console.log(`navHistoryTracker: ${navHistoryTracker}`);
-      console.log(`navHistoryIndex: ${navHistoryIndex}`);
-      console.log(
-        `navHistory[navHistoryIndex]: ${navHistory[navHistoryIndex]}`
+      log(
+        "forward",
+        `navHistoryLength: ${navHistoryLength}, navHistoryLocation: ${navHistoryLocation}`
       );
-      dispatchNavHistoryTracker();
-      $storeCurrentPath = navHistory[navHistoryIndex];
-      currentPath = navHistory[navHistoryIndex];
-      return;
+      if (navHistoryLocation === navHistoryLength - 1) {
+        log(
+          "error",
+          `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`
+        );
+      } else {
+        navHistoryLocation = navHistoryLocation + 1;
+      }
+
+      if (!navHistory[navHistoryLocation]) {
+        log(
+          "error",
+          `End of the line! current history length: ${navHistoryLength} current history location ${navHistoryLocation}`
+        );
+        return;
+      }
+      dispatchNavHistoryLocation();
+      $storeCurrentPath = navHistory[navHistoryLocation];
+      currentPath = navHistory[navHistoryLocation];
+      // addNavHistory();
+      // return;
     }
 
     if (e === "up") {
-      console.log("up");
-
+      log("up", navCrumbs);
       navCrumbs.pop();
       navCrumbs = navCrumbs;
       navCrumbObjects = generateColors(navCrumbs);
       let newPath = navCrumbs.join("\\");
-      console.log("newpath ", newPath);
+      console.log("~~~~~~~     newpath ", newPath);
+      console.log("~~~~~~~     navcrumbs ", navCrumbs);
+      // let pathJoin = navCrumbs.joi
       storeCurrentPath.set(newPath);
+      dispatchNavHistoryLocation();
       addNavHistory();
-      return;
+      // return;
     }
+    if (typeof e === "object") {
+      log("crumbs", currentPath);
+      console.log(
+        `navigate(e) clicked at currentPath ${currentPath}, e.target.textContent ${e.target.textContent}`
+      );
+      // using breadcrumbs navigation, going more than one level back/up
+      let crumb = e.target.textContent.trim();
+      let i = navCrumbs.indexOf(crumb);
+      console.log(
+        `e.target.textContent ${crumb}, index of this crumb: ${i} from navCrumbs ${navCrumbs}`
+      );
+      let dif = navCrumbs.length - i;
 
-    // using breadcrumbs navigation, going more than one level back/up
-    console.log(`navCrumbs: ${navCrumbs} typeof navCerumbs ${typeof navCrumbs} isarray? ${Array.isArray(navCrumbs)} `)
-    navCrumbs.forEach(crumb => {
-      console.log(`typeof crumb ${crumb}: ${typeof crumb}`)
-    })
-    console.log(`typeof e.target.textContent ${typeof e.target.textContent}`)
-    let target = e.target.textContent
-    let i = navCrumbs.indexOf(`${target}`);
-    console.log(`navCrumbs: `, navCrumbs);
-    console.log(
-      `navCrumbs.indexOf(e.target.textContent): ${navCrumbs.indexOf(
-        e.target.textContent
-      )}, e.target.textContent: ${e.target.textContent}`
-    );
-    let dif = navCrumbs.length - i;
-
-    if (dif > 1) {
-      for (let x = 1; x < dif; x++) {
-        navCrumbs.pop();
+      if (dif > 1) {
+        console.log(`crumbs dif is more than 1`);
+        for (let x = 1; x < dif; x++) {
+          navCrumbs.pop();
+          console.log(`navCrumbs.pop()...ing`);
+        }
       }
+      navCrumbs = navCrumbs;
+      let newPath = navCrumbs.join("\\");
+      console.log("~~~~~~~     newpath ", newPath);
+      console.log("~~~~~~~     navcrumbs ", navCrumbs);
+      storeCurrentPath.set(newPath);
+      currentPath = newPath;
+      navCrumbObjects = generateColors(navCrumbs);
+      dispatchNavHistoryLocation();
+      addNavHistory();
     }
-    navCrumbs = navCrumbs;
-    let newPath = navCrumbs.join("\\");
-    console.log(`navCrumbs: `, navCrumbs);
-    console.log("newpath: ", newPath);
-    storeCurrentPath.set(newPath);
-    currentPath = newPath;
-    navCrumbObjects = generateColors(navCrumbs);
-    addNavHistory();
+    // dispatchNavHistoryLocation();
   }
 </script>
 
@@ -318,7 +354,10 @@
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={() => navigate('up')}>
+    <div
+      class="icon-container"
+      on:click={() => navigate('up')}
+      on:mouseover={() => hoverButton('up')}>
       <i id="upDirectory" />
     </div>
   </div>
@@ -326,12 +365,15 @@
     <div
       class="icon-container"
       on:click={() => navigate('back')}
-      on:mouseover={() => showHistory()}>
+      on:mouseover={() => hoverButton('back')}>
       <i id="backNavigate" />
     </div>
   </div>
   <div class="nav">
-    <div class="icon-container" on:click={() => navigate('forward')}>
+    <div
+      class="icon-container"
+      on:click={() => navigate('forward')}
+      on:mouseover={() => hoverButton('forward')}>
       <i id="forwardNavigate" />
     </div>
   </div>
@@ -341,8 +383,12 @@
     {/each}
   </div> -->
   <div class="breadcrumbs">
-    {#each navCrumbObjects as crumb}
-      <span class="breadcrumb" on:click={e => navigate(e)} style={crumb.color}>
+    {#each navCrumbObjects as crumb, i}
+      <span
+        class="breadcrumb"
+        on:click={e => navigate(e)}
+        style={crumb.color}
+        index={i}>
         {crumb.name}
       </span>
     {/each}

@@ -9,59 +9,64 @@
   let currentFiles = [];
   let currentDirs = [];
   let navHistory = [];
-  let navHistoryTracker = 1;
+  $: navHistoryLocation = navHistory.length - 1;
   $: currentPath = process.cwd();
   let oldPath = "";
-  // $: currentPath = process.cwd();
   $: root = fs.readdirSync(currentPath);
 
   $: if (typeof window !== "undefined") {
-    storeCurrentPath.subscribe(path => {
-      console.log("subscription path ", path);
-      currentPath = path;
+    storeCurrentPath.subscribe(data => {
+      currentPath = data;
+      console.log("subscription path ", data);
       readDirectory();
     });
     storeNavHistory.subscribe(history => {
-      console.log("navHistory ", history);
+      // console.log("navHistory ", history);
       navHistory = history;
     });
   }
 
   onMount(() => {
+    console.log("onMount fs.svelte");
     addNavHistory();
   });
 
-  function receiveNavHistoryTracker(e) {
-    console.log("function receiveNavHistoryTracker", e.detail.data);
+  function receiveNavHistoryLocation(e) {
+    console.log("function receiveNavHistoryLocation", e.detail.data);
     console.log(e);
-    navHistoryTracker = e.detail.data;
+    navHistoryLocation = e.detail.data;
   }
 
   function addNavHistory() {
     if (navHistory[navHistory.length - 1] === currentPath) {
       return;
     }
-    navHistory = [...navHistory, currentPath];
-    navHistoryTracker = 1;
+    navHistory = [...navHistory, currentPath ];
+    navHistoryLocation = 1;
     storeNavHistory.set(navHistory);
   }
 
   function readDirectory() {
-    // console.log("readDirectory() path ", currentPath);
-    // console.log("readDirectory() path ", typeof currentPath);
+    console.log("readDirectory() path ", currentPath);
+    oldPath = currentPath;
     currentFiles = [];
     currentDirs = [];
-
+    if (currentPath.split("\\").length === 1) {
+      currentPath = currentPath + path.sep;
+    }
     try {
+      console.log(`inside readDirectory(), try fs.readdirSync(${currentPath})
+        .map`);
       fs.readdirSync(currentPath)
-        .map(fileName => {
-          // console.log(`inside currentPath.map: `, fileName);
-          return path.join(currentPath, fileName);
-          // return fileName
+        .map(contents => {
+          return path.join(currentPath, contents);
         })
         .filter(isFile);
     } catch (err) {
-      console.log("node fs readdirSync error!!! Cannot access this folder");
+      console.log(
+        "node fs readdirSync error!!! Cannot access this folder",
+        err
+      );
       currentPath = oldPath;
       storeCurrentPath.set(currentPath);
     }
@@ -74,13 +79,14 @@
   }
 
   const isFile = fileName => {
-    // console.log(fs.lstatSync(fileName));
-    if (fs.lstatSync(fileName).isFile()) {
-      currentFiles = [...currentFiles, cropFileName(fileName)];
-      // console.log(`currentFiles: `, currentFiles);
-    } else {
-      currentDirs = [...currentDirs, cropFileName(fileName)];
-      // console.log(`currentDirs: `, currentDirs);
+    try {
+      if (fs.lstatSync(fileName).isFile()) {
+        currentFiles = [...currentFiles, cropFileName(fileName)];
+      } else {
+        currentDirs = [...currentDirs, cropFileName(fileName)];
+      }
+    } catch (err) {
+      // console.log(`error from lstatsync: `, err);
     }
   };
 
@@ -90,14 +96,21 @@
 
   function navigate(dir, type) {
     oldPath = currentPath;
-    console.log(`navigate clicked here: ${dir}, currentPath: ${currentPath}`);
+    console.log(
+      `\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`
+    );
     if (currentPath === "undefined") {
       currentPath = navHistory[navHistory.length - 1];
     } else {
-      if (type === "tail") {
-        currentPath = currentPath + "\\" + dir;
-        console.log("currentPath ", currentPath);
-        storeCurrentPath.set(currentPath);
+      if (type === "directoryItem") {
+        console.log(`currentPath type is type ${type}`, currentPath);
+        if (currentPath.split("\\")[1] === "") {
+          currentPath = currentPath + dir;
+          storeCurrentPath.set(currentPath);
+        } else {
+          currentPath = currentPath + "\\" + dir;
+          storeCurrentPath.set(currentPath);
+        }
       } else {
         currentPath = dir;
         console.log("currentPath ", currentPath);
@@ -130,6 +143,16 @@
     grid-template-columns: repeat(5, auto);
 
     // flex-direction: row;
+    // flex-wrap: wrap;
+    // text-align: left;
+  }
+  .history-listing {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 5px solid rgba(0, 55, 255, 0.75);
+    display: grid;
+    grid-template-columns: 2.5rem auto;
+    // flex-direction: column;
     // flex-wrap: wrap;
     // text-align: left;
   }
@@ -176,10 +199,22 @@
   .special {
     background: rgba(255, 100, 155, 0.2);
   }
+
+  .historyIndex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    // border: 2px solid black;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    width: 1.5rem;
+    margin: 0.25rem;
+  }
 </style>
 
 <main>
-  <Nav on:nav={receiveNavHistoryTracker} />
+  <Nav on:nav={receiveNavHistoryLocation} />
   <div class="file-system">
     <div>
       <h2>DIRECTORIES</h2>
@@ -187,13 +222,27 @@
         {#each currentDirs as dir}
           <div
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
-            on:click={() => navigate(dir, 'tail')}>
+            on:click={() => navigate(dir, 'directoryItem')}>
             {dir}
           </div>
         {/each}
       </div>
     </div>
-    <div>.</div>
+    <div>
+      <h2>History</h2>
+      <h1>Nav History Location Index:</h1>
+      <p>{navHistoryLocation}</p>
+      <div class="history-listing">
+        {#each navHistory as dir, i}
+          <div class="historyIndex">{i}</div>
+          <div
+            class="dir i {navHistoryLocation === i ? 'special' : 'none'}"
+            on:click={() => navigate(dir, 'historyItem')}>
+            {dir}
+          </div>
+        {/each}
+      </div>
+    </div>
     <div>
       <h2>FILES</h2>
       <div class="files-listing">
@@ -202,15 +251,8 @@
         {/each}
       </div>
     </div>
+    <!-- </div> -->
+
+    <div />
   </div>
-  <!-- <div>
-      {#each navHistory as dir, i}
-        <div
-          class="dir i {navHistoryTracker === navHistory.length - i ? 'special' : 'none'}"
-          on:click={() => navigate(dir, 'full')}>
-          {dir}
-        </div>
-      {/each}
-    </div>
-  </div> -->
 </main>

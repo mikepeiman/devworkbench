@@ -1,11 +1,6 @@
-const { app, BrowserWindow } = require("electron");
-const path = require("path");
-// import exec from "./utils/lsExec.js";
-// import runCmd from "./utils/runCmd.js";
-// const bar = require("./utils/cmd_exec.js");
-// const foo = require("./utils/renato_gama.js");
-// const local_vscode = require("./utils/childProcess.js")
-// const git = require("./utils/git.js")
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+const debugMenu = require('debug-menu');
 
 // Live Reload
 require("electron-reload")(__dirname, {
@@ -33,7 +28,9 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, "../public/index.html"));
 
   // Open the DevTools.
+
   mainWindow.webContents.openDevTools();
+
 };
 
 // This method will be called when Electron has finished
@@ -55,6 +52,7 @@ app.on("activate", () => {
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+    debugMenu.install(); 
   }
 });
 

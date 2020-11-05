@@ -58,6 +58,7 @@
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
     "concurrently": "^5.1.0",
+    "debug-menu": "^0.6.1",
     "electron": "8.0.2",
     "node-sass": "^4.14.1",
     "rollup": "^1.32.0",
