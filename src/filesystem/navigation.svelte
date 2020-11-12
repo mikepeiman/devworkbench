@@ -66,10 +66,10 @@
     });
   }
 
-  // function childProcess() {
-  //   const exec = require("child_process").exec;
-  //   exec("notepad.exe", (err, stdout, stderr) => console.log(stdout));
-  // }
+  function childProcess() {
+    const exec = require("child_process").exec;
+    exec("notepad.exe", (err, stdout, stderr) => console.log(stdout));
+  }
 
   function addNavHistory() {
     navHistory = [...navHistory, currentPath];

@@ -5,7 +5,12 @@
   import generateColors from "./../utils/gradients.js";
   const fs = require("fs");
   const path = require("path");
+  import { customStylesObjects } from "./../utils/CustomLogging.js";
 
+  function log(type, msg) {
+    customStylesObjects[`${type}`].log(msg);
+    console.log(msg);
+  }
   let currentFiles = [];
   let currentDirs = [];
   let navHistory = [];
@@ -41,9 +46,13 @@
     if (navHistory[navHistory.length - 1] === currentPath) {
       return;
     }
-    navHistory = [...navHistory, currentPath ];
+    navHistory = [...navHistory, currentPath];
     navHistoryLocation = 1;
     storeNavHistory.set(navHistory);
+  }
+
+  function saveHistory() {
+    log("data", `saveHistory called`)
   }
 
   function readDirectory() {
@@ -136,7 +145,7 @@
   .dirs-listing {
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 5px solid rgba(0, 55, 255, 0.75);
+    // border-top: 5px solid rgba(0, 55, 255, 0.75);
     display: grid;
     grid-auto-flow: row;
     max-width: 100vw;
@@ -149,17 +158,20 @@
   .history-listing {
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 5px solid rgba(0, 55, 255, 0.75);
     display: grid;
     grid-template-columns: 2.5rem auto;
     // flex-direction: column;
     // flex-wrap: wrap;
     // text-align: left;
   }
+  .section-title {
+    border-bottom: 5px solid rgba(0, 55, 255, 0.75);
+    padding-bottom: 1rem;
+  }
   .dir {
     padding: 0.5rem;
     margin: 0.25rem;
-    // background: rgba(0, 55, 255, 0.2);
+    text-align: left;
     color: rgba(40, 155, 255, 1);
     width: auto;
     border-bottom: 1px solid rgba(40, 155, 255, 1);
@@ -193,7 +205,7 @@
 
   .file-system {
     display: grid;
-    grid-template-columns: 5fr 2fr;
+    grid-template-columns: 3fr 2fr 2fr;
   }
 
   .special {
@@ -211,13 +223,44 @@
     width: 1.5rem;
     margin: 0.25rem;
   }
+
+  .icon-container {
+    width: auto;
+    height: auto;
+    padding: 0.25rem 1rem;
+    margin: 0 0.5rem;
+    background: #225599aa;
+    &:hover {
+      background: #22c5ffaa;
+      color: #225599;
+    }
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+  }
+
+  #saveHistory {
+    background-image: url("../../assets/diskette.png");
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 3rem;
+    height: 3rem;
+  }
+  .flex-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 </style>
 
 <main>
   <Nav on:nav={receiveNavHistoryLocation} />
   <div class="file-system">
     <div>
-      <h2>DIRECTORIES</h2>
+      <div class="section-title flex-row">
+        <h2>DIRECTORIES</h2>
+      </div>
       <div class="dirs-listing">
         {#each currentDirs as dir}
           <div
@@ -229,9 +272,13 @@
       </div>
     </div>
     <div>
-      <h2>History</h2>
-      <h1>Nav History Location Index:</h1>
-      <p>{navHistoryLocation}</p>
+
+      <div class="section-title flex-row">
+        <h2>History</h2>
+        <div class="icon-container" on:click={saveHistory}>
+          <i id="saveHistory" />
+        </div>
+      </div>
       <div class="history-listing">
         {#each navHistory as dir, i}
           <div class="historyIndex">{i}</div>
@@ -244,15 +291,33 @@
       </div>
     </div>
     <div>
-      <h2>FILES</h2>
-      <div class="files-listing">
-        {#each currentFiles as file}
-          <div class="file" on:click={() => fileInfo(file)}>{file}</div>
+      <div class="section-title flex-row">
+        <h2>Favorites</h2>
+      </div>
+      <div class="history-listing">
+        {#each navHistory as dir, i}
+          <div class="historyIndex">{i}</div>
+          <div
+            class="dir i {navHistoryLocation === i ? 'special' : 'none'}"
+            on:click={() => navigate(dir, 'historyItem')}>
+            {dir}
+          </div>
         {/each}
       </div>
-    </div>
-    <!-- </div> -->
 
-    <div />
+    </div>
+    <div>
+      <div>
+        <h2>FILES</h2>
+        <div class="files-listing">
+          {#each currentFiles as file}
+            <div class="file" on:click={() => fileInfo(file)}>{file}</div>
+          {/each}
+        </div>
+      </div>
+      <!-- </div> -->
+
+      <div />
+    </div>
   </div>
 </main>
