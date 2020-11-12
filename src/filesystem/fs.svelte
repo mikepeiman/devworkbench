@@ -52,7 +52,30 @@
   }
 
   function saveHistory() {
-    log("data", `saveHistory called`)
+    log(
+      "data",
+      `saveHistory called. typeof navHistory = ${typeof navHistory} isArray? ${Array.isArray(
+        navHistory
+      )}`
+    );
+    let data1 = [],
+      data2 = [];
+
+    navHistory.forEach(item => {
+      data1 = [...data1, item + "\n"];
+    });
+    navHistory.forEach(item => {
+      data2 = data2 + item + "\n";
+    });
+    try {
+      fs.writeFileSync(`${process.cwd()}/test.txt`, navHistory);
+      fs.writeFileSync(`${process.cwd()}/test1.txt`, data1);
+      fs.writeFileSync(`${process.cwd()}/test2.txt`, data2);
+      //file written successfully
+      log("data", `saveHistory success @ ${process.cwd()}`);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function readDirectory() {

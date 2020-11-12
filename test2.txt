@@ -1,0 +1,7 @@
+C:\Users\Mike\Desktop\WEB DEV\devworkbench
+C:\Users\Mike\Desktop\WEB DEV\devworkbench\src
+C:\Users\Mike\Desktop\WEB DEV\devworkbench\src\filesystem
+C:\Users\Mike\Desktop
+C:\Users\Mike\Desktop\svelte-playground
+C:\Users\Mike\Desktop\svelte-playground\src
+C:\Users\Mike\Desktop\svelte-playground\src\pages
