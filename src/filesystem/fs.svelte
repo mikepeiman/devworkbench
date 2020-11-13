@@ -168,24 +168,38 @@
   function mouseoverIcons(e, dir) {
     log(
       "forward",
-      `Hover event for dir ${dir}: ${e.target.nodeName}  ${e.target}`
+      `MOUSEOVER event for dir ${dir}: ${e.target.nodeName}  ${e.target.classList}`
     );
     console.log(e);
     current = dir;
   }
 
   function mouseoutIcons(e, dir) {
-    log(
-      "back",
-      `Hover event for dir ${dir}: ${e.target.nodeName}  ${e.target}`
-    );
     console.log(e);
+    if (e.toElement.classList.length < 1) {
+      current = "";
+    }
     if (e.fromElement.nodeName === "I") {
-      log("up", "We are just leaving the icon element");
-      return
-    } else if (e.target.classList.contains("dir")) {
-      log("up", "We are just flashing the dir object")
+      log(
+        "back",
+        `MOUSEOUT event for element nodeName "I":::   ${e.fromElement.classList}`
+      );
+      return;
+    } else if (e.fromElement.classList.contains("dir")) {
+      log("back", `MOUSEOUT event left dir:::   ${e.fromElement.classList}`);
+      return;
+    } else if (e.fromElement.classList.contains("dirs-listing")) {
+      log(
+        "back",
+        `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
+      );
+      current = "";
+      return;
     } else {
+      log(
+        "error",
+        `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
+      );
       current = "";
     }
   }
@@ -347,8 +361,9 @@
     <div>
       <div class="section-title flex-row">
         <h2>DIRECTORIES</h2>
+        current = {current}
       </div>
-      <div class="dirs-listing">
+      <div class="dirs-listing" on:mouseout={e => mouseoutIcons(e, dir)}>
         <!--  on:mouseout={e => mouseoutIcons(e, dir)} -->
         {#each currentDirs as dir}
           <div
