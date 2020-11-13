@@ -11,6 +11,9 @@
     customStylesObjects[`${type}`].log(msg);
     console.log(msg);
   }
+  let current = "";
+  let dir = "";
+  let hoverAddFavorite = "";
   let currentFiles = [];
   let currentDirs = [];
   let navHistory = [];
@@ -130,7 +133,7 @@
   };
 
   function fileInfo(fileName) {
-    var stats = fs.statSync(currentPath + '\\' + fileName);
+    var stats = fs.statSync(currentPath + "\\" + fileName);
     var mtime = stats.mtime;
     log("data", `Date ${fileName} last modified:   ${mtime}`);
   }
@@ -161,6 +164,17 @@
       readDirectory();
       addNavHistory();
     }
+  }
+  function mouseoverIcons(e, dir) {
+    log("forward", `Hover event for dir ${dir}: ${e.target.nodeName}`);
+    console.log(e)
+    current = dir;
+  }
+
+  function mouseoutIcons(e, dir) {
+    log("back", `Hover event for dir ${dir}: ${e.target.nodeName}`);
+    console.log(e)
+    current = "";
   }
 </script>
 
@@ -205,7 +219,8 @@
     margin: 0.25rem;
     text-align: left;
     color: rgba(40, 155, 255, 1);
-    width: auto;
+    width: 3rem;
+    height: 3rem;
     border-bottom: 1px solid rgba(40, 155, 255, 1);
     border-right: 1px solid rgba(40, 155, 255, 1);
     box-shadow: 1px 1px 3px 0px rgba(40, 155, 255, 0.5);
@@ -284,6 +299,35 @@
     align-items: center;
     justify-content: center;
   }
+
+  .hovered {
+    width: 3rem;
+    height: 3rem;
+    position: relative;
+    display: flex;
+  }
+
+  .addFavorite {
+    background-image: url("../../assets/download.png");
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    right: 0;
+    display: flex;
+    z-index: 99;
+    &:hover {
+      background-image: url("../../assets/diskette.png");
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+
+  .hoverFavorite {
+    background: black;
+  }
 </style>
 
 <main>
@@ -294,11 +338,19 @@
         <h2>DIRECTORIES</h2>
       </div>
       <div class="dirs-listing">
+      <!--  on:mouseout={e => mouseoutIcons(e, dir)} -->
         {#each currentDirs as dir}
           <div
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
-            on:click={() => navigate(dir, 'directoryItem')}>
+            class:hovered={current === dir}
+            on:click={() => navigate(dir, 'directoryItem')}
+            on:mouseover={e => mouseoverIcons(e, dir)}>
             {dir}
+            {#if current === dir}
+              <i
+                class="addFavorite"
+                on:mouseover={e => mouseoverIcons(e, dir)} />
+            {/if}
           </div>
         {/each}
       </div>

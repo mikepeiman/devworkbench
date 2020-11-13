@@ -81,6 +81,9 @@ var app = (function () {
     function children(element) {
         return Array.from(element.childNodes);
     }
+    function toggle_class(element, name, toggle) {
+        element.classList[toggle ? 'add' : 'remove'](name);
+    }
     function custom_event(type, detail) {
         const e = document.createEvent('CustomEvent');
         e.initCustomEvent(type, false, false, detail);
@@ -1220,41 +1223,86 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[21] = list[i];
+    	child_ctx[28] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
-    	child_ctx[26] = i;
+    	child_ctx[10] = list[i];
+    	child_ctx[32] = i;
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
-    	child_ctx[26] = i;
+    	child_ctx[10] = list[i];
+    	child_ctx[32] = i;
     	return child_ctx;
     }
 
     function get_each_context_3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[10] = list[i];
     	return child_ctx;
     }
 
-    // (276:8) {#each currentDirs as dir}
-    function create_each_block_3(ctx) {
-    	let div;
-    	let t0_value = /*dir*/ ctx[24] + "";
-    	let t0;
-    	let t1;
-    	let div_class_value;
+    // (324:12) {#if current === dir}
+    function create_if_block(ctx) {
+    	let i;
     	let dispose;
 
+    	function mouseover_handler(...args) {
+    		return /*mouseover_handler*/ ctx[22](/*dir*/ ctx[10], ...args);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			i = element("i");
+    			attr_dev(i, "class", "addFavorite svelte-1sbi0k9");
+    			add_location(i, file$1, 324, 14, 8277);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, i, anchor);
+    			dispose = listen_dev(i, "mouseover", mouseover_handler, false, false, false);
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(i);
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(324:12) {#if current === dir}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (317:8) {#each currentDirs as dir}
+    function create_each_block_3(ctx) {
+    	let div;
+    	let t0_value = /*dir*/ ctx[10] + "";
+    	let t0;
+    	let t1;
+    	let t2;
+    	let div_class_value;
+    	let dispose;
+    	let if_block = /*current*/ ctx[0] === /*dir*/ ctx[10] && create_if_block(ctx);
+
     	function click_handler(...args) {
-    		return /*click_handler*/ ctx[17](/*dir*/ ctx[24], ...args);
+    		return /*click_handler*/ ctx[23](/*dir*/ ctx[10], ...args);
+    	}
+
+    	function mouseover_handler_1(...args) {
+    		return /*mouseover_handler_1*/ ctx[24](/*dir*/ ctx[10], ...args);
     	}
 
     	const block = {
@@ -1262,26 +1310,53 @@ var app = (function () {
     			div = element("div");
     			t0 = text(t0_value);
     			t1 = space();
-    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[24][0] == "." ? "dot-dir" : "reg-dir") + " svelte-7nt6bj");
-    			add_location(div, file$1, 276, 10, 7029);
+    			if (if_block) if_block.c();
+    			t2 = space();
+    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[10][0] == "." ? "dot-dir" : "reg-dir") + " svelte-1sbi0k9");
+    			toggle_class(div, "hovered", /*current*/ ctx[0] === /*dir*/ ctx[10]);
+    			add_location(div, file$1, 317, 10, 7975);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t0);
     			append_dev(div, t1);
-    			dispose = listen_dev(div, "click", click_handler, false, false, false);
+    			if (if_block) if_block.m(div, null);
+    			append_dev(div, t2);
+
+    			dispose = [
+    				listen_dev(div, "click", click_handler, false, false, false),
+    				listen_dev(div, "mouseover", mouseover_handler_1, false, false, false)
+    			];
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*currentDirs*/ 2 && t0_value !== (t0_value = /*dir*/ ctx[24] + "")) set_data_dev(t0, t0_value);
+    			if (dirty[0] & /*currentDirs*/ 4 && t0_value !== (t0_value = /*dir*/ ctx[10] + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[24][0] == "." ? "dot-dir" : "reg-dir") + " svelte-7nt6bj")) {
+    			if (/*current*/ ctx[0] === /*dir*/ ctx[10]) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block(ctx);
+    					if_block.c();
+    					if_block.m(div, t2);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+
+    			if (dirty[0] & /*currentDirs*/ 4 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[10][0] == "." ? "dot-dir" : "reg-dir") + " svelte-1sbi0k9")) {
     				attr_dev(div, "class", div_class_value);
+    			}
+
+    			if (dirty[0] & /*currentDirs, current, currentDirs*/ 5) {
+    				toggle_class(div, "hovered", /*current*/ ctx[0] === /*dir*/ ctx[10]);
     			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
-    			dispose();
+    			if (if_block) if_block.d();
+    			run_all(dispose);
     		}
     	};
 
@@ -1289,45 +1364,45 @@ var app = (function () {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(276:8) {#each currentDirs as dir}",
+    		source: "(317:8) {#each currentDirs as dir}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (294:8) {#each navHistory as dir, i}
+    // (342:8) {#each navHistory as dir, i}
     function create_each_block_2(ctx) {
     	let div0;
     	let t0;
     	let t1;
     	let div1;
-    	let t2_value = /*dir*/ ctx[24] + "";
+    	let t2_value = /*dir*/ ctx[10] + "";
     	let t2;
     	let t3;
     	let div1_class_value;
     	let dispose;
 
     	function click_handler_1(...args) {
-    		return /*click_handler_1*/ ctx[18](/*dir*/ ctx[24], ...args);
+    		return /*click_handler_1*/ ctx[25](/*dir*/ ctx[10], ...args);
     	}
 
     	const block = {
     		c: function create() {
     			div0 = element("div");
-    			t0 = text(/*i*/ ctx[26]);
+    			t0 = text(/*i*/ ctx[32]);
     			t1 = space();
     			div1 = element("div");
     			t2 = text(t2_value);
     			t3 = space();
-    			attr_dev(div0, "class", "historyIndex svelte-7nt6bj");
-    			add_location(div0, file$1, 294, 10, 7535);
+    			attr_dev(div0, "class", "historyIndex svelte-1sbi0k9");
+    			add_location(div0, file$1, 342, 10, 8754);
 
-    			attr_dev(div1, "class", div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[26]
+    			attr_dev(div1, "class", div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[4] === /*i*/ ctx[32]
     			? "special"
-    			: "none") + " svelte-7nt6bj");
+    			: "none") + " svelte-1sbi0k9");
 
-    			add_location(div1, file$1, 295, 10, 7582);
+    			add_location(div1, file$1, 343, 10, 8801);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -1340,11 +1415,11 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*navHistory*/ 4 && t2_value !== (t2_value = /*dir*/ ctx[24] + "")) set_data_dev(t2, t2_value);
+    			if (dirty[0] & /*navHistory*/ 8 && t2_value !== (t2_value = /*dir*/ ctx[10] + "")) set_data_dev(t2, t2_value);
 
-    			if (dirty & /*navHistoryLocation*/ 8 && div1_class_value !== (div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[26]
+    			if (dirty[0] & /*navHistoryLocation*/ 16 && div1_class_value !== (div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[4] === /*i*/ ctx[32]
     			? "special"
-    			: "none") + " svelte-7nt6bj")) {
+    			: "none") + " svelte-1sbi0k9")) {
     				attr_dev(div1, "class", div1_class_value);
     			}
     		},
@@ -1360,45 +1435,45 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(294:8) {#each navHistory as dir, i}",
+    		source: "(342:8) {#each navHistory as dir, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (309:8) {#each navHistory as dir, i}
+    // (357:8) {#each navHistory as dir, i}
     function create_each_block_1(ctx) {
     	let div0;
     	let t0;
     	let t1;
     	let div1;
-    	let t2_value = /*dir*/ ctx[24] + "";
+    	let t2_value = /*dir*/ ctx[10] + "";
     	let t2;
     	let t3;
     	let div1_class_value;
     	let dispose;
 
     	function click_handler_2(...args) {
-    		return /*click_handler_2*/ ctx[19](/*dir*/ ctx[24], ...args);
+    		return /*click_handler_2*/ ctx[26](/*dir*/ ctx[10], ...args);
     	}
 
     	const block = {
     		c: function create() {
     			div0 = element("div");
-    			t0 = text(/*i*/ ctx[26]);
+    			t0 = text(/*i*/ ctx[32]);
     			t1 = space();
     			div1 = element("div");
     			t2 = text(t2_value);
     			t3 = space();
-    			attr_dev(div0, "class", "historyIndex svelte-7nt6bj");
-    			add_location(div0, file$1, 309, 10, 7985);
+    			attr_dev(div0, "class", "historyIndex svelte-1sbi0k9");
+    			add_location(div0, file$1, 357, 10, 9204);
 
-    			attr_dev(div1, "class", div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[26]
+    			attr_dev(div1, "class", div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[4] === /*i*/ ctx[32]
     			? "special"
-    			: "none") + " svelte-7nt6bj");
+    			: "none") + " svelte-1sbi0k9");
 
-    			add_location(div1, file$1, 310, 10, 8032);
+    			add_location(div1, file$1, 358, 10, 9251);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -1411,11 +1486,11 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*navHistory*/ 4 && t2_value !== (t2_value = /*dir*/ ctx[24] + "")) set_data_dev(t2, t2_value);
+    			if (dirty[0] & /*navHistory*/ 8 && t2_value !== (t2_value = /*dir*/ ctx[10] + "")) set_data_dev(t2, t2_value);
 
-    			if (dirty & /*navHistoryLocation*/ 8 && div1_class_value !== (div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[3] === /*i*/ ctx[26]
+    			if (dirty[0] & /*navHistoryLocation*/ 16 && div1_class_value !== (div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[4] === /*i*/ ctx[32]
     			? "special"
-    			: "none") + " svelte-7nt6bj")) {
+    			: "none") + " svelte-1sbi0k9")) {
     				attr_dev(div1, "class", div1_class_value);
     			}
     		},
@@ -1431,30 +1506,30 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(309:8) {#each navHistory as dir, i}",
+    		source: "(357:8) {#each navHistory as dir, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (324:10) {#each currentFiles as file}
+    // (372:10) {#each currentFiles as file}
     function create_each_block$1(ctx) {
     	let div;
-    	let t_value = /*file*/ ctx[21] + "";
+    	let t_value = /*file*/ ctx[28] + "";
     	let t;
     	let dispose;
 
     	function click_handler_3(...args) {
-    		return /*click_handler_3*/ ctx[20](/*file*/ ctx[21], ...args);
+    		return /*click_handler_3*/ ctx[27](/*file*/ ctx[28], ...args);
     	}
 
     	const block = {
     		c: function create() {
     			div = element("div");
     			t = text(t_value);
-    			attr_dev(div, "class", "file svelte-7nt6bj");
-    			add_location(div, file$1, 324, 12, 8392);
+    			attr_dev(div, "class", "file svelte-1sbi0k9");
+    			add_location(div, file$1, 372, 12, 9611);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1463,7 +1538,7 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*currentFiles*/ 1 && t_value !== (t_value = /*file*/ ctx[21] + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*currentFiles*/ 2 && t_value !== (t_value = /*file*/ ctx[28] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -1475,7 +1550,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(324:10) {#each currentFiles as file}",
+    		source: "(372:10) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -1517,8 +1592,8 @@ var app = (function () {
     	let current;
     	let dispose;
     	const nav = new Navigation({ $$inline: true });
-    	nav.$on("nav", /*receiveNavHistoryLocation*/ ctx[4]);
-    	let each_value_3 = /*currentDirs*/ ctx[1];
+    	nav.$on("nav", /*receiveNavHistoryLocation*/ ctx[5]);
+    	let each_value_3 = /*currentDirs*/ ctx[2];
     	validate_each_argument(each_value_3);
     	let each_blocks_3 = [];
 
@@ -1526,7 +1601,7 @@ var app = (function () {
     		each_blocks_3[i] = create_each_block_3(get_each_context_3(ctx, each_value_3, i));
     	}
 
-    	let each_value_2 = /*navHistory*/ ctx[2];
+    	let each_value_2 = /*navHistory*/ ctx[3];
     	validate_each_argument(each_value_2);
     	let each_blocks_2 = [];
 
@@ -1534,7 +1609,7 @@ var app = (function () {
     		each_blocks_2[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
     	}
 
-    	let each_value_1 = /*navHistory*/ ctx[2];
+    	let each_value_1 = /*navHistory*/ ctx[3];
     	validate_each_argument(each_value_1);
     	let each_blocks_1 = [];
 
@@ -1542,7 +1617,7 @@ var app = (function () {
     		each_blocks_1[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
     	}
 
-    	let each_value = /*currentFiles*/ ctx[0];
+    	let each_value = /*currentFiles*/ ctx[1];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -1608,38 +1683,38 @@ var app = (function () {
 
     			t13 = space();
     			div12 = element("div");
-    			add_location(h20, file$1, 272, 8, 6913);
-    			attr_dev(div0, "class", "section-title flex-row svelte-7nt6bj");
-    			add_location(div0, file$1, 271, 6, 6867);
-    			attr_dev(div1, "class", "dirs-listing svelte-7nt6bj");
-    			add_location(div1, file$1, 274, 6, 6955);
-    			add_location(div2, file$1, 270, 4, 6854);
-    			add_location(h21, file$1, 287, 8, 7307);
+    			add_location(h20, file$1, 312, 8, 7801);
+    			attr_dev(div0, "class", "section-title flex-row svelte-1sbi0k9");
+    			add_location(div0, file$1, 311, 6, 7755);
+    			attr_dev(div1, "class", "dirs-listing svelte-1sbi0k9");
+    			add_location(div1, file$1, 314, 6, 7843);
+    			add_location(div2, file$1, 310, 4, 7742);
+    			add_location(h21, file$1, 335, 8, 8526);
     			attr_dev(i, "id", "saveHistory");
-    			attr_dev(i, "class", "svelte-7nt6bj");
-    			add_location(i, file$1, 289, 10, 7396);
-    			attr_dev(div3, "class", "icon-container svelte-7nt6bj");
-    			add_location(div3, file$1, 288, 8, 7333);
-    			attr_dev(div4, "class", "section-title flex-row svelte-7nt6bj");
-    			add_location(div4, file$1, 286, 6, 7261);
-    			attr_dev(div5, "class", "history-listing svelte-7nt6bj");
-    			add_location(div5, file$1, 292, 6, 7456);
-    			add_location(div6, file$1, 284, 4, 7246);
-    			add_location(h22, file$1, 305, 8, 7866);
-    			attr_dev(div7, "class", "section-title flex-row svelte-7nt6bj");
-    			add_location(div7, file$1, 304, 6, 7820);
-    			attr_dev(div8, "class", "history-listing svelte-7nt6bj");
-    			add_location(div8, file$1, 307, 6, 7906);
-    			add_location(div9, file$1, 303, 4, 7807);
-    			add_location(h23, file$1, 321, 8, 8287);
-    			attr_dev(div10, "class", "files-listing svelte-7nt6bj");
-    			add_location(div10, file$1, 322, 8, 8311);
-    			add_location(div11, file$1, 320, 6, 8272);
-    			add_location(div12, file$1, 330, 6, 8536);
-    			add_location(div13, file$1, 319, 4, 8259);
-    			attr_dev(div14, "class", "file-system svelte-7nt6bj");
-    			add_location(div14, file$1, 269, 2, 6823);
-    			add_location(main, file$1, 267, 0, 6767);
+    			attr_dev(i, "class", "svelte-1sbi0k9");
+    			add_location(i, file$1, 337, 10, 8615);
+    			attr_dev(div3, "class", "icon-container svelte-1sbi0k9");
+    			add_location(div3, file$1, 336, 8, 8552);
+    			attr_dev(div4, "class", "section-title flex-row svelte-1sbi0k9");
+    			add_location(div4, file$1, 334, 6, 8480);
+    			attr_dev(div5, "class", "history-listing svelte-1sbi0k9");
+    			add_location(div5, file$1, 340, 6, 8675);
+    			add_location(div6, file$1, 332, 4, 8465);
+    			add_location(h22, file$1, 353, 8, 9085);
+    			attr_dev(div7, "class", "section-title flex-row svelte-1sbi0k9");
+    			add_location(div7, file$1, 352, 6, 9039);
+    			attr_dev(div8, "class", "history-listing svelte-1sbi0k9");
+    			add_location(div8, file$1, 355, 6, 9125);
+    			add_location(div9, file$1, 351, 4, 9026);
+    			add_location(h23, file$1, 369, 8, 9506);
+    			attr_dev(div10, "class", "files-listing svelte-1sbi0k9");
+    			add_location(div10, file$1, 370, 8, 9530);
+    			add_location(div11, file$1, 368, 6, 9491);
+    			add_location(div12, file$1, 378, 6, 9755);
+    			add_location(div13, file$1, 367, 4, 9478);
+    			attr_dev(div14, "class", "file-system svelte-1sbi0k9");
+    			add_location(div14, file$1, 309, 2, 7711);
+    			add_location(main, file$1, 307, 0, 7655);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1698,11 +1773,11 @@ var app = (function () {
     			append_dev(div13, t13);
     			append_dev(div13, div12);
     			current = true;
-    			dispose = listen_dev(div3, "click", /*saveHistory*/ ctx[5], false, false, false);
+    			dispose = listen_dev(div3, "click", /*saveHistory*/ ctx[6], false, false, false);
     		},
-    		p: function update(ctx, [dirty]) {
-    			if (dirty & /*currentDirs, navigate*/ 130) {
-    				each_value_3 = /*currentDirs*/ ctx[1];
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*currentDirs, current, navigate, mouseoverIcons*/ 773) {
+    				each_value_3 = /*currentDirs*/ ctx[2];
     				validate_each_argument(each_value_3);
     				let i;
 
@@ -1725,8 +1800,8 @@ var app = (function () {
     				each_blocks_3.length = each_value_3.length;
     			}
 
-    			if (dirty & /*navHistoryLocation, navigate, navHistory*/ 140) {
-    				each_value_2 = /*navHistory*/ ctx[2];
+    			if (dirty[0] & /*navHistoryLocation, navigate, navHistory*/ 280) {
+    				each_value_2 = /*navHistory*/ ctx[3];
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -1749,8 +1824,8 @@ var app = (function () {
     				each_blocks_2.length = each_value_2.length;
     			}
 
-    			if (dirty & /*navHistoryLocation, navigate, navHistory*/ 140) {
-    				each_value_1 = /*navHistory*/ ctx[2];
+    			if (dirty[0] & /*navHistoryLocation, navigate, navHistory*/ 280) {
+    				each_value_1 = /*navHistory*/ ctx[3];
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -1773,8 +1848,8 @@ var app = (function () {
     				each_blocks_1.length = each_value_1.length;
     			}
 
-    			if (dirty & /*fileInfo, currentFiles*/ 65) {
-    				each_value = /*currentFiles*/ ctx[0];
+    			if (dirty[0] & /*fileInfo, currentFiles*/ 130) {
+    				each_value = /*currentFiles*/ ctx[1];
     				validate_each_argument(each_value);
     				let i;
 
@@ -1842,6 +1917,9 @@ var app = (function () {
     function instance$1($$self, $$props, $$invalidate) {
     	const fs = require("fs");
     	const path = require("path");
+    	let current = "";
+    	let dir = "";
+    	let hoverAddFavorite = "";
     	let currentFiles = [];
     	let currentDirs = [];
     	let navHistory = [];
@@ -1855,7 +1933,7 @@ var app = (function () {
     	function receiveNavHistoryLocation(e) {
     		console.log("function receiveNavHistoryLocation", e.detail.data);
     		console.log(e);
-    		$$invalidate(3, navHistoryLocation = e.detail.data);
+    		$$invalidate(4, navHistoryLocation = e.detail.data);
     	}
 
     	function addNavHistory() {
@@ -1863,8 +1941,8 @@ var app = (function () {
     			return;
     		}
 
-    		$$invalidate(2, navHistory = [...navHistory, currentPath]);
-    		$$invalidate(3, navHistoryLocation = 1);
+    		$$invalidate(3, navHistory = [...navHistory, currentPath]);
+    		$$invalidate(4, navHistoryLocation = 1);
     		storeNavHistory.set(navHistory);
     	}
 
@@ -1902,11 +1980,11 @@ var app = (function () {
     	function readDirectory() {
     		console.log("readDirectory() path ", currentPath);
     		oldPath = currentPath;
-    		$$invalidate(0, currentFiles = []);
-    		$$invalidate(1, currentDirs = []);
+    		$$invalidate(1, currentFiles = []);
+    		$$invalidate(2, currentDirs = []);
 
     		if (currentPath.split("\\").length === 1) {
-    			$$invalidate(9, currentPath = currentPath + path.sep);
+    			$$invalidate(12, currentPath = currentPath + path.sep);
     		}
 
     		try {
@@ -1918,7 +1996,7 @@ var app = (function () {
     			}).filter(isFile);
     		} catch(err) {
     			console.log("node fs readdirSync error!!! Cannot access this folder", err);
-    			$$invalidate(9, currentPath = oldPath);
+    			$$invalidate(12, currentPath = oldPath);
     			storeCurrentPath.set(currentPath);
     		}
     	}
@@ -1926,9 +2004,9 @@ var app = (function () {
     	const isFile = fileName => {
     		try {
     			if (fs.lstatSync(fileName).isFile()) {
-    				$$invalidate(0, currentFiles = [...currentFiles, cropFileName(fileName)]);
+    				$$invalidate(1, currentFiles = [...currentFiles, cropFileName(fileName)]);
     			} else {
-    				$$invalidate(1, currentDirs = [...currentDirs, cropFileName(fileName)]);
+    				$$invalidate(2, currentDirs = [...currentDirs, cropFileName(fileName)]);
     			}
     		} catch(err) {
     			
@@ -1946,20 +2024,20 @@ var app = (function () {
     		console.log(`\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`);
 
     		if (currentPath === "undefined") {
-    			$$invalidate(9, currentPath = navHistory[navHistory.length - 1]);
+    			$$invalidate(12, currentPath = navHistory[navHistory.length - 1]);
     		} else {
     			if (type === "directoryItem") {
     				console.log(`currentPath type is type ${type}`, currentPath);
 
     				if (currentPath.split("\\")[1] === "") {
-    					$$invalidate(9, currentPath = currentPath + dir);
+    					$$invalidate(12, currentPath = currentPath + dir);
     					storeCurrentPath.set(currentPath);
     				} else {
-    					$$invalidate(9, currentPath = currentPath + "\\" + dir);
+    					$$invalidate(12, currentPath = currentPath + "\\" + dir);
     					storeCurrentPath.set(currentPath);
     				}
     			} else {
-    				$$invalidate(9, currentPath = dir);
+    				$$invalidate(12, currentPath = dir);
     				console.log("currentPath ", currentPath);
     				storeCurrentPath.set(currentPath);
     			}
@@ -1969,7 +2047,21 @@ var app = (function () {
     		}
     	}
 
+    	function mouseoverIcons(e, dir) {
+    		log$1("forward", `Hover event for dir ${dir}: ${e.target.nodeName}`);
+    		console.log(e);
+    		$$invalidate(0, current = dir);
+    	}
+
+    	function mouseoutIcons(e, dir) {
+    		log$1("back", `Hover event for dir ${dir}: ${e.target.nodeName}`);
+    		console.log(e);
+    		$$invalidate(0, current = "");
+    	}
+
+    	const mouseover_handler = (dir, e) => mouseoverIcons(e, dir);
     	const click_handler = dir => navigate(dir, "directoryItem");
+    	const mouseover_handler_1 = (dir, e) => mouseoverIcons(e, dir);
     	const click_handler_1 = dir => navigate(dir, "historyItem");
     	const click_handler_2 = dir => navigate(dir, "historyItem");
     	const click_handler_3 = file => fileInfo(file);
@@ -1984,6 +2076,9 @@ var app = (function () {
     		path,
     		customStylesObjects: CustomLogging_2,
     		log: log$1,
+    		current,
+    		dir,
+    		hoverAddFavorite,
     		currentFiles,
     		currentDirs,
     		navHistory,
@@ -1997,6 +2092,8 @@ var app = (function () {
     		isFile,
     		fileInfo,
     		navigate,
+    		mouseoverIcons,
+    		mouseoutIcons,
     		require,
     		console,
     		navHistoryLocation,
@@ -2009,12 +2106,15 @@ var app = (function () {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("currentFiles" in $$props) $$invalidate(0, currentFiles = $$props.currentFiles);
-    		if ("currentDirs" in $$props) $$invalidate(1, currentDirs = $$props.currentDirs);
-    		if ("navHistory" in $$props) $$invalidate(2, navHistory = $$props.navHistory);
+    		if ("current" in $$props) $$invalidate(0, current = $$props.current);
+    		if ("dir" in $$props) $$invalidate(10, dir = $$props.dir);
+    		if ("hoverAddFavorite" in $$props) hoverAddFavorite = $$props.hoverAddFavorite;
+    		if ("currentFiles" in $$props) $$invalidate(1, currentFiles = $$props.currentFiles);
+    		if ("currentDirs" in $$props) $$invalidate(2, currentDirs = $$props.currentDirs);
+    		if ("navHistory" in $$props) $$invalidate(3, navHistory = $$props.navHistory);
     		if ("oldPath" in $$props) oldPath = $$props.oldPath;
-    		if ("navHistoryLocation" in $$props) $$invalidate(3, navHistoryLocation = $$props.navHistoryLocation);
-    		if ("currentPath" in $$props) $$invalidate(9, currentPath = $$props.currentPath);
+    		if ("navHistoryLocation" in $$props) $$invalidate(4, navHistoryLocation = $$props.navHistoryLocation);
+    		if ("currentPath" in $$props) $$invalidate(12, currentPath = $$props.currentPath);
     		if ("root" in $$props) root = $$props.root;
     	};
 
@@ -2027,31 +2127,32 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*navHistory*/ 4) {
-    			 $$invalidate(3, navHistoryLocation = navHistory.length - 1);
+    		if ($$self.$$.dirty[0] & /*navHistory*/ 8) {
+    			 $$invalidate(4, navHistoryLocation = navHistory.length - 1);
     		}
 
-    		if ($$self.$$.dirty & /*currentPath*/ 512) {
+    		if ($$self.$$.dirty[0] & /*currentPath*/ 4096) {
     			 root = fs.readdirSync(currentPath);
     		}
     	};
 
     	 if (typeof window !== "undefined") {
     		storeCurrentPath.subscribe(data => {
-    			$$invalidate(9, currentPath = data);
+    			$$invalidate(12, currentPath = data);
     			console.log("subscription path ", data);
     			readDirectory();
     		});
 
     		storeNavHistory.subscribe(history => {
     			// console.log("navHistory ", history);
-    			$$invalidate(2, navHistory = history);
+    			$$invalidate(3, navHistory = history);
     		});
     	}
 
-    	 $$invalidate(9, currentPath = process.cwd());
+    	 $$invalidate(12, currentPath = process.cwd());
 
     	return [
+    		current,
     		currentFiles,
     		currentDirs,
     		navHistory,
@@ -2060,16 +2161,22 @@ var app = (function () {
     		saveHistory,
     		fileInfo,
     		navigate,
+    		mouseoverIcons,
+    		dir,
     		oldPath,
     		currentPath,
     		root,
     		fs,
     		path,
+    		hoverAddFavorite,
     		addNavHistory,
     		buildProject,
     		readDirectory,
     		isFile,
+    		mouseoutIcons,
+    		mouseover_handler,
     		click_handler,
+    		mouseover_handler_1,
     		click_handler_1,
     		click_handler_2,
     		click_handler_3
@@ -2079,7 +2186,7 @@ var app = (function () {
     class Fs extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {}, [-1, -1]);
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
