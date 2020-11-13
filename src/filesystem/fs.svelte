@@ -78,6 +78,13 @@
     }
   }
 
+  function buildProject() {
+    let project = {};
+    navHistory.forEach(item => {
+      data2 = data2 + item + "\n";
+    });
+  }
+
   function readDirectory() {
     console.log("readDirectory() path ", currentPath);
     oldPath = currentPath;
@@ -122,8 +129,10 @@
     }
   };
 
-  function fileInfo(e) {
-    console.log(`fileInfo on ${file}: `, file);
+  function fileInfo(fileName) {
+    var stats = fs.statSync(currentPath + '\\' + fileName);
+    var mtime = stats.mtime;
+    log("data", `Date ${fileName} last modified:   ${mtime}`);
   }
 
   function navigate(dir, type) {
