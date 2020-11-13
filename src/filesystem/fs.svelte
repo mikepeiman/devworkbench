@@ -166,15 +166,28 @@
     }
   }
   function mouseoverIcons(e, dir) {
-    log("forward", `Hover event for dir ${dir}: ${e.target.nodeName}`);
-    console.log(e)
+    log(
+      "forward",
+      `Hover event for dir ${dir}: ${e.target.nodeName}  ${e.target}`
+    );
+    console.log(e);
     current = dir;
   }
 
   function mouseoutIcons(e, dir) {
-    log("back", `Hover event for dir ${dir}: ${e.target.nodeName}`);
-    console.log(e)
-    current = "";
+    log(
+      "back",
+      `Hover event for dir ${dir}: ${e.target.nodeName}  ${e.target}`
+    );
+    console.log(e);
+    if (e.fromElement.nodeName === "I") {
+      log("up", "We are just leaving the icon element");
+      return
+    } else if (e.target.classList.contains("dir")) {
+      log("up", "We are just flashing the dir object")
+    } else {
+      current = "";
+    }
   }
 </script>
 
@@ -320,8 +333,6 @@
     z-index: 99;
     &:hover {
       background-image: url("../../assets/diskette.png");
-      width: 5rem;
-      height: 5rem;
     }
   }
 
@@ -338,18 +349,20 @@
         <h2>DIRECTORIES</h2>
       </div>
       <div class="dirs-listing">
-      <!--  on:mouseout={e => mouseoutIcons(e, dir)} -->
+        <!--  on:mouseout={e => mouseoutIcons(e, dir)} -->
         {#each currentDirs as dir}
           <div
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
             class:hovered={current === dir}
             on:click={() => navigate(dir, 'directoryItem')}
-            on:mouseover={e => mouseoverIcons(e, dir)}>
+            on:mouseover={e => mouseoverIcons(e, dir)}
+            on:mouseout={e => mouseoutIcons(e, dir)}>
             {dir}
             {#if current === dir}
               <i
                 class="addFavorite"
-                on:mouseover={e => mouseoverIcons(e, dir)} />
+                on:mouseover={e => mouseoverIcons(e, dir)}
+                on:mouseout={e => mouseoutIcons(e, dir)} />
             {/if}
           </div>
         {/each}
