@@ -17,6 +17,7 @@
   let currentFiles = [];
   let currentDirs = [];
   let navHistory = [];
+  let favorites = [];
   $: navHistoryLocation = navHistory.length - 1;
   $: currentPath = process.cwd();
   let oldPath = "";
@@ -138,11 +139,15 @@
     log("data", `Date ${fileName} last modified:   ${mtime}`);
   }
 
-  function navigate(dir, type) {
+  function navigate(e, dir, type) {
     oldPath = currentPath;
-    console.log(
-      `\n\nnavigate clicked here: ${dir}, currentPath: ${currentPath}\n\n`
-    );
+    log("up", `navigate clicked ${dir} at event`, e);
+    console.log(e);
+    if (e.target.classList.contains("addFavorite")) {
+      log("data", `addFavorite ${dir}!`);
+      favorites = [...favorites, currentPath + "\\" + dir];
+      return;
+    }
     if (currentPath === "undefined") {
       currentPath = navHistory[navHistory.length - 1];
     } else {
@@ -166,10 +171,10 @@
     }
   }
   function mouseoverIcons(e, dir) {
-    log(
-      "forward",
-      `MOUSEOVER event for dir ${dir}: ${e.target.nodeName}  ${e.target.classList}`
-    );
+    // log(
+    //   "forward",
+    //   `MOUSEOVER event for dir ${dir}: ${e.target.nodeName}  ${e.target.classList}`
+    // );
     console.log(e);
     current = dir;
   }
@@ -180,28 +185,32 @@
       current = "";
     }
     if (e.fromElement.nodeName === "I") {
-      log(
-        "back",
-        `MOUSEOUT event for element nodeName "I":::   ${e.fromElement.classList}`
-      );
+      // log(
+      //   "back",
+      //   `MOUSEOUT event for element nodeName "I":::   ${e.fromElement.classList}`
+      // );
       return;
     } else if (e.fromElement.classList.contains("dir")) {
-      log("back", `MOUSEOUT event left dir:::   ${e.fromElement.classList}`);
+      // log("back", `MOUSEOUT event left dir:::   ${e.fromElement.classList}`);
       return;
     } else if (e.fromElement.classList.contains("dirs-listing")) {
-      log(
-        "back",
-        `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
-      );
+      // log(
+      //   "back",
+      //   `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
+      // );
       current = "";
       return;
     } else {
-      log(
-        "error",
-        `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
-      );
+      // log(
+      //   "error",
+      //   `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
+      // );
       current = "";
     }
+  }
+
+  function addFavorite(e, dir) {
+    log("up", `addFavorite called on ${dir}, ${e.target}`);
   }
 </script>
 
@@ -253,6 +262,7 @@
     box-shadow: 1px 1px 3px 0px rgba(40, 155, 255, 0.5);
     min-width: 12ch;
     display: flex;
+    transition: all 0.25s;
 
     &:hover {
       color: rgba(140, 215, 255, 1);
@@ -304,6 +314,7 @@
     padding: 0.25rem 1rem;
     margin: 0 0.5rem;
     background: #225599aa;
+    transition: all 0.25s;
     &:hover {
       background: #22c5ffaa;
       color: #225599;
@@ -345,12 +356,22 @@
     right: 0;
     display: flex;
     z-index: 99;
-          // filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(136deg) brightness(105%) contrast(104%);
+    transition: 0.25s all;
+    // filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(136deg) brightness(105%) contrast(104%);
     &:hover {
-      // background: url("../../assets/star.png");
+      background: url("../../assets/bookmarks.png");
+      background-size: 75%;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 3rem;
+      height: 3rem;
+      position: absolute;
+      right: 0;
       // width: 3rem;
       // height: 3rem;
-      filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(277deg) brightness(255%) contrast(104%);
+      transition: 0.25s all;
+      // filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(277deg)
+      // brightness(255%) contrast(104%);
     }
   }
 </style>
@@ -369,7 +390,7 @@
           <div
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
             class:hovered={current === dir}
-            on:click={() => navigate(dir, 'directoryItem')}
+            on:click={e => navigate(e, dir, 'directoryItem')}
             on:mouseover={e => mouseoverIcons(e, dir)}
             on:mouseout={e => mouseoutIcons(e, dir)}>
             {dir}
@@ -382,6 +403,40 @@
                 class="addFavorite"
                 on:mouseover={e => mouseoverIcons(e, dir)}
                 on:mouseout={e => mouseoutIcons(e, dir)} />
+              <!-- on:click={e => addFavorite(e, dir)} -->
+              <!-- <svg
+                class="addFavorite"
+                on:mouseover={e => mouseoverIcons(e, dir)}
+                on:mouseout={e => mouseoutIcons(e, dir)}
+                id="Capa_1"
+                enable-background="new 0 0 520 520"
+                height="512"
+                viewBox="0 0 520 520"
+                width="512"
+                xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <path
+                    d="m302.426 248.86c-12.02 0-23.319 4.681-31.819 13.18-5.857
+                    5.858-15.355 5.858-21.213
+                    0-8.5-8.5-19.8-13.18-31.82-13.18s-23.321 4.681-31.82
+                    13.18c-8.499 8.5-13.18 19.8-13.18 31.82s4.681 23.32 13.18
+                    31.82l74.246 74.246 74.246-74.246c8.499-8.5 13.18-19.8
+                    13.18-31.82s-4.681-23.32-13.18-31.819c-8.5-8.5-19.8-13.181-31.82-13.181z" />
+                  <path
+                    d="m475
+                    125.016h-206.597l-56.861-92.85c-2.727-4.452-7.571-7.166-12.792-7.166h-153.75c-24.813
+                    0-45 20.187-45 45v380c0 24.813 20.187 45 45 45h430c24.813 0
+                    45-20.187 45-45v-279.984c0-24.813-20.187-45-45-45zm-119.541
+                    221.878-84.853 84.853c-2.813 2.813-6.628 4.394-10.606
+                    4.394s-7.793-1.581-10.606-4.394l-84.853-84.853c-29.243-29.242-29.243-76.823
+                    0-106.065 25.924-25.925 66.263-28.865 95.459-8.823
+                    29.196-20.043 69.535-17.101 95.459 8.823 14.166 14.165
+                    21.967 33 21.967 53.033s-7.801 38.866-21.967 53.032z" />
+                  <path
+                    d="m475 95.016v-5.016c0-24.813-20.187-45-45-45h-175.42l30.63
+                    50.016z" />
+                </g>
+              </svg> -->
             {/if}
           </div>
         {/each}
@@ -400,7 +455,7 @@
           <div class="historyIndex">{i}</div>
           <div
             class="dir i {navHistoryLocation === i ? 'special' : 'none'}"
-            on:click={() => navigate(dir, 'historyItem')}>
+            on:click={e => navigate(e, dir, 'historyItem')}>
             {dir}
           </div>
         {/each}
@@ -411,11 +466,11 @@
         <h2>Favorites</h2>
       </div>
       <div class="history-listing">
-        {#each navHistory as dir, i}
+        {#each favorites as dir, i}
           <div class="historyIndex">{i}</div>
           <div
             class="dir i {navHistoryLocation === i ? 'special' : 'none'}"
-            on:click={() => navigate(dir, 'historyItem')}>
+            on:click={e => navigate(e, dir, 'historyItem')}>
             {dir}
           </div>
         {/each}
