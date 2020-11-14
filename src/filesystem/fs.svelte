@@ -335,7 +335,7 @@
   }
 
   .addFavorite {
-    background-image: url("../../assets/download.png");
+    background: url("../../assets/star.png");
     background-size: 75%;
     background-repeat: no-repeat;
     background-position: center;
@@ -345,13 +345,13 @@
     right: 0;
     display: flex;
     z-index: 99;
+          // filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(136deg) brightness(105%) contrast(104%);
     &:hover {
-      background-image: url("../../assets/diskette.png");
+      // background: url("../../assets/star.png");
+      // width: 3rem;
+      // height: 3rem;
+      filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(277deg) brightness(255%) contrast(104%);
     }
-  }
-
-  .hoverFavorite {
-    background: black;
   }
 </style>
 
@@ -374,6 +374,10 @@
             on:mouseout={e => mouseoutIcons(e, dir)}>
             {dir}
             {#if current === dir}
+              <!-- <i
+                class="addFavorite"
+                on:mouseover={e => mouseoverIcons(e, dir)}
+                on:mouseout={e => mouseoutIcons(e, dir)} /> -->
               <i
                 class="addFavorite"
                 on:mouseover={e => mouseoverIcons(e, dir)}
