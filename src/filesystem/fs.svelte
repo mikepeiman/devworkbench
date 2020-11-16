@@ -172,8 +172,8 @@
   }
   function mouseoverIcons(e, dir) {
     // log(
-    //   "forward",
-    //   `MOUSEOVER event for dir ${dir}: ${e.target.nodeName}  ${e.target.classList}`
+    //   "up",
+    //   `MOUSEOVER event for dir ${dir}: ${e.target.parentElement}  ${e.target.classList}`
     // );
     console.log(e);
     current = dir;
@@ -211,6 +211,7 @@
 
   function addFavorite(e, dir) {
     log("up", `addFavorite called on ${dir}, ${e.target}`);
+    console.log('addFavorite....')
   }
 </script>
 
@@ -395,7 +396,7 @@
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
             on:click={e => navigate(e, dir, 'directoryItem')}>
             {dir}
-            <i class="addFavorite" on:click={e => addFavorite(e, dir)} />
+            <i class="addFavorite" on:click={e => addFavorite(e, dir)} on:mouseover={mouseoverIcons}/>
           </div>
         {/each}
       </div>
