@@ -144,8 +144,8 @@
     log("up", `navigate clicked ${dir} at event`, e);
     console.log(e);
     if (e.target.classList.contains("addFavorite")) {
-      log("data", `addFavorite ${dir}!`);
-      favorites = [...favorites, currentPath + "\\" + dir];
+      // log("data", `addFavorite ${dir}!`);
+      // favorites = [...favorites, currentPath + "\\" + dir];
       return;
     }
     if (currentPath === "undefined") {
@@ -171,40 +171,21 @@
     }
   }
   function mouseoverIcons(e, dir) {
-    // log(
-    //   "up",
-    //   `MOUSEOVER event for dir ${dir}: ${e.target.parentElement}  ${e.target.classList}`
-    // );
-    console.log(e);
     current = dir;
   }
 
   function mouseoutIcons(e, dir) {
-    console.log(e);
     if (e.toElement.classList.length < 1) {
       current = "";
     }
     if (e.fromElement.nodeName === "I") {
-      // log(
-      //   "back",
-      //   `MOUSEOUT event for element nodeName "I":::   ${e.fromElement.classList}`
-      // );
       return;
     } else if (e.fromElement.classList.contains("dir")) {
-      // log("back", `MOUSEOUT event left dir:::   ${e.fromElement.classList}`);
       return;
     } else if (e.fromElement.classList.contains("dirs-listing")) {
-      // log(
-      //   "back",
-      //   `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
-      // );
       current = "";
       return;
     } else {
-      // log(
-      //   "error",
-      //   `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
-      // );
       current = "";
     }
   }
@@ -212,6 +193,7 @@
   function addFavorite(e, dir) {
     log("up", `addFavorite called on ${dir}, ${e.target}`);
     console.log('addFavorite....')
+          favorites = [...favorites, currentPath + "\\" + dir];
   }
 </script>
 
@@ -390,13 +372,13 @@
       <div class="section-title flex-row">
         <h2>DIRECTORIES</h2>
       </div>
-      <div class="dirs-listing" on:mouseout={e => mouseoutIcons(e, dir)}>
+      <div class="dirs-listing">
         {#each currentDirs as dir}
           <div
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
             on:click={e => navigate(e, dir, 'directoryItem')}>
             {dir}
-            <i class="addFavorite" on:click={e => addFavorite(e, dir)} on:mouseover={mouseoverIcons}/>
+            <i class="addFavorite" on:click={e => addFavorite(e, dir)}/>
           </div>
         {/each}
       </div>
