@@ -192,8 +192,12 @@
 
   function addFavorite(e, dir) {
     log("up", `addFavorite called on ${dir}, ${e.target}`);
-    console.log('addFavorite....')
-          favorites = [...favorites, currentPath + "\\" + dir];
+    console.log("addFavorite....");
+    let newfav = currentPath + "\\" + dir;
+    if (favorites.includes(newfav)) {
+      return;
+    }
+    favorites = [...favorites, newfav];
   }
 </script>
 
@@ -378,7 +382,7 @@
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
             on:click={e => navigate(e, dir, 'directoryItem')}>
             {dir}
-            <i class="addFavorite" on:click={e => addFavorite(e, dir)}/>
+            <i class="addFavorite" on:click={e => addFavorite(e, dir)} />
           </div>
         {/each}
       </div>
