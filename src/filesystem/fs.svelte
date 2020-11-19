@@ -17,7 +17,7 @@
   let currentFiles = [];
   let currentDirs = [];
   let navHistory = [];
-  let favorites = [];
+  let projects = [];
   $: navHistoryLocation = navHistory.length - 1;
   $: currentPath = process.cwd();
   let oldPath = "";
@@ -145,7 +145,7 @@
     console.log(e);
     if (e.target.classList.contains("addFavorite")) {
       // log("data", `addFavorite ${dir}!`);
-      // favorites = [...favorites, currentPath + "\\" + dir];
+      // projects = [...projects, currentPath + "\\" + dir];
       return;
     }
     if (currentPath === "undefined") {
@@ -193,11 +193,11 @@
   function addFavorite(e, dir) {
     log("up", `addFavorite called on ${dir}, ${e.target}`);
     console.log("addFavorite....");
-    let newfav = currentPath + "\\" + dir;
-    if (favorites.includes(newfav)) {
+    let project = currentPath + "\\" + dir;
+    if (projects.includes(project)) {
       return;
     }
-    favorites = [...favorites, newfav];
+    projects = [...projects, project];
   }
 </script>
 
@@ -242,7 +242,7 @@
     margin: 0.25rem;
     text-align: left;
     color: rgba(40, 155, 255, 1);
-    width: 3rem;
+    // width: 3rem;
     height: 3rem;
     position: relative;
     border-bottom: 1px solid rgba(40, 155, 255, 1);
@@ -408,10 +408,10 @@
     </div>
     <div>
       <div class="section-title flex-row">
-        <h2>Favorites</h2>
+        <h2>Projects</h2>
       </div>
       <div class="history-listing">
-        {#each favorites as dir, i}
+        {#each projects as dir, i}
           <div class="historyIndex">{i}</div>
           <div
             class="dir i {navHistoryLocation === i ? 'special' : 'none'}"

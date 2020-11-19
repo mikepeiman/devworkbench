@@ -1244,7 +1244,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (349:8) {#each currentDirs as dir}
+    // (348:8) {#each currentDirs as dir}
     function create_each_block_3(ctx) {
     	let div;
     	let t0_value = /*dir*/ ctx[10] + "";
@@ -1270,10 +1270,10 @@ var app = (function () {
     			t1 = space();
     			i = element("i");
     			t2 = space();
-    			attr_dev(i, "class", "addFavorite svelte-4b56z0");
-    			add_location(i, file$1, 353, 12, 8967);
-    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[10][0] == "." ? "dot-dir" : "reg-dir") + " svelte-4b56z0");
-    			add_location(div, file$1, 349, 10, 8801);
+    			attr_dev(i, "class", "addFavorite svelte-bu2jwo");
+    			add_location(i, file$1, 352, 12, 8949);
+    			attr_dev(div, "class", div_class_value = "dir " + (/*dir*/ ctx[10][0] == "." ? "dot-dir" : "reg-dir") + " svelte-bu2jwo");
+    			add_location(div, file$1, 348, 10, 8783);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1291,7 +1291,7 @@ var app = (function () {
     			ctx = new_ctx;
     			if (dirty[0] & /*currentDirs*/ 2 && t0_value !== (t0_value = /*dir*/ ctx[10] + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty[0] & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[10][0] == "." ? "dot-dir" : "reg-dir") + " svelte-4b56z0")) {
+    			if (dirty[0] & /*currentDirs*/ 2 && div_class_value !== (div_class_value = "dir " + (/*dir*/ ctx[10][0] == "." ? "dot-dir" : "reg-dir") + " svelte-bu2jwo")) {
     				attr_dev(div, "class", div_class_value);
     			}
     		},
@@ -1305,14 +1305,14 @@ var app = (function () {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(349:8) {#each currentDirs as dir}",
+    		source: "(348:8) {#each currentDirs as dir}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (368:8) {#each navHistory as dir, i}
+    // (367:8) {#each navHistory as dir, i}
     function create_each_block_2(ctx) {
     	let div0;
     	let t0;
@@ -1336,14 +1336,14 @@ var app = (function () {
     			div1 = element("div");
     			t2 = text(t2_value);
     			t3 = space();
-    			attr_dev(div0, "class", "historyIndex svelte-4b56z0");
-    			add_location(div0, file$1, 368, 10, 9384);
+    			attr_dev(div0, "class", "historyIndex svelte-bu2jwo");
+    			add_location(div0, file$1, 367, 10, 9366);
 
     			attr_dev(div1, "class", div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[4] === /*i*/ ctx[33]
     			? "special"
-    			: "none") + " svelte-4b56z0");
+    			: "none") + " svelte-bu2jwo");
 
-    			add_location(div1, file$1, 369, 10, 9431);
+    			add_location(div1, file$1, 368, 10, 9413);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -1360,7 +1360,7 @@ var app = (function () {
 
     			if (dirty[0] & /*navHistoryLocation*/ 16 && div1_class_value !== (div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[4] === /*i*/ ctx[33]
     			? "special"
-    			: "none") + " svelte-4b56z0")) {
+    			: "none") + " svelte-bu2jwo")) {
     				attr_dev(div1, "class", div1_class_value);
     			}
     		},
@@ -1376,14 +1376,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(368:8) {#each navHistory as dir, i}",
+    		source: "(367:8) {#each navHistory as dir, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (383:8) {#each favorites as dir, i}
+    // (382:8) {#each projects as dir, i}
     function create_each_block_1(ctx) {
     	let div0;
     	let t0;
@@ -1407,14 +1407,14 @@ var app = (function () {
     			div1 = element("div");
     			t2 = text(t2_value);
     			t3 = space();
-    			attr_dev(div0, "class", "historyIndex svelte-4b56z0");
-    			add_location(div0, file$1, 383, 10, 9835);
+    			attr_dev(div0, "class", "historyIndex svelte-bu2jwo");
+    			add_location(div0, file$1, 382, 10, 9815);
 
     			attr_dev(div1, "class", div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[4] === /*i*/ ctx[33]
     			? "special"
-    			: "none") + " svelte-4b56z0");
+    			: "none") + " svelte-bu2jwo");
 
-    			add_location(div1, file$1, 384, 10, 9882);
+    			add_location(div1, file$1, 383, 10, 9862);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -1427,11 +1427,11 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty[0] & /*favorites*/ 8 && t2_value !== (t2_value = /*dir*/ ctx[10] + "")) set_data_dev(t2, t2_value);
+    			if (dirty[0] & /*projects*/ 8 && t2_value !== (t2_value = /*dir*/ ctx[10] + "")) set_data_dev(t2, t2_value);
 
     			if (dirty[0] & /*navHistoryLocation*/ 16 && div1_class_value !== (div1_class_value = "dir i " + (/*navHistoryLocation*/ ctx[4] === /*i*/ ctx[33]
     			? "special"
-    			: "none") + " svelte-4b56z0")) {
+    			: "none") + " svelte-bu2jwo")) {
     				attr_dev(div1, "class", div1_class_value);
     			}
     		},
@@ -1447,14 +1447,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(383:8) {#each favorites as dir, i}",
+    		source: "(382:8) {#each projects as dir, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (398:10) {#each currentFiles as file}
+    // (397:10) {#each currentFiles as file}
     function create_each_block$1(ctx) {
     	let div;
     	let t_value = /*file*/ ctx[29] + "";
@@ -1469,8 +1469,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			t = text(t_value);
-    			attr_dev(div, "class", "file svelte-4b56z0");
-    			add_location(div, file$1, 398, 12, 10244);
+    			attr_dev(div, "class", "file svelte-bu2jwo");
+    			add_location(div, file$1, 397, 12, 10224);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1491,7 +1491,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(398:10) {#each currentFiles as file}",
+    		source: "(397:10) {#each currentFiles as file}",
     		ctx
     	});
 
@@ -1550,7 +1550,7 @@ var app = (function () {
     		each_blocks_2[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
     	}
 
-    	let each_value_1 = /*favorites*/ ctx[3];
+    	let each_value_1 = /*projects*/ ctx[3];
     	validate_each_argument(each_value_1);
     	let each_blocks_1 = [];
 
@@ -1602,7 +1602,7 @@ var app = (function () {
     			div9 = element("div");
     			div7 = element("div");
     			h22 = element("h2");
-    			h22.textContent = "Favorites";
+    			h22.textContent = "Projects";
     			t9 = space();
     			div8 = element("div");
 
@@ -1624,38 +1624,38 @@ var app = (function () {
 
     			t13 = space();
     			div12 = element("div");
-    			add_location(h20, file$1, 345, 8, 8685);
-    			attr_dev(div0, "class", "section-title flex-row svelte-4b56z0");
-    			add_location(div0, file$1, 344, 6, 8639);
-    			attr_dev(div1, "class", "dirs-listing svelte-4b56z0");
-    			add_location(div1, file$1, 347, 6, 8727);
-    			add_location(div2, file$1, 343, 4, 8626);
-    			add_location(h21, file$1, 361, 8, 9156);
+    			add_location(h20, file$1, 344, 8, 8667);
+    			attr_dev(div0, "class", "section-title flex-row svelte-bu2jwo");
+    			add_location(div0, file$1, 343, 6, 8621);
+    			attr_dev(div1, "class", "dirs-listing svelte-bu2jwo");
+    			add_location(div1, file$1, 346, 6, 8709);
+    			add_location(div2, file$1, 342, 4, 8608);
+    			add_location(h21, file$1, 360, 8, 9138);
     			attr_dev(i, "id", "saveHistory");
-    			attr_dev(i, "class", "svelte-4b56z0");
-    			add_location(i, file$1, 363, 10, 9245);
-    			attr_dev(div3, "class", "icon-container svelte-4b56z0");
-    			add_location(div3, file$1, 362, 8, 9182);
-    			attr_dev(div4, "class", "section-title flex-row svelte-4b56z0");
-    			add_location(div4, file$1, 360, 6, 9110);
-    			attr_dev(div5, "class", "history-listing svelte-4b56z0");
-    			add_location(div5, file$1, 366, 6, 9305);
-    			add_location(div6, file$1, 358, 4, 9095);
-    			add_location(h22, file$1, 379, 8, 9717);
-    			attr_dev(div7, "class", "section-title flex-row svelte-4b56z0");
-    			add_location(div7, file$1, 378, 6, 9671);
-    			attr_dev(div8, "class", "history-listing svelte-4b56z0");
-    			add_location(div8, file$1, 381, 6, 9757);
-    			add_location(div9, file$1, 377, 4, 9658);
-    			add_location(h23, file$1, 395, 8, 10139);
-    			attr_dev(div10, "class", "files-listing svelte-4b56z0");
-    			add_location(div10, file$1, 396, 8, 10163);
-    			add_location(div11, file$1, 394, 6, 10124);
-    			add_location(div12, file$1, 404, 6, 10388);
-    			add_location(div13, file$1, 393, 4, 10111);
-    			attr_dev(div14, "class", "file-system svelte-4b56z0");
-    			add_location(div14, file$1, 342, 2, 8595);
-    			add_location(main, file$1, 340, 0, 8539);
+    			attr_dev(i, "class", "svelte-bu2jwo");
+    			add_location(i, file$1, 362, 10, 9227);
+    			attr_dev(div3, "class", "icon-container svelte-bu2jwo");
+    			add_location(div3, file$1, 361, 8, 9164);
+    			attr_dev(div4, "class", "section-title flex-row svelte-bu2jwo");
+    			add_location(div4, file$1, 359, 6, 9092);
+    			attr_dev(div5, "class", "history-listing svelte-bu2jwo");
+    			add_location(div5, file$1, 365, 6, 9287);
+    			add_location(div6, file$1, 357, 4, 9077);
+    			add_location(h22, file$1, 378, 8, 9699);
+    			attr_dev(div7, "class", "section-title flex-row svelte-bu2jwo");
+    			add_location(div7, file$1, 377, 6, 9653);
+    			attr_dev(div8, "class", "history-listing svelte-bu2jwo");
+    			add_location(div8, file$1, 380, 6, 9738);
+    			add_location(div9, file$1, 376, 4, 9640);
+    			add_location(h23, file$1, 394, 8, 10119);
+    			attr_dev(div10, "class", "files-listing svelte-bu2jwo");
+    			add_location(div10, file$1, 395, 8, 10143);
+    			add_location(div11, file$1, 393, 6, 10104);
+    			add_location(div12, file$1, 403, 6, 10368);
+    			add_location(div13, file$1, 392, 4, 10091);
+    			attr_dev(div14, "class", "file-system svelte-bu2jwo");
+    			add_location(div14, file$1, 341, 2, 8577);
+    			add_location(main, file$1, 339, 0, 8521);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1765,8 +1765,8 @@ var app = (function () {
     				each_blocks_2.length = each_value_2.length;
     			}
 
-    			if (dirty[0] & /*navHistoryLocation, navigate, favorites*/ 280) {
-    				each_value_1 = /*favorites*/ ctx[3];
+    			if (dirty[0] & /*navHistoryLocation, navigate, projects*/ 280) {
+    				each_value_1 = /*projects*/ ctx[3];
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -1864,7 +1864,7 @@ var app = (function () {
     	let currentFiles = [];
     	let currentDirs = [];
     	let navHistory = [];
-    	let favorites = [];
+    	let projects = [];
     	let oldPath = "";
 
     	onMount(() => {
@@ -1968,7 +1968,7 @@ var app = (function () {
 
     		if (e.target.classList.contains("addFavorite")) {
     			// log("data", `addFavorite ${dir}!`);
-    			// favorites = [...favorites, currentPath + "\\" + dir];
+    			// projects = [...projects, currentPath + "\\" + dir];
     			return;
     		}
 
@@ -2020,13 +2020,13 @@ var app = (function () {
     	function addFavorite(e, dir) {
     		log$1("up", `addFavorite called on ${dir}, ${e.target}`);
     		console.log("addFavorite....");
-    		let newfav = currentPath + "\\" + dir;
+    		let project = currentPath + "\\" + dir;
 
-    		if (favorites.includes(newfav)) {
+    		if (projects.includes(project)) {
     			return;
     		}
 
-    		$$invalidate(3, favorites = [...favorites, newfav]);
+    		$$invalidate(3, projects = [...projects, project]);
     	}
 
     	const click_handler = (dir, e) => addFavorite(e, dir);
@@ -2051,7 +2051,7 @@ var app = (function () {
     		currentFiles,
     		currentDirs,
     		navHistory,
-    		favorites,
+    		projects,
     		oldPath,
     		receiveNavHistoryLocation,
     		addNavHistory,
@@ -2083,7 +2083,7 @@ var app = (function () {
     		if ("currentFiles" in $$props) $$invalidate(0, currentFiles = $$props.currentFiles);
     		if ("currentDirs" in $$props) $$invalidate(1, currentDirs = $$props.currentDirs);
     		if ("navHistory" in $$props) $$invalidate(2, navHistory = $$props.navHistory);
-    		if ("favorites" in $$props) $$invalidate(3, favorites = $$props.favorites);
+    		if ("projects" in $$props) $$invalidate(3, projects = $$props.projects);
     		if ("oldPath" in $$props) oldPath = $$props.oldPath;
     		if ("navHistoryLocation" in $$props) $$invalidate(4, navHistoryLocation = $$props.navHistoryLocation);
     		if ("currentPath" in $$props) $$invalidate(13, currentPath = $$props.currentPath);
@@ -2127,7 +2127,7 @@ var app = (function () {
     		currentFiles,
     		currentDirs,
     		navHistory,
-    		favorites,
+    		projects,
     		navHistoryLocation,
     		receiveNavHistoryLocation,
     		saveHistory,
@@ -2170,11 +2170,10 @@ var app = (function () {
     	}
     }
 
-    /* src\App.svelte generated by Svelte v3.19.1 */
-    const file$2 = "src\\App.svelte";
+    /* src\views\main.svelte generated by Svelte v3.19.1 */
+    const file$2 = "src\\views\\main.svelte";
 
     function create_fragment$2(ctx) {
-    	let main;
     	let h1;
     	let t1;
     	let current;
@@ -2182,24 +2181,19 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			main = element("main");
     			h1 = element("h1");
-    			h1.textContent = "Dev Workbench";
+    			h1.textContent = "Main";
     			t1 = space();
     			create_component(fs.$$.fragment);
-    			attr_dev(h1, "class", "svelte-19xyxbs");
-    			add_location(h1, file$2, 56, 2, 1205);
-    			attr_dev(main, "class", "svelte-19xyxbs");
-    			add_location(main, file$2, 55, 0, 1195);
+    			add_location(h1, file$2, 5, 0, 92);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, main, anchor);
-    			append_dev(main, h1);
-    			append_dev(main, t1);
-    			mount_component(fs, main, null);
+    			insert_dev(target, h1, anchor);
+    			insert_dev(target, t1, anchor);
+    			mount_component(fs, target, anchor);
     			current = true;
     		},
     		p: noop,
@@ -2213,8 +2207,9 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(main);
-    			destroy_component(fs);
+    			if (detaching) detach_dev(h1);
+    			if (detaching) detach_dev(t1);
+    			destroy_component(fs, detaching);
     		}
     	};
 
@@ -2230,6 +2225,94 @@ var app = (function () {
     }
 
     function instance$2($$self, $$props, $$invalidate) {
+    	let selection = "";
+    	$$self.$capture_state = () => ({ FS: Fs, selection });
+
+    	$$self.$inject_state = $$props => {
+    		if ("selection" in $$props) selection = $$props.selection;
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [];
+    }
+
+    class Main extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Main",
+    			options,
+    			id: create_fragment$2.name
+    		});
+    	}
+    }
+
+    /* src\App.svelte generated by Svelte v3.19.1 */
+    const file$3 = "src\\App.svelte";
+
+    function create_fragment$3(ctx) {
+    	let main1;
+    	let h1;
+    	let t1;
+    	let current;
+    	const main0 = new Main({ $$inline: true });
+
+    	const block = {
+    		c: function create() {
+    			main1 = element("main");
+    			h1 = element("h1");
+    			h1.textContent = "Dev Workbench";
+    			t1 = space();
+    			create_component(main0.$$.fragment);
+    			attr_dev(h1, "class", "svelte-19xyxbs");
+    			add_location(h1, file$3, 57, 2, 1248);
+    			attr_dev(main1, "class", "svelte-19xyxbs");
+    			add_location(main1, file$3, 56, 0, 1238);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, main1, anchor);
+    			append_dev(main1, h1);
+    			append_dev(main1, t1);
+    			mount_component(main0, main1, null);
+    			current = true;
+    		},
+    		p: noop,
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(main0.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(main0.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(main1);
+    			destroy_component(main0);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$3.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$3($$self, $$props, $$invalidate) {
     	const { remote } = require("electron");
     	const { Menu, MenuItem } = remote;
     	let rightClickPosition = null;
@@ -2258,6 +2341,7 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		storeCurrentPath,
     		FS: Fs,
+    		Main,
     		CustomLogging: CustomLogging_1,
     		remote,
     		Menu,
@@ -2283,13 +2367,13 @@ var app = (function () {
     class App extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, {});
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, {});
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "App",
     			options,
-    			id: create_fragment$2.name
+    			id: create_fragment$3.name
     		});
     	}
     }

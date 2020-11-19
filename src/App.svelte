@@ -1,6 +1,7 @@
 <script>
   import { storeCurrentPath } from "./db/stores.js";
   import FS from "./filesystem/fs.svelte";
+  import Main from "./views/main.svelte";
   import CustomLogging from "./utils/CustomLogging.js";
 
   // Importing this adds a right-click menu with 'Inspect Element' option
@@ -55,5 +56,6 @@
 
 <main>
   <h1>Dev Workbench</h1>
-  <FS />
+  <!-- <FS /> -->
+  <Main />
 </main>
