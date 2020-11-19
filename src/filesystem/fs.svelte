@@ -17,7 +17,7 @@
   let currentFiles = [];
   let currentDirs = [];
   let navHistory = [];
-  let favorites = [];
+  let projects = [];
   $: navHistoryLocation = navHistory.length - 1;
   $: currentPath = process.cwd();
   let oldPath = "";
@@ -144,8 +144,8 @@
     log("up", `navigate clicked ${dir} at event`, e);
     console.log(e);
     if (e.target.classList.contains("addFavorite")) {
-      log("data", `addFavorite ${dir}!`);
-      favorites = [...favorites, currentPath + "\\" + dir];
+      // log("data", `addFavorite ${dir}!`);
+      // projects = [...projects, currentPath + "\\" + dir];
       return;
     }
     if (currentPath === "undefined") {
@@ -171,46 +171,33 @@
     }
   }
   function mouseoverIcons(e, dir) {
-    // log(
-    //   "forward",
-    //   `MOUSEOVER event for dir ${dir}: ${e.target.nodeName}  ${e.target.classList}`
-    // );
-    console.log(e);
     current = dir;
   }
 
   function mouseoutIcons(e, dir) {
-    console.log(e);
     if (e.toElement.classList.length < 1) {
       current = "";
     }
     if (e.fromElement.nodeName === "I") {
-      // log(
-      //   "back",
-      //   `MOUSEOUT event for element nodeName "I":::   ${e.fromElement.classList}`
-      // );
       return;
     } else if (e.fromElement.classList.contains("dir")) {
-      // log("back", `MOUSEOUT event left dir:::   ${e.fromElement.classList}`);
       return;
     } else if (e.fromElement.classList.contains("dirs-listing")) {
-      // log(
-      //   "back",
-      //   `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
-      // );
       current = "";
       return;
     } else {
-      // log(
-      //   "error",
-      //   `MOUSEOUT event left dirs-listing:::  ${e.fromElement.classList}`
-      // );
       current = "";
     }
   }
 
   function addFavorite(e, dir) {
     log("up", `addFavorite called on ${dir}, ${e.target}`);
+    console.log("addFavorite....");
+    let project = currentPath + "\\" + dir;
+    if (projects.includes(project)) {
+      return;
+    }
+    projects = [...projects, project];
   }
 </script>
 
@@ -255,8 +242,9 @@
     margin: 0.25rem;
     text-align: left;
     color: rgba(40, 155, 255, 1);
-    width: 3rem;
+    // width: 3rem;
     height: 3rem;
+    position: relative;
     border-bottom: 1px solid rgba(40, 155, 255, 1);
     border-right: 1px solid rgba(40, 155, 255, 1);
     box-shadow: 1px 1px 3px 0px rgba(40, 155, 255, 0.5);
@@ -268,8 +256,43 @@
       color: rgba(140, 215, 255, 1);
       background: rgba(0, 55, 155, 0.75);
       cursor: pointer;
+      & .addFavorite {
+        opacity: 1;
+      }
     }
   }
+
+  .addFavorite {
+    background: url("../../assets/star.png");
+    opacity: 0;
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    right: 0;
+    display: flex;
+    z-index: 99;
+    transition: 0.25s all;
+    // filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(136deg) brightness(105%) contrast(104%);
+    &:hover {
+      background: url("../../assets/bookmarks.png");
+      background-size: 75%;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 3rem;
+      height: 3rem;
+      position: absolute;
+      right: 0;
+      // width: 3rem;
+      // height: 3rem;
+      transition: 0.25s all;
+      // filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(277deg)
+      // brightness(255%) contrast(104%);
+    }
+  }
+
   .dot-dir {
     background: rgba(0, 55, 155, 0.25);
   }
@@ -344,36 +367,6 @@
     position: relative;
     display: flex;
   }
-
-  .addFavorite {
-    background: url("../../assets/star.png");
-    background-size: 75%;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 3rem;
-    height: 3rem;
-    position: absolute;
-    right: 0;
-    display: flex;
-    z-index: 99;
-    transition: 0.25s all;
-    // filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(136deg) brightness(105%) contrast(104%);
-    &:hover {
-      background: url("../../assets/bookmarks.png");
-      background-size: 75%;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 3rem;
-      height: 3rem;
-      position: absolute;
-      right: 0;
-      // width: 3rem;
-      // height: 3rem;
-      transition: 0.25s all;
-      // filter: invert(74%) sepia(15%) saturate(6677%) hue-rotate(277deg)
-      // brightness(255%) contrast(104%);
-    }
-  }
 </style>
 
 <main>
@@ -382,62 +375,14 @@
     <div>
       <div class="section-title flex-row">
         <h2>DIRECTORIES</h2>
-        current = {current}
       </div>
-      <div class="dirs-listing" on:mouseout={e => mouseoutIcons(e, dir)}>
-        <!--  on:mouseout={e => mouseoutIcons(e, dir)} -->
+      <div class="dirs-listing">
         {#each currentDirs as dir}
           <div
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
-            class:hovered={current === dir}
-            on:click={e => navigate(e, dir, 'directoryItem')}
-            on:mouseover={e => mouseoverIcons(e, dir)}
-            on:mouseout={e => mouseoutIcons(e, dir)}>
+            on:click={e => navigate(e, dir, 'directoryItem')}>
             {dir}
-            {#if current === dir}
-              <!-- <i
-                class="addFavorite"
-                on:mouseover={e => mouseoverIcons(e, dir)}
-                on:mouseout={e => mouseoutIcons(e, dir)} /> -->
-              <i
-                class="addFavorite"
-                on:mouseover={e => mouseoverIcons(e, dir)}
-                on:mouseout={e => mouseoutIcons(e, dir)} />
-              <!-- on:click={e => addFavorite(e, dir)} -->
-              <!-- <svg
-                class="addFavorite"
-                on:mouseover={e => mouseoverIcons(e, dir)}
-                on:mouseout={e => mouseoutIcons(e, dir)}
-                id="Capa_1"
-                enable-background="new 0 0 520 520"
-                height="512"
-                viewBox="0 0 520 520"
-                width="512"
-                xmlns="http://www.w3.org/2000/svg">
-                <g>
-                  <path
-                    d="m302.426 248.86c-12.02 0-23.319 4.681-31.819 13.18-5.857
-                    5.858-15.355 5.858-21.213
-                    0-8.5-8.5-19.8-13.18-31.82-13.18s-23.321 4.681-31.82
-                    13.18c-8.499 8.5-13.18 19.8-13.18 31.82s4.681 23.32 13.18
-                    31.82l74.246 74.246 74.246-74.246c8.499-8.5 13.18-19.8
-                    13.18-31.82s-4.681-23.32-13.18-31.819c-8.5-8.5-19.8-13.181-31.82-13.181z" />
-                  <path
-                    d="m475
-                    125.016h-206.597l-56.861-92.85c-2.727-4.452-7.571-7.166-12.792-7.166h-153.75c-24.813
-                    0-45 20.187-45 45v380c0 24.813 20.187 45 45 45h430c24.813 0
-                    45-20.187 45-45v-279.984c0-24.813-20.187-45-45-45zm-119.541
-                    221.878-84.853 84.853c-2.813 2.813-6.628 4.394-10.606
-                    4.394s-7.793-1.581-10.606-4.394l-84.853-84.853c-29.243-29.242-29.243-76.823
-                    0-106.065 25.924-25.925 66.263-28.865 95.459-8.823
-                    29.196-20.043 69.535-17.101 95.459 8.823 14.166 14.165
-                    21.967 33 21.967 53.033s-7.801 38.866-21.967 53.032z" />
-                  <path
-                    d="m475 95.016v-5.016c0-24.813-20.187-45-45-45h-175.42l30.63
-                    50.016z" />
-                </g>
-              </svg> -->
-            {/if}
+            <i class="addFavorite" on:click={e => addFavorite(e, dir)} />
           </div>
         {/each}
       </div>
@@ -463,10 +408,10 @@
     </div>
     <div>
       <div class="section-title flex-row">
-        <h2>Favorites</h2>
+        <h2>Projects</h2>
       </div>
       <div class="history-listing">
-        {#each favorites as dir, i}
+        {#each projects as dir, i}
           <div class="historyIndex">{i}</div>
           <div
             class="dir i {navHistoryLocation === i ? 'special' : 'none'}"
