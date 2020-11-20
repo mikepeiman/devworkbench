@@ -3,6 +3,8 @@
   import { onMount } from "svelte";
   import { storeCurrentPath, storeNavHistory } from "./../db/stores.js";
   import generateColors from "./../utils/gradients.js";
+  import { fly } from "svelte/transition";
+  import { send, receive } from "./../utils/crossfade.js";
   const fs = require("fs");
   const path = require("path");
   import { customStylesObjects } from "./../utils/CustomLogging.js";
@@ -369,7 +371,8 @@
   }
 </style>
 
-<main>
+<main transition:fly="{{ x: -50, duration: 300 }}">
+      <!-- <img src="./../assets/008-launch-1.png" alt="" /> -->
   <Nav on:nav={receiveNavHistoryLocation} />
   <div class="file-system">
     <div>
