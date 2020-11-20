@@ -13,7 +13,7 @@
   </TabList>
 
   <TabPanel>
-    <h2>Panel One</h2>
+<img src="./../assets/008-launch-1.png" alt="">
   </TabPanel>
 
   <TabPanel>
