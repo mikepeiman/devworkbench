@@ -1,7 +1,11 @@
 <script>
   import Nav from "./navigation.svelte";
   import { onMount } from "svelte";
-  import { storeCurrentPath, storeNavHistory, storeProjects } from "./../db/stores.js";
+  import {
+    storeCurrentPath,
+    storeNavHistory,
+    storeProjects
+  } from "./../db/stores.js";
   import generateColors from "./../utils/gradients.js";
   import { fly } from "svelte/transition";
   import { send, receive } from "./../utils/crossfade.js";
@@ -40,6 +44,21 @@
   onMount(() => {
     console.log("onMount fs.svelte");
     addNavHistory();
+    // if ($storeProjects) {
+    //   if (JSON.parse(JSON.stringify($storeProjects))) {
+    //     projects = JSON.parse($storeProjects);
+    //   } else {
+    //     // projects = $storeProjects;
+    //   }
+    // }
+    let projs = localStorage.getItem("projects");
+    if (projs) {
+      if (JSON.parse(JSON.stringify(projs))) {
+        projects = JSON.parse(projs);
+      } else {
+        // projects = projs;
+      }
+    }
   });
 
   function receiveNavHistoryLocation(e) {
@@ -200,7 +219,7 @@
       return;
     }
     projects = [...projects, project];
-    $storeProjects = projects
+    $storeProjects = projects;
   }
 </script>
 
@@ -372,8 +391,8 @@
   }
 </style>
 
-<main transition:fly="{{ x: -50, duration: 300 }}">
-      <!-- <img src="./../assets/008-launch-1.png" alt="" /> -->
+<main transition:fly={{ x: -50, duration: 300 }}>
+  <!-- <img src="./../assets/008-launch-1.png" alt="" /> -->
   <Nav on:nav={receiveNavHistoryLocation} />
   <div class="file-system">
     <div>
