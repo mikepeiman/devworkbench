@@ -1,7 +1,7 @@
 <script>
   import Nav from "./navigation.svelte";
   import { onMount } from "svelte";
-  import { storeCurrentPath, storeNavHistory } from "./../db/stores.js";
+  import { storeCurrentPath, storeNavHistory, storeProjects } from "./../db/stores.js";
   import generateColors from "./../utils/gradients.js";
   import { fly } from "svelte/transition";
   import { send, receive } from "./../utils/crossfade.js";
@@ -200,6 +200,7 @@
       return;
     }
     projects = [...projects, project];
+    $storeProjects = projects
   }
 </script>
 
