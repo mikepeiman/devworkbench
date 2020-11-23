@@ -36,7 +36,7 @@
   <div class="dashboard">
     {#each projects as project, i}
       <!-- <div class="project">{project}</div> -->
-      <ProjectCard location={project} />
+      <ProjectCard project={project} />
     {/each}
   </div>
 </main>

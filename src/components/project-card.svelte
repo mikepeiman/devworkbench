@@ -1,7 +1,6 @@
 <script>
-export let location
+  export let project;
 </script>
-
 
 <style>
   .project-card {
@@ -10,8 +9,40 @@ export let location
     margin: 1rem;
     padding: 1rem;
   }
-  </style>
+
+  .icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon {
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .remove {
+    background-image: url("../../assets/002-remove.png");
+  }
+
+  .settings {
+    background-image: url("../../assets/010-settings.png");
+  }
+
+  .launch {
+    background-image: url("../../assets/008-launch-1.png");
+  }
+</style>
+
 <div class="project-card">
-  <h1>Project Card</h1>
-  <h2>{location}</h2>
+  <!-- <h1>Project Card</h1> -->
+  <div class="icons">
+    <i class="icon launch" />
+    <i class="icon settings" />
+    <i class="icon remove" />
+  </div>
+  <h2>{project}</h2>
 </div>
