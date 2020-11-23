@@ -3,23 +3,15 @@
   import { send, receive } from "./../utils/crossfade.js";
   import { storeProjects } from "./../db/stores.js";
   let projects;
-  //  = JSON.parse(localStorage.getItem("projects")) || $storeProjects;
   storeProjects.subscribe(val => {
+    console.log(`project-card projects subscription ${typeof val}`, val)
     projects = val;
   });
+  
   function remove(name) {
-    console.log(
-      `e.name ${name} projects.length ${projects.length} projects: `,
-      projects
-    );
-    // let newArr = projects.splice(e.id, 1);
-    // console.log(`projects.splice(e.id-1, 1) ${newArr}`, newArr);
-    // console.log(`projects ${projects}`, projects);
-    // console.log(`e.id ${e.id} projects.length ${projects.length}`);
+    console.log(`typeof projects ${typeof projects}` )
     projects = projects.filter(project => project.name != name);
     storeProjects.set(projects);
-    // $storeProjects = projects;
-    // projects = projects.splice(e.id - 1, 1);
   }
 </script>
 
