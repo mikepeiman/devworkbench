@@ -2,7 +2,16 @@
   import { send, receive } from "./../utils/crossfade.js";
   import ProjectCard from "./../components/project-card.svelte";
   import { storeProjects } from "./../db/stores.js";
-  let projects = JSON.parse(localStorage.getItem("projects")) || $storeProjects;
+  let projects;
+  // $: {
+  //   console.log(`reactive projects: `, projects);
+  //   projects = JSON.parse(localStorage.getItem("projects")) || storeProjects;
+  //   projects = projects
+  //   console.log(`reactive projects: `, projects);
+  // }
+  storeProjects.subscribe(val => {
+    projects = val
+  })
 </script>
 
 <style>
@@ -20,15 +29,18 @@
     class="crossfade-item"
     in:receive={{ key: 'h2' }}
     out:send={{ key: 'h2' }}>
-    Dashboard
+    Dashboard - projects.length     {projects.length}
   </h2>
+
   <div
     class="dashboard"
     in:receive={{ key: 'projects' }}
     out:send={{ key: 'projects' }}>
+
     {#each projects as project, i}
+
       <!-- <div class="project">{project}</div> -->
-      <ProjectCard {project} />
+      <ProjectCard {project} {i} />
     {/each}
   </div>
 </main>

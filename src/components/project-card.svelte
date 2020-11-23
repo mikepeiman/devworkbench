@@ -1,12 +1,25 @@
 <script>
-  export let project;
+  export let project, index;
   import { send, receive } from "./../utils/crossfade.js";
   import { storeProjects } from "./../db/stores.js";
-    let projects = JSON.parse(localStorage.getItem("projects")) || $storeProjects;
-  function remove(e) {
-    console.log(`e.id ${e.id} $storeProjects.length ${$storeProjects.length}`);
-    // $storeProjects = $storeProjects.splice(e.id-1, 1)
-    console.log(`$storeProjects.splice(e.id-1, 1) ${$storeProjects.splice(e.id-1, 1)}`, $storeProjects.splice(e.id-1, 1))
+  let projects;
+  //  = JSON.parse(localStorage.getItem("projects")) || $storeProjects;
+  storeProjects.subscribe(val => {
+    projects = val;
+  });
+  function remove(name) {
+    console.log(
+      `e.name ${name} projects.length ${projects.length} projects: `,
+      projects
+    );
+    // let newArr = projects.splice(e.id, 1);
+    // console.log(`projects.splice(e.id-1, 1) ${newArr}`, newArr);
+    // console.log(`projects ${projects}`, projects);
+    // console.log(`e.id ${e.id} projects.length ${projects.length}`);
+    projects = projects.filter(project => project.name != name);
+    storeProjects.set(projects);
+    // $storeProjects = projects;
+    // projects = projects.splice(e.id - 1, 1);
   }
 </script>
 
@@ -57,7 +70,7 @@
     <i class="icon launch" />
     <i class="icon terminal" />
     <i class="icon settings" />
-    <i class="icon remove" on:click={() => remove(project)} />
+    <i class="icon remove" on:click={() => remove(project.name)} />
   </div>
   <h2>{project.name}</h2>
 </div>

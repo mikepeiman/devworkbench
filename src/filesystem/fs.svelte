@@ -19,7 +19,7 @@
   }
   let current = "";
   let dir = "";
-  let hoverAddFavorite = "";
+  let hoveraddProject = "";
   let currentFiles = [];
   let currentDirs = [];
   let navHistory = [];
@@ -96,12 +96,6 @@
     }
   }
 
-  function buildProject() {
-    let project = {};
-    navHistory.forEach(item => {
-      data2 = data2 + item + "\n";
-    });
-  }
 
   function readDirectory() {
     console.log("readDirectory() path ", currentPath);
@@ -157,8 +151,8 @@
     oldPath = currentPath;
     log("up", `navigate clicked ${dir} at event`, e);
     console.log(e);
-    if (e.target.classList.contains("addFavorite")) {
-      // log("data", `addFavorite ${dir}!`);
+    if (e.target.classList.contains("addProject")) {
+      // log("data", `addProject ${dir}!`);
       // projects = [...projects, currentPath + "\\" + dir];
       return;
     }
@@ -184,6 +178,7 @@
       addNavHistory();
     }
   }
+
   function mouseoverIcons(e, dir) {
     current = dir;
   }
@@ -204,15 +199,13 @@
     }
   }
 
-  function addFavorite(e, dir) {
+  function addProject(e, dir) {
     let match;
-    log("up", `addFavorite called on ${dir}, `, e.target);
-    console.log("addFavorite....");
+    log("up", `addProject called on ${dir}, `, e.target);
+    console.log("addProject....");
     let project = {};
     project.name = currentPath + "\\" + dir;
     for (let test of projects) {
-      console.log(`inside projects.forEach: array project: `, test.name);
-      console.log(`inside projects.forEach: new project.name: `, project.name);
       if (test.name === project.name) {
         console.log(`MATCH!!! names`);
         match = true;
@@ -286,13 +279,13 @@
       color: rgba(140, 215, 255, 1);
       background: rgba(0, 55, 155, 0.75);
       cursor: pointer;
-      & .addFavorite {
+      & .addProject {
         opacity: 1;
       }
     }
   }
 
-  .addFavorite {
+  .addProject {
     background: url("../../assets/star.png");
     opacity: 0;
     background-size: 75%;
@@ -413,7 +406,7 @@
             class="dir {dir[0] == '.' ? 'dot-dir' : 'reg-dir'}"
             on:click={e => navigate(e, dir, 'directoryItem')}>
             {dir}
-            <i class="addFavorite" on:click={e => addFavorite(e, dir)} />
+            <i class="addProject" on:click={e => addProject(e, dir)} />
           </div>
         {/each}
       </div>
