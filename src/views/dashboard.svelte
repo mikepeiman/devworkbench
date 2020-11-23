@@ -1,16 +1,8 @@
 <script>
   import { send, receive } from "./../utils/crossfade.js";
   import ProjectCard from "./../components/project-card.svelte";
-  import {
-    storeCurrentPath,
-    storeNavHistory,
-    storeProjects
-  } from "./../db/stores.js";
+  import { storeProjects } from "./../db/stores.js";
   let projects = JSON.parse(localStorage.getItem("projects")) || $storeProjects;
-
-  storeProjects.subscribe(val => {
-    console.log(`storeProjects subscribe `, val);
-  });
 </script>
 
 <style>

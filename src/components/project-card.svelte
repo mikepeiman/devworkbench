@@ -1,6 +1,13 @@
 <script>
   export let project;
   import { send, receive } from "./../utils/crossfade.js";
+  import { storeProjects } from "./../db/stores.js";
+    let projects = JSON.parse(localStorage.getItem("projects")) || $storeProjects;
+  function remove(e) {
+    console.log(`e.id ${e.id} $storeProjects.length ${$storeProjects.length}`);
+    // $storeProjects = $storeProjects.splice(e.id-1, 1)
+    console.log(`$storeProjects.splice(e.id-1, 1) ${$storeProjects.splice(e.id-1, 1)}`, $storeProjects.splice(e.id-1, 1))
+  }
 </script>
 
 <style>
@@ -50,7 +57,7 @@
     <i class="icon launch" />
     <i class="icon terminal" />
     <i class="icon settings" />
-    <i class="icon remove" />
+    <i class="icon remove" on:click={() => remove(project)} />
   </div>
-  <h2>{project}</h2>
+  <h2>{project.name}</h2>
 </div>

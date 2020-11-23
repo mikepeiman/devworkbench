@@ -205,14 +205,29 @@
   }
 
   function addFavorite(e, dir) {
-    log("up", `addFavorite called on ${dir}, ${e.target}`);
+    let match;
+    log("up", `addFavorite called on ${dir}, `, e.target);
     console.log("addFavorite....");
-    let project = currentPath + "\\" + dir;
-    if (projects.includes(project)) {
-      return;
+    let project = {};
+    project.name = currentPath + "\\" + dir;
+    for (let test of projects) {
+      console.log(`inside projects.forEach: array project: `, test.name);
+      console.log(`inside projects.forEach: new project.name: `, project.name);
+      if (test.name === project.name) {
+        console.log(`MATCH!!! names`);
+        match = true;
+        return true;
+      }
     }
-    projects = [...projects, project];
-    $storeProjects = projects;
+
+    if (!match) {
+      console.log(
+        `about to update projects, this should never happen after a name MATCH!!!`
+      );
+      project.id = projects.length;
+      projects = [...projects, project];
+      $storeProjects = projects;
+    }
   }
 </script>
 
@@ -432,7 +447,7 @@
           <div
             class="dir i {navHistoryLocation === i ? 'special' : 'none'}"
             on:click={e => navigate(e, dir, 'historyItem')}>
-            {dir}
+            {dir.name}
           </div>
         {/each}
       </div>

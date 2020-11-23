@@ -24,6 +24,10 @@ export const storeNavHistory = {
 export const storeProjects = {
   subscribe: projects.subscribe,
   set: val => {
+    console.log(`storeProjects in stores, val to set: `, val)
+    if(val === "undefined") {
+      console.log("storeProjects undefined")
+    }
     projects.set(val);
     localStorage.setItem("projects", JSON.stringify(val))
   }
