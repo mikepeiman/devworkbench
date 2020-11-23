@@ -44,13 +44,6 @@
   onMount(() => {
     console.log("onMount fs.svelte");
     addNavHistory();
-    // if ($storeProjects) {
-    //   if (JSON.parse(JSON.stringify($storeProjects))) {
-    //     projects = JSON.parse($storeProjects);
-    //   } else {
-    //     // projects = $storeProjects;
-    //   }
-    // }
     let projs = localStorage.getItem("projects");
     if (projs) {
       if (JSON.parse(JSON.stringify(projs))) {
