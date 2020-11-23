@@ -1,5 +1,6 @@
 <script>
   import { send, receive } from "./../utils/crossfade.js";
+  import ProjectCard from './../components/project-card.svelte'
   import {
     storeCurrentPath,
     storeNavHistory,
@@ -22,12 +23,7 @@
     
   }
 
-  .project {
-    background: rgba(125, 225, 255, 1);
-    border: 5px solid rgba(125, 25, 255, 0.25);
-    margin: 1rem;
-    padding: 1rem;
-  }
+
 </style>
 
 <main>
@@ -39,7 +35,8 @@
   </h2>
   <div class="dashboard">
     {#each projects as project, i}
-      <div class="project">{project}</div>
+      <!-- <div class="project">{project}</div> -->
+      <ProjectCard location={project} />
     {/each}
   </div>
 </main>
