@@ -1,5 +1,6 @@
 <script>
   export let project;
+  import { send, receive } from "./../utils/crossfade.js";
 </script>
 
 <style>
@@ -37,12 +38,14 @@
   }
 
   .terminal {
-       background-image: url("../../assets/081-web-programming.png"); 
+    background-image: url("../../assets/081-web-programming.png");
   }
 </style>
 
-<div class="project-card">
-  <!-- <h1>Project Card</h1> -->
+<div
+  class="project-card"
+  in:receive={{ key: 'project-card' }}
+  out:send={{ key: 'project-card' }}>
   <div class="icons">
     <i class="icon launch" />
     <i class="icon terminal" />
