@@ -35,12 +35,17 @@
   .launch {
     background-image: url("../../assets/008-launch-1.png");
   }
+
+  .terminal {
+       background-image: url("../../assets/081-web-programming.png"); 
+  }
 </style>
 
 <div class="project-card">
   <!-- <h1>Project Card</h1> -->
   <div class="icons">
     <i class="icon launch" />
+    <i class="icon terminal" />
     <i class="icon settings" />
     <i class="icon remove" />
   </div>
