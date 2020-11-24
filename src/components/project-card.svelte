@@ -2,14 +2,19 @@
   export let project, index;
   import { send, receive } from "./../utils/crossfade.js";
   import { storeProjects } from "./../db/stores.js";
+  import isJsonString from "./../utils/isJSONstring.js";
   let projects;
   storeProjects.subscribe(val => {
-    console.log(`project-card projects subscription ${typeof val}`, val)
-    projects = val;
+    console.log(`project-card projects subscription ${typeof val}`, val);
+    if (isJsonString(val)) {
+      projects = JSON.parse(val);
+    } else {
+      projects = val;
+    }
   });
-  
+
   function remove(name) {
-    console.log(`typeof projects ${typeof projects}` )
+    console.log(`typeof projects ${typeof projects}`);
     projects = projects.filter(project => project.name != name);
     storeProjects.set(projects);
   }
