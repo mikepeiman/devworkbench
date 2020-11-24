@@ -49,8 +49,8 @@
     in:receive={{ key: 'projects' }}>
 
     {#each projects.filter(p => p.show) as project (project.name)}
-      <!-- <div class="project">{project}</div> -->
-      <ProjectCard {project} animate:flip />
+
+      <ProjectCard {project}/>
     {/each}
   </div>
   <div
@@ -59,8 +59,8 @@
     in:receive={{ key: 'projects' }}>
 
     {#each projects.filter(p => !p.show) as project (project.name)}
-      <!-- <div class="project">{project}</div> -->
-      <ProjectCard {project} />
+
+      <ProjectCard {project}  />
     {/each}
   </div>
 </main>
