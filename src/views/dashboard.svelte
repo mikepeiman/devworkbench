@@ -25,13 +25,18 @@
     display: grid;
     /* grid-template-columns: repeat(3, 1fr); */
     grid-template-columns: repeat(auto-fill, minmax(min(25rem, 100%), 1fr));
-    grid-auto-rows: minmax(10vh, 20vh);
+    grid-auto-rows: minmax(13vh, 20vh);
     transition: all 0.25s;
   }
 
   .hidden {
     background: rgba(255, 25, 55, 0.5);
+    height: 0;
     /* opacity: 0; */
+  }
+
+  .hide {
+    height: 0;
   }
 </style>
 
@@ -49,8 +54,7 @@
     in:receive={{ key: 'projects' }}>
 
     {#each projects.filter(p => p.show) as project (project.name)}
-
-      <ProjectCard {project}/>
+      <ProjectCard {project} />
     {/each}
   </div>
   <div
@@ -59,8 +63,7 @@
     in:receive={{ key: 'projects' }}>
 
     {#each projects.filter(p => !p.show) as project (project.name)}
-
-      <ProjectCard {project}  />
+      <ProjectCard {project} />
     {/each}
   </div>
 </main>
