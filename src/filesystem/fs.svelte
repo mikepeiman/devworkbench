@@ -218,6 +218,7 @@
         `about to update projects, this should never happen after a name MATCH!!!`
       );
       project.id = projects.length;
+      project.show = true
       projects = [...projects, project];
       $storeProjects = projects;
     }

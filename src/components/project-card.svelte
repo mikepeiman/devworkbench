@@ -1,6 +1,7 @@
 <script>
-  export let project, index;
+  export let project;
   import { send, receive } from "./../utils/crossfade.js";
+    import { fade, fly, slide, flip } from "svelte/transition/";
   import { storeProjects } from "./../db/stores.js";
   import isJsonString from "./../utils/isJSONstring.js";
   let projects;
@@ -15,7 +16,12 @@
 
   function remove(name) {
     console.log(`typeof projects ${typeof projects}`);
-    projects = projects.filter(project => project.name != name);
+    // projects = projects.filter(project => project.name != name);
+    for(let project of projects) {
+      if(project.name === name){
+        project.show = false
+      }
+    }
     storeProjects.set(projects);
   }
 </script>
@@ -26,6 +32,7 @@
     border: 5px solid rgba(125, 25, 255, 0.25);
     margin: 1rem;
     padding: 1rem;
+    /* transition: all 1s; */
   }
 
   .icons {
@@ -61,8 +68,11 @@
 
 <div
   class="project-card"
-  in:receive={{ key: 'project-card' }}
-  out:send={{ key: 'project-card' }}>
+  in:receive={{ key: project.name }}
+  out:send={{ key: project.name }}
+  animate:fly
+  >
+  <!-- transition:fly={{key: projet.name, x: 500, duration: 200}} -->
   <div class="icons">
     <i class="icon launch" />
     <i class="icon terminal" />
