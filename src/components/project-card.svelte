@@ -54,24 +54,34 @@
     background: rgba(125, 225, 255, 1);
     border: 5px solid rgba(125, 25, 255, 0.25);
     margin: 1rem;
-    padding: 1rem;
-    /* transition: all 1s; */
+    display: grid;
+    grid-template-columns: 2rem 1fr 2rem;
+    grid-auto-rows: auto;
+    height: auto;
   }
 
   .icons {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
   }
 
   .icon {
     background-size: 75%;
     background-repeat: no-repeat;
     background-position: center;
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
+    top: 0;
+    padding: 0;
+    /* margin: -1rem 0; */
   }
 
+  .group-left {
+    background: rgb(52, 154, 185);
+  }
+  .group-right {
+    /* background: rgb(217, 229, 233); */
+  }
   .remove {
     background-image: url("../../assets/002-remove.png");
   }
@@ -85,7 +95,7 @@
   }
 
   .launch {
-    background-image: url("../../assets/008-launch-1.png");
+    background-image: url("../../assets/078-start-up.png");
   }
 
   .terminal {
@@ -93,10 +103,10 @@
   }
 
   .hide {
-    background: rgba(125, 225, 255, .2);
+    background: rgba(125, 225, 255, 0.2);
     border: 0;
-    margin: .25rem;
-    padding: .5rem;
+    margin: 0.25rem;
+    padding: 0.5rem;
     font-size: 1rem;
     font-weight: 300;
   }
@@ -107,15 +117,23 @@
   in:receive={{ key: project.name }}
   out:send={{ key: project.name }}>
   <!-- transition:fly={{key: projet.name, x: 500, duration: 200}} -->
-  <div class="icons">
-    {#if project.show}
+
+  {#if project.show}
+    <div class="icons group-left">
       <i class="icon launch" />
       <i class="icon terminal" />
+    </div>
+    <h2>{project.name}</h2>
+    <div class="icons group-right">
       <i class="icon settings" />
       <i class="icon remove" on:click={() => remove(project.name)} />
-    {:else}
+    </div>
+  {:else}
+    <div class="icons group-left" />
+    <h2>{project.name}</h2>
+    <div class="icons group-right">
       <i class="icon add" on:click={() => add(project.name)} />
-    {/if}
-  </div>
-  <h2>{project.name}</h2>
+    </div>
+  {/if}
+
 </div>
