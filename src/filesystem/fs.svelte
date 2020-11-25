@@ -205,6 +205,12 @@
     console.log("addProject....");
     let project = {};
     project.name = currentPath + "\\" + dir;
+
+    // this is where I'll call the function/change the variable to show the Project Name input component
+    // In order to add a project, user must enter a project name (defaults to last folder name in path, capitalized)
+    // and also, add a date-added property to each project object
+    // THEN: create a toast component to confirm project added
+
     for (let test of projects) {
       if (test.name === project.name) {
         console.log(`MATCH!!! names`);

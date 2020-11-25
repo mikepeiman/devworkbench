@@ -35,11 +35,15 @@
 </script>
 
 <style>
+:global(body) {
+      background: rgba(0, 25, 55, 0.95);
+}
   main {
     text-align: center;
     padding: 1em;
     max-width: 240px;
     margin: 0 auto;
+
   }
   h1 {
     color: #ff3e00;
