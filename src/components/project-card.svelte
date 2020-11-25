@@ -50,6 +50,8 @@
 </script>
 
 <style lang="scss">
+// TODO change this for Google CDN so it's not dependent on local fonts - or better yet,
+// pack font with the app
 @font-face {
     font-family: "Oxygen";
     src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Oxygen 300.ttf");
@@ -123,9 +125,9 @@
   }
 
   svg.remove {
-    fill: rgba(0,0,0,0.5);
+    fill: rgba(125, 225, 255, 0.25);
     &:hover {
-      fill: rgba(255, 55, 25, 1);
+      fill: rgba(255, 55, 25, .5);
     }
   }
 

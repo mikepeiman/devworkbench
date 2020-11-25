@@ -300,7 +300,7 @@
     padding: 0 0.25rem;
   }
   #childProcess {
-    background-image: url("../../assets/008-launch-1.png");
+    background-image: url("../../assets/078-start-up.png");
     background-size: 75%;
     background-repeat: no-repeat;
     background-position: center;

@@ -336,7 +336,7 @@
 
   .file-system {
     display: grid;
-    grid-template-columns: 3fr 2fr 2fr;
+    // grid-template-columns: 3fr 2fr 2fr;
   }
 
   .special {
@@ -412,7 +412,7 @@
         {/each}
       </div>
     </div>
-    <div>
+    <!-- <div>
 
       <div class="section-title flex-row">
         <h2>History</h2>
@@ -457,8 +457,6 @@
         </div>
       </div>
       <!-- </div> -->
-
-      <div />
-    </div>
+    <!-- </div>  -->
   </div>
 </main>
