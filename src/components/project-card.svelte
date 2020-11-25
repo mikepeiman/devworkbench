@@ -50,20 +50,50 @@
 </script>
 
 <style lang="scss">
+@font-face {
+    font-family: "Oxygen";
+    src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Oxygen 300.ttf");
+}
+@font-face {
+    font-family: "Ubuntu";
+    src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Ubuntu 300.ttf");
+}
+@font-face {
+    font-family: "Nunito";
+    src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Nunito 200.ttf");
+}
+@font-face {
+    font-family: "Dosis";
+    src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Dosis 300.ttf");
+}
+@font-face {
+    font-family: "Montserrat";
+    src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Montserrat 300.ttf");
+}
   .project-card {
-    background: rgba(125, 225, 255, 1);
-    border: 5px solid rgba(55, 25, 255, 1);
+    background: rgba(125, 225, 255, 0.1);
+    border: 1px solid rgba(125, 225, 255, 0.5);
     margin: 1rem;
     display: grid;
-    grid-template-columns: 2rem 1fr 2rem;
+    grid-template-columns: 2.5rem 1fr 2.5rem;
     grid-auto-rows: auto;
     height: auto;
+    z-index:99;
+    transition: all .25s;
+    color: rgba(200,225,255,0.75);
+    font-size: 1rem;
+    font-family:  'Nunito', 'Oxygen', sans-serif; // 'Nunito', 'Montserrat', 'Dosis',   'Ubuntu',
+    &:hover {
+          background: rgba(125, 225, 255, 0.25);
+          transition: all .25s;
+    }
   }
 
   .icons {
     display: flex;
     flex-direction: column;
-    width: 2rem;
+    width: 2.5rem;
+    padding: 0.5rem 0;
   }
 
   .icon {
@@ -85,16 +115,17 @@
 
   .group-left {
     background: rgb(52, 154, 185);
-    border-right: 5px solid rgba(55, 25, 255, 1);
+    border-right: 1px solid rgba(125, 225, 255, 0.5);
     justify-content: space-between;
   }
   .group-right {
     /* background: rgb(217, 229, 233); */
   }
 
-  .remove {
+  svg.remove {
+    fill: rgba(0,0,0,0.5);
     &:hover {
-      fill: rgba(155, 5, 25, 0.75);
+      fill: rgba(255, 55, 25, 1);
     }
   }
 
@@ -420,20 +451,32 @@
     <div class="icons group-right">
 
       <svg
-        class="icon remove"
-        on:click={() => remove(project.name)}
-        id="Capa_1"
-        enable-background="new 0 0 515.556 515.556"
-        height="512"
-        viewBox="0 0 515.556 515.556"
-        width="512"
+      class="icon remove"
+       on:click={() => remove(project.name)} 
+        height="511.99998pt"
+        viewBox="1 1 511.99998 511.99998"
+        width="511.99998pt"
         xmlns="http://www.w3.org/2000/svg">
-        <path
-          class="remove"
-          d="m257.778 0c-142.137 0-257.778 115.641-257.778 257.778s115.641
-          257.778 257.778 257.778 257.778-115.641
-          257.778-257.778-115.642-257.778-257.778-257.778zm128.889
-          290h-257.778v-64.444h257.778z" />
+        <path class="remove"
+          d="m256 0c-141.386719 0-256 114.613281-256 256s114.613281 256 256 256
+          256-114.613281
+          256-256c-.167969-141.316406-114.683594-255.832031-256-256zm0
+          480c-123.710938 0-224-100.289062-224-224s100.289062-224 224-224 224
+          100.289062 224 224c-.132812 123.65625-100.34375 223.867188-224 224zm0
+          0" />
+        <path class="remove"
+          d="m380.449219 131.550781c-6.25-6.246093-16.378907-6.246093-22.625
+          0l-101.824219
+          101.824219-101.824219-101.824219c-6.140625-6.355469-16.269531-6.53125-22.625-.390625-6.355469
+          6.136719-6.53125 16.265625-.390625
+          22.621094.128906.132812.257813.265625.390625.394531l101.824219
+          101.824219-101.824219 101.824219c-6.355469 6.136719-6.53125
+          16.265625-.390625 22.625 6.136719 6.355469 16.265625 6.53125
+          22.621094.390625.132812-.128906.265625-.257813.394531-.390625l101.824219-101.824219
+          101.824219 101.824219c6.355469 6.136719 16.484375 5.960937
+          22.621093-.394531 5.988282-6.199219 5.988282-16.03125
+          0-22.230469l-101.820312-101.824219
+          101.824219-101.824219c6.246093-6.246093 6.246093-16.375 0-22.625zm0 0" />
       </svg>
       <!-- <i class="icon remove" on:click={() => remove(project.name)} /> -->
 

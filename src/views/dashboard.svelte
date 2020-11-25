@@ -21,7 +21,7 @@
 
 <style>
   .dashboard {
-    background: rgba(0, 25, 55, 0.5);
+    background: rgba(0, 25, 55, 0.95);
     display: grid;
     /* grid-template-columns: repeat(3, 1fr); */
     grid-template-columns: repeat(auto-fill, minmax(min(25rem, 100%), 1fr));
@@ -32,7 +32,7 @@
   .hidden {
     background: rgba(255, 25, 55, 0.5);
     height: 0;
-    /* opacity: 0; */
+    opacity: 0;
   }
 
   .hide {
