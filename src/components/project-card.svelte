@@ -79,6 +79,7 @@
     display: grid;
     grid-template-columns: 2.5rem 1fr 2.5rem;
     grid-auto-rows: auto;
+    grid-area: "card";
     height: auto;
     z-index:99;
     transition: all .25s;
@@ -89,6 +90,14 @@
           background: rgba(125, 225, 255, 0.25);
           transition: all .25s;
     }
+    & h2 {
+      margin-left: .5rem;
+    }
+  }
+
+  .alert {
+    grid-template-areas: "alert",
+    "card";
   }
 
   .icons {
@@ -119,6 +128,7 @@
     background: rgb(52, 154, 185);
     border-right: 1px solid rgba(125, 225, 255, 0.5);
     justify-content: space-between;
+    height: auto;
   }
   .group-right {
     /* background: rgb(217, 229, 233); */

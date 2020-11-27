@@ -50,6 +50,7 @@
     <Tab>Projects Dashboard</Tab>
     <Tab>Add Project</Tab>
     <Tab>Settings</Tab>
+    <Tab>Test</Tab>
   </TabList>
 
   <TabPanel>
@@ -58,6 +59,10 @@
 
   <TabPanel>
     <FS />
+  </TabPanel>
+
+  <TabPanel>
+    <Settings />
   </TabPanel>
 
   <TabPanel>
