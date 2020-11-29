@@ -12,8 +12,7 @@
   const fs = require("fs");
   const path = require("path");
   import { customStylesObjects } from "./../utils/CustomLogging.js";
-  var Datastore = require("nedb");
-  var projectsDB = new Datastore({ filename: "projects.db", autoload: true });
+  import { projectsDB } from "./../db/nedbInterface.js";
   function log(type, msg) {
     customStylesObjects[`${type}`].log(msg);
     console.log(msg);

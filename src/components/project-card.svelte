@@ -6,7 +6,7 @@
   import isJsonString from "./../utils/isJSONstring.js";
   // import { onMount } from 'svelte'
   import { customStylesObjects } from "./../utils/CustomLogging.js";
-
+  import { projectsDB } from "./../db/nedbInterface.js";
   function log(type, msg) {
     customStylesObjects[`${type}`].log(msg);
     console.log(msg);
@@ -28,10 +28,23 @@
 
   function remove(name) {
     console.log(`typeof projects ${typeof projects}`);
+    let removeTracker = {};
     // projects = projects.filter(project => project.name != name);
     for (let project of projects) {
       if (project.name === name) {
         project.show = false;
+        removeTracker.projectName = name;
+        const time = Date.now();
+        const now = new Date(time);
+        removeTracker.date = now;
+        projectsDB.insert(removeTracker, (err, doc) => {
+          console.log(
+            `inserted removeTracker into projectsDB: `,
+            removeTracker,
+            ` and the db doc: `,
+            doc
+          );
+        });
       }
     }
     storeProjects.set(projects);
@@ -50,28 +63,28 @@
 </script>
 
 <style lang="scss">
-// TODO change this for Google CDN so it's not dependent on local fonts - or better yet,
-// pack font with the app
-@font-face {
+  // TODO change this for Google CDN so it's not dependent on local fonts - or better yet,
+  // pack font with the app
+  @font-face {
     font-family: "Oxygen";
     src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Oxygen 300.ttf");
-}
-@font-face {
+  }
+  @font-face {
     font-family: "Ubuntu";
     src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Ubuntu 300.ttf");
-}
-@font-face {
+  }
+  @font-face {
     font-family: "Nunito";
     src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Nunito 200.ttf");
-}
-@font-face {
+  }
+  @font-face {
     font-family: "Dosis";
     src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Dosis 300.ttf");
-}
-@font-face {
+  }
+  @font-face {
     font-family: "Montserrat";
     src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Montserrat 300.ttf");
-}
+  }
   .project-card {
     background: rgba(125, 225, 255, 0.1);
     border: 1px solid rgba(125, 225, 255, 0.5);
@@ -81,23 +94,22 @@
     grid-auto-rows: auto;
     grid-area: "card";
     height: auto;
-    z-index:99;
-    transition: all .25s;
-    color: rgba(200,225,255,0.75);
+    z-index: 99;
+    transition: all 0.25s;
+    color: rgba(200, 225, 255, 0.75);
     font-size: 1rem;
-    font-family:  'Nunito', 'Oxygen', sans-serif; // 'Nunito', 'Montserrat', 'Dosis',   'Ubuntu',
+    font-family: "Nunito", "Oxygen", sans-serif; // 'Nunito', 'Montserrat', 'Dosis',   'Ubuntu',
     &:hover {
-          background: rgba(125, 225, 255, 0.25);
-          transition: all .25s;
+      background: rgba(125, 225, 255, 0.25);
+      transition: all 0.25s;
     }
     & h2 {
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
   }
 
   .alert {
-    grid-template-areas: "alert",
-    "card";
+    grid-template-areas: "alert", "card";
   }
 
   .icons {
@@ -137,7 +149,7 @@
   svg.remove {
     fill: rgba(125, 225, 255, 0.25);
     &:hover {
-      fill: rgba(255, 55, 25, .5);
+      fill: rgba(255, 55, 25, 0.5);
     }
   }
 
@@ -463,20 +475,22 @@
     <div class="icons group-right">
 
       <svg
-      class="icon remove"
-       on:click={() => remove(project.name)} 
+        class="icon remove"
+        on:click={() => remove(project.name)}
         height="511.99998pt"
         viewBox="1 1 511.99998 511.99998"
         width="511.99998pt"
         xmlns="http://www.w3.org/2000/svg">
-        <path class="remove"
+        <path
+          class="remove"
           d="m256 0c-141.386719 0-256 114.613281-256 256s114.613281 256 256 256
           256-114.613281
           256-256c-.167969-141.316406-114.683594-255.832031-256-256zm0
           480c-123.710938 0-224-100.289062-224-224s100.289062-224 224-224 224
           100.289062 224 224c-.132812 123.65625-100.34375 223.867188-224 224zm0
           0" />
-        <path class="remove"
+        <path
+          class="remove"
           d="m380.449219 131.550781c-6.25-6.246093-16.378907-6.246093-22.625
           0l-101.824219
           101.824219-101.824219-101.824219c-6.140625-6.355469-16.269531-6.53125-22.625-.390625-6.355469
