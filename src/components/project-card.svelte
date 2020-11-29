@@ -14,7 +14,7 @@
   let projects;
 
   storeProjects.subscribe(val => {
-    console.log(`project-card projects subscription ${typeof val}`, val);
+    // console.log(`project-card projects subscription ${typeof val}`, val);
     if (isJsonString(val)) {
       projects = JSON.parse(val);
     } else {

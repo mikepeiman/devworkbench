@@ -6,7 +6,7 @@
   import { storeProjects } from "./../db/stores.js";
   let projects;
   storeProjects.subscribe(val => {
-    console.log(`dashboard projects subscription, val `, val);
+    // console.log(`dashboard projects subscription, val `, val);
     if (val == "[]" || val == "undefined") {
       projects = [];
       return;

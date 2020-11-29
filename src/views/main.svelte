@@ -6,6 +6,19 @@
   import { flip } from "svelte/animate";
   import { send, receive } from "./../utils/crossfade.js";
   let selection = "";
+
+
+// var PouchDB = require('pouchdb');
+// var db = new PouchDB('kittens');
+// var db2 = new PouchDB('http://localhost:5000/kittens');
+// db2.info()
+// db.info().then(function (info) {
+//   console.log(info);
+// })
+
+
+var Datastore = require('nedb');
+var db = new Datastore({ filename: 'path/to/your/file' });
 </script>
 
 <style lang="scss">

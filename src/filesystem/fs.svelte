@@ -12,7 +12,8 @@
   const fs = require("fs");
   const path = require("path");
   import { customStylesObjects } from "./../utils/CustomLogging.js";
-
+  var Datastore = require("nedb");
+  var projectsDB = new Datastore({ filename: "projects.db", autoload: true });
   function log(type, msg) {
     customStylesObjects[`${type}`].log(msg);
     console.log(msg);
@@ -227,6 +228,9 @@
       project.show = true
       projects = [...projects, project];
       $storeProjects = projects;
+      projectsDB.insert(project, function(err, doc) {
+        console.log(`inserted into projectsDB, `, doc.name, `with ID `, doc._id)
+      })
     }
   }
 </script>

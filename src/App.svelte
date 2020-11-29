@@ -3,6 +3,22 @@
   import FS from "./filesystem/fs.svelte";
   import Main from "./views/main.svelte";
   import CustomLogging from "./utils/CustomLogging.js";
+  // import { createRxDatabase } from "rxdb";
+  import { onMount } from "svelte";
+  var Datastore = require("nedb");
+  var projectsDB = new Datastore({ filename: "projects.db", autoload: true });
+  // onMount(async () => {
+  //   // const db = await createRxDatabase({
+  //   //   name: "heroesdb",
+  //   //   adapter: "indexeddb"
+  //   //   // password: 'myLongAndStupidPassword' // optional
+  //   // });
+  //   // await db.collection({ name: "heroes", schema: mySchema }); // create collection
+  //   // db.heroes.insert({ name: "Bob" });
+
+  // })
+
+  // db.$.subscribe(changeEvent => log("data", `rxdb changeEvent: ${changeEvent} `, changeEvent))
 
   // Importing this adds a right-click menu with 'Inspect Element' option
   const { remote } = require("electron");
@@ -20,7 +36,7 @@
     }
   });
   menu.append(menuItem);
-// end 'Inspect Element' menu
+  // end 'Inspect Element' menu
 
   window.addEventListener(
     "contextmenu",
@@ -31,19 +47,17 @@
     },
     false
   );
-
 </script>
 
 <style>
-:global(body) {
-      background: rgba(0, 25, 55, 0.95);
-}
+  :global(body) {
+    background: rgba(0, 25, 55, 0.95);
+  }
   main {
     text-align: center;
     padding: 1em;
     max-width: 240px;
     margin: 0 auto;
-
   }
   h1 {
     color: #ff3e00;
