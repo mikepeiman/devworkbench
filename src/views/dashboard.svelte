@@ -22,7 +22,7 @@
 <style>
 @font-face {
     font-family: "Nunito";
-    src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Nunito 200.ttf");
+    src: url("C:/webdev/FONTS/Nunito/Nunito-Light.ttf");
 }
   .dashboard {
     /* background: rgba(0, 25, 55, 0.95); */

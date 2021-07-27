@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const debugMenu = require('debug-menu');
+// const debugMenu = require('debug-menu');
 
 // Live Reload
 require("electron-reload")(__dirname, {
@@ -52,7 +52,7 @@ app.on("activate", () => {
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
-    debugMenu.install(); 
+    // debugMenu.install(); 
   }
 });
 

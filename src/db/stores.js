@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-let currentPath = writable("C:\\Users\\Mike\\Desktop\\WEB DEV\\devworkbench")
+let currentPath = writable("C:\\webdev\\devworkbench")
 let navHistory = writable([])
 let projects = writable(localStorage.getItem("projects") || [])
 

@@ -65,6 +65,7 @@
 <style lang="scss">
   // TODO change this for Google CDN so it's not dependent on local fonts - or better yet,
   // pack font with the app
+  // download fonts to FONTS folder, and copy necessary fonts to this project's assets
   @font-face {
     font-family: "Oxygen";
     src: url("C:/Users/Mike/AppData/Roaming/Monotype/skyfonts-google/Oxygen 300.ttf");
@@ -93,7 +94,7 @@
     grid-template-columns: 2.5rem 1fr 2.5rem;
     grid-auto-rows: auto;
     grid-area: "card";
-    height: auto;
+    height: 100%;
     z-index: 99;
     transition: all 0.25s;
     color: rgba(200, 225, 255, 0.75);

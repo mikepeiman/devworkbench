@@ -88,7 +88,7 @@
 
     let options = {
       title: "Select Folder",
-      defaultPath: "C:\\Users\\Mike\\Desktop\\WEB DEV",
+      defaultPath: "C:\\webdev",
       buttonLabel: "Select Folder",
       filters: [],
       properties: ["openDirectory"]
